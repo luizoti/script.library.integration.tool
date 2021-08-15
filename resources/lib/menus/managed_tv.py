@@ -3,7 +3,7 @@
 
 """Defines the ManagedTVMenu class."""
 
-import xbmcgui  # pylint: disable=import-error
+import xbmcgui  # type: ignore
 
 from resources import ADDON_NAME
 from resources.lib.log import logged_function

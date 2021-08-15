@@ -10,8 +10,8 @@ The purpose is to stage the currently selected movie/tvshow, and update synced d
 
 import sys
 
-import xbmc  # pylint: disable=import-error
-import xbmcgui  # pylint: disable=import-error
+import xbmc  # type: ignore
+import xbmcgui  # type: ignore
 
 from resources.lib.database import Database
 from resources.lib.progressbar import ProgressBar

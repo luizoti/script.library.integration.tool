@@ -10,9 +10,9 @@ from os.path import join
 from os.path import exists
 from os.path import expanduser
 
-import xbmc  # pylint: disable=import-error
-import xbmcgui  # pylint: disable=import-error
-import xbmcvfs  # pylint: disable=import-error
+import xbmc  # type: ignore
+import xbmcgui  # type: ignore
+import xbmcvfs  # type: ignore
 
 from resources import ADDON
 from resources import ADDON_ID

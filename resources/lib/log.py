@@ -3,7 +3,7 @@
 
 """Collection of log functions."""
 
-import xbmc  # pylint: disable=import-error
+import xbmc  # type: ignore
 
 from resources import ADDON_NAME
 from resources import ADDON_VERSION

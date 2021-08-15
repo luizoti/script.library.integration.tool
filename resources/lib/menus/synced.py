@@ -6,8 +6,8 @@
 # TODO: Different notifications depending on whether items were staged vs. automatically added
 import sys
 
-import xbmc  # pylint: disable=import-error
-import xbmcgui  # pylint: disable=import-error
+import xbmc  # type: ignore
+import xbmcgui  # type: ignore
 
 from resources import ADDON_NAME
 
