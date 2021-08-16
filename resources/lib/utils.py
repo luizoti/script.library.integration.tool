@@ -46,14 +46,15 @@ def notification(message, time=3000, icon=join(ADDON_PATH, 'ntf_icon.png')):
     )
 
 
-def tojs(data, filename):
+def save_as_json(data):
     """Function to create a json file."""
     try:
-        with open(join(expanduser('~/'), filename) + '.json', 'a+') as f:
-            f.write(str(json.dumps(data, indent=4, sort_keys=True)))
-            f.close()
-    except AttributeError:
-        pass
+        filepath = join(expanduser('~/'), 'tojs_result.json')
+        with open(filepath, 'w') as jsonoutput:
+            jsonoutput.write(str(json.dumps(data, indent=4, sort_keys=True)))
+            jsonoutput.close()
+    except Exception as error:  # pylint: disable=broad-except
+        log_msg('save_as_json error: %s' % error)
 
 
 def getstring(string_id):
