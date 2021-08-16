@@ -535,7 +535,7 @@ def load_directory_items(progressdialog, _path, recursive=False,
     directories = []
     for index, item in enumerate(results):
         if item['type'] == 'movie':
-            progressdialog._update(
+            progressdialog.update_progressbar(
                 index / len(results),
                 'Processando items:\n%s' % item['title']
             )
@@ -550,7 +550,7 @@ def load_directory_items(progressdialog, _path, recursive=False,
             if item['filetype'] == 'directory':
                 if re_search(item['type'], ['season', 'tvshow']):
                     showtitle = item['showtitle']
-                    progressdialog._update(
+                    progressdialog.update_progressbar(
                         index / len(results),
                         'Coletando itens no diretorio!\n%s' % item['label']
                     )
@@ -559,7 +559,7 @@ def load_directory_items(progressdialog, _path, recursive=False,
             if item['type'] == 'episode':
                 # change type to 'tvshow' to padronize in build_contentitem
                 item['type'] = 'tvshow'
-                progressdialog._update(
+                progressdialog.update_progressbar(
                     index / len(results),
                     'Processando items:\n%s' % item['label']
                 )

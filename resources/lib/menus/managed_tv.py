@@ -33,11 +33,11 @@ class ManagedTVMenu(object):
         STR_MOVING_ALL_x_EPISODES_TO_STAGED = getstring(32034)
         STR_ALL_x_EPISODES_MOVED_TO_STAGED = getstring(
             32035) % color(showtitle, 'skyblue')
-        self.progressdialog._create(
+        self.progressdialog.create_progressbar(
             msg=STR_MOVING_ALL_x_EPISODES_TO_STAGED % color(showtitle)
         )
         for index, item in enumerate(items):
-            self.progressdialog._update(
+            self.progressdialog.update_progressbar(
                 index / len(items),
                 msg='\n'.join(
                     [
@@ -48,7 +48,7 @@ class ManagedTVMenu(object):
             )
             item.remove_from_library()
             item.set_as_staged()
-        self.progressdialog._close()
+        self.progressdialog.close_progressbar()
         notification(STR_ALL_x_EPISODES_MOVED_TO_STAGED)
 
     @logged_function
@@ -57,7 +57,7 @@ class ManagedTVMenu(object):
         _showtitle = bold(showtitle)
         STR_MOVING_ALL_x_SEASONS_TO_STAGED = getstring(32026)
         STR_ALL_x_SEASONS_MOVED_TO_STAGED = getstring(32173) % color(_showtitle, 'skyblue')
-        self.progressdialog._create(
+        self.progressdialog.create_progressbar(
             msg=STR_MOVING_ALL_x_SEASONS_TO_STAGED % color(_showtitle)
         )
         items = list(
@@ -67,7 +67,7 @@ class ManagedTVMenu(object):
             )
         )
         for index, item in enumerate(items):
-            self.progressdialog._update(
+            self.progressdialog.update_progressbar(
                 index / len(items),
                 msg='\n'.join(
                     [
@@ -78,7 +78,7 @@ class ManagedTVMenu(object):
             )
             item.remove_from_library()
             item.set_as_staged()
-        self.progressdialog._close()
+        self.progressdialog.close_progressbar()
         notification(STR_ALL_x_SEASONS_MOVED_TO_STAGED)
 
     @logged_function
@@ -86,7 +86,7 @@ class ManagedTVMenu(object):
         """Remove all managed tvshow from library, move to staged."""
         STR_MOVING_ALL_TV_SHOWS_TO_STAGED = getstring(32026)
         STR_ALL_TV_SHOWS_MOVED_TO_STAGED = getstring(32027)
-        self.progressdialog._create(
+        self.progressdialog.create_progressbar(
             msg=STR_MOVING_ALL_TV_SHOWS_TO_STAGED
         )
         managed_tv_items = list(
@@ -96,7 +96,7 @@ class ManagedTVMenu(object):
             )
         )
         for index, item in enumerate(managed_tv_items):
-            self.progressdialog._update(
+            self.progressdialog.update_progressbar(
                 index / len(managed_tv_items),
                 msg='\n'.join(
                     [
@@ -107,7 +107,7 @@ class ManagedTVMenu(object):
             )
             item.remove_from_library()
             item.set_as_staged()
-        self.progressdialog._close()
+        self.progressdialog.close_progressbar()
         notification(STR_ALL_TV_SHOWS_MOVED_TO_STAGED)
 
     @logged_function
@@ -115,11 +115,11 @@ class ManagedTVMenu(object):
         """Create metadata for all managed episodes."""
         STR_GENERATING_ALL_TV_EPISODES_METADATA = getstring(32181)
         STR_ALL_TV_EPISODES_METADATA_CREATED = getstring(32182)
-        self.progressdialog._create(
+        self.progressdialog.create_progressbar(
             msg=STR_GENERATING_ALL_TV_EPISODES_METADATA
         )
         for index, item in enumerate(episodes):
-            self.progressdialog._update(
+            self.progressdialog.update_progressbar(
                 index / len(episodes),
                 '\n'.join(
                     ["Criando metadados para: %s" % color(bold(item.showtitle)),
@@ -127,7 +127,7 @@ class ManagedTVMenu(object):
                 )
             )
             item.create_metadata_item()
-        self.progressdialog._close()
+        self.progressdialog.close_progressbar()
         notification(STR_ALL_TV_EPISODES_METADATA_CREATED)
 
     @logged_function
@@ -135,7 +135,7 @@ class ManagedTVMenu(object):
         """Create metadata for all managed seasons."""
         STR_GENERATING_ALL_TV_SEASONS_METADATA = getstring(32181)
         STR_ALL_TV_SEASONS_METADATA_CREATED = getstring(32182)
-        self.progressdialog._create(
+        self.progressdialog.create_progressbar(
             msg=STR_GENERATING_ALL_TV_SEASONS_METADATA
         )
         managed_seasons = list(
@@ -145,7 +145,7 @@ class ManagedTVMenu(object):
             )
         )
         for index, item in enumerate(managed_seasons):
-            self.progressdialog._update(
+            self.progressdialog.update_progressbar(
                 index / len(managed_seasons),
                 '\n'.join(
                     ["Criando metadados para: %s" % color(bold(item.showtitle)),
@@ -153,7 +153,7 @@ class ManagedTVMenu(object):
                 )
             )
             item.create_metadata_item()
-        self.progressdialog._close()
+        self.progressdialog.close_progressbar()
         notification(STR_ALL_TV_SEASONS_METADATA_CREATED)
 
     @logged_function
@@ -161,7 +161,7 @@ class ManagedTVMenu(object):
         """Create metadata for all managed tvshows."""
         STR_GENERATING_ALL_TV_SHOWS_METADATA = getstring(32063)
         STR_ALL_TV_SHOWS_METADATA_CREATED = getstring(32064)
-        self.progressdialog._create(
+        self.progressdialog.create_progressbar(
             msg=STR_GENERATING_ALL_TV_SHOWS_METADATA
         )
         managed_tvshows = list(
@@ -171,7 +171,7 @@ class ManagedTVMenu(object):
             )
         )
         for index, item in enumerate(managed_tvshows):
-            self.progressdialog._update(
+            self.progressdialog.update_progressbar(
                 index / len(managed_tvshows),
                 '\n'.join(
                     [
@@ -182,7 +182,7 @@ class ManagedTVMenu(object):
                 )
             )
             item.create_metadata_item()
-        self.progressdialog._close()
+        self.progressdialog.close_progressbar()
         notification(STR_ALL_TV_SHOWS_METADATA_CREATED)
 
     @logged_function

@@ -30,16 +30,16 @@ class StagedMoviesMenu(object):
         """Add all staged movies to library."""
         STR_ADDING_ALL_MOVIES = getstring(32042)
         STR_ALL_MOVIES_ADDED = getstring(32043)
-        self.progressdialog._create(
+        self.progressdialog.create_progressbar(
             msg=STR_ADDING_ALL_MOVIES
         )
         for index, item in enumerate(items):
-            self.progressdialog._update(
+            self.progressdialog.update_progressbar(
                 index / len(items),
                 item.title
             )
             item.add_to_library()
-        self.progressdialog._close()
+        self.progressdialog.close_progressbar()
         notification(STR_ALL_MOVIES_ADDED)
 
     @staticmethod
@@ -100,14 +100,14 @@ class StagedMoviesMenu(object):
         """Remove all staged movies."""
         STR_REMOVING_ALL_MOVIES = getstring(32013)
         STR_ALL_MOVIES_REMOVED = getstring(32014)
-        self.progressdialog._create(
+        self.progressdialog.create_progressbar(
             msg=STR_REMOVING_ALL_MOVIES
         )
         self.database.delete_item_from_table_with_status_or_showtitle(
             _type='movie',
             status='staged'
         )
-        self.progressdialog._close()
+        self.progressdialog.close_progressbar()
         notification(STR_ALL_MOVIES_REMOVED)
 
     @logged_function

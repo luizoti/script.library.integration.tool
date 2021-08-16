@@ -20,11 +20,11 @@ class ProgressBar(xbmcgui.DialogProgress):
         super(ProgressBar, self).__init__()
         log_msg("""ProgressBar __init__.""")
 
-    def _create(self, head=ADDON_NAME, msg=''):
+    def create_progressbar(self, head=ADDON_NAME, msg=''):
         """Method to create ProgressBar window"""
         self.create(head, msg)
 
-    def _update(self, perc, msg):
+    def update_progressbar(self, perc, msg):
         """Method to update ProgressBar window."""
         if self.iscanceled():
             self._iscanceled_close()
@@ -38,7 +38,7 @@ class ProgressBar(xbmcgui.DialogProgress):
         # Exec operations
         sys.exit()
 
-    def _close(self):
+    def close_progressbar(self):
         """Close method to close progress by normal progress finish."""
         self.close()
 
