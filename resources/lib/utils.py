@@ -187,7 +187,7 @@ def jsonrpc_getdirectory(_path):
         log_msg('KeyError in return of JSONRPC.')
 
 
-def videolibrary(method, database='video', path=None):
+def videolibrary(method, database='video', path=None):  # pylint: disable=unused-argument
     """A dedicated method to performe jsonrpc VideoLibrary.Scan or VideoLibrary."""
     command = {
         'scan': 'CleanLibrary(%s)' % database,
@@ -439,10 +439,10 @@ def user_selection_menu(results):
     # in alphabetical order.
     sorted_labels = sorted([i['label'] for i in results])
     _sorted = []
-    for i in sorted_labels:
-        for r in results:
-            if r['label'] == i:
-                _sorted.append(r)
+    for label in sorted_labels:
+        for result in results:
+            if result['label'] == label:
+                _sorted.append(result)
     # ___
     selected_itens = xbmcgui.Dialog().multiselect(
         'Escolha:',
@@ -453,12 +453,12 @@ def user_selection_menu(results):
             yield _sorted[index_int]
 
 
-crunchyroll_language_selected = None
+CRUNCHYROLL_LANGUAGE_SELECTED = None
 
 
 def crunchyroll_language_menu(results):
     """Menu to select language for crunchyroll."""
-    global crunchyroll_language_selected
+    global CRUNCHYROLL_LANGUAGE_SELECTED
     # TODO: verificar a possibilidade de
     # adicionar uma opção nas configurações.
     lang_regex = r'\(.+? Dub\)|\(Leg\)|\(Dub.+?\)'
@@ -471,7 +471,7 @@ def crunchyroll_language_menu(results):
                     yield item
                 elif re_search(item['file'], r'mode\=episodes'):
                     if is_language_episode:
-                        if not crunchyroll_language_selected:
+                        if not CRUNCHYROLL_LANGUAGE_SELECTED:
                             sel = Select(
                                 heading="Select one language:",
                                 turnbold=True
@@ -481,23 +481,23 @@ def crunchyroll_language_menu(results):
                             )
                             selection = sel.show(back=False)['str']
                             try:
-                                crunchyroll_language_selected = re.findall(
+                                CRUNCHYROLL_LANGUAGE_SELECTED = re.findall(
                                     lang_regex, selection, re.I)[0]
                             except IndexError:
-                                crunchyroll_language_selected = selection
+                                CRUNCHYROLL_LANGUAGE_SELECTED = selection
                     else:
                         yield item
             elif not is_language_episode:
                 yield item
-    except Exception:
-        pass
-    if crunchyroll_language_selected:
+    except Exception as error: # pylint: disable=broad-except
+        log_msg('crunchyroll_language_menu error: %s' % error)
+    if CRUNCHYROLL_LANGUAGE_SELECTED:
         for lang_dir in results:
-            if not '(' in crunchyroll_language_selected:
-                if crunchyroll_language_selected == lang_dir['label']:
+            if not '(' in CRUNCHYROLL_LANGUAGE_SELECTED:
+                if CRUNCHYROLL_LANGUAGE_SELECTED == lang_dir['label']:
                     yield lang_dir
-            elif '(' in crunchyroll_language_selected:
-                if crunchyroll_language_selected in lang_dir['label']:
+            elif '(' in CRUNCHYROLL_LANGUAGE_SELECTED:
+                if CRUNCHYROLL_LANGUAGE_SELECTED in lang_dir['label']:
                     yield lang_dir
 
 
