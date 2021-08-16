@@ -230,6 +230,7 @@ def skip_filter(contents_json, _key, toskip):
 
 
 def is_season(string):
+    """Function to check check if item is a season."""
     return bool(
         re_search(
             string,
