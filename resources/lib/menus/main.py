@@ -41,7 +41,7 @@ class MainMenu():
     """
     Perform basic initialization of folder structure.
 
-    Display displays a window that leads to other menus.
+    Displays a window that leads to other menus.
     """
 
     def __init__(self, database, progressbar):
