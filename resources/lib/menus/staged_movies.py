@@ -69,10 +69,7 @@ class StagedMoviesMenu():
             STR_BACK
         ]
         ret = xbmcgui.Dialog().select(
-            '{0} - {1} - {2}'.format(
-                ADDON_NAME,
-                STR_STAGED_MOVIE_OPTIONS,
-                item.title),
+            f"{ADDON_NAME} - {STR_STAGED_MOVIE_OPTIONS} - {item.title}",
             lines
         )
         if ret >= 0:
@@ -137,7 +134,8 @@ class StagedMoviesMenu():
             STR_BACK
         ]
         ret = xbmcgui.Dialog().select(
-            '{0} - {1}'.format(ADDON_NAME, STR_STAGED_MOVIES), lines
+            f"{ADDON_NAME} - {STR_STAGED_MOVIES}",
+            lines
         )
         if ret >= 0:
             if ret < len(staged_movies):  # staged item

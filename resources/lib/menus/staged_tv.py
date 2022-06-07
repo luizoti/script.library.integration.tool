@@ -50,7 +50,7 @@ class StagedTVMenu():
     #     for index, item in enumerate(items):
     #         self.progressdialog.update_progressdialog(
     #             index / len(items),
-    #             '\n'.join([item.showtitle(), item.episode_title_with_id()])
+    #             f"{item.showtitle()}\n{item.episode_title_with_id()}"
     #         )
     #     self.progressdialog.close_progressdialog()
     #     notification(STR_x_EPISODES_RENAMED_USING_METADATA % showtitle)
@@ -67,12 +67,7 @@ class StagedTVMenu():
         for index, item in enumerate(episodes):
             self.progressdialog.update_progressdialog(
                 index / len(episodes),
-                '\n'.join(
-                    [
-                        color(bold(item.showtitle())),
-                        item.episode_title_with_id()
-                    ]
-                )
+                f"{color(bold(item.showtitle()))}\n{item.episode_title_with_id()}"
             )
             item.add_to_library()
         self.progressdialog.close_progressdialog()
@@ -86,8 +81,10 @@ class StagedTVMenu():
     @logged_function
     def add_all_staged_seasons_to_library(self, showtitle):
         """Add all episodes from specified show to library."""
+        # TODO: add to strings.po >
         STR_ADDING_ALL_x_SEASONS = 'Adding all %s seasons...'
         STR_ALL_x_SEASONS_ADDED = 'All %s seasons added'
+        # <
         staged_seasons = list(
             self.database.get_season_items(
                 status='staged',
@@ -100,12 +97,7 @@ class StagedTVMenu():
         for index, item in enumerate(staged_seasons):
             self.progressdialog.update_progressdialog(
                 index / len(staged_seasons),
-                '\n'.join(
-                    [
-                        color(bold(item.showtitle())),
-                        item.episode_title_with_id()
-                    ]
-                )
+                f"{color(bold(item.showtitle()))}\n{item.episode_title_with_id()}"
             )
             item.add_to_library()
         self.progressdialog.close_progressdialog()
@@ -133,12 +125,7 @@ class StagedTVMenu():
         for index, item in enumerate(staged_tv_items):
             self.progressdialog.update_progressdialog(
                 index / len(staged_tv_items),
-                '\n'.join(
-                    [
-                        color(bold(item.showtitle())),
-                        item.episode_title_with_id()
-                    ]
-                )
+                f"{color(bold(item.showtitle()))}\n{item.episode_title_with_id()}"
             )
             item.add_to_library()
         self.progressdialog.close_progressdialog()
@@ -226,13 +213,8 @@ class StagedTVMenu():
             STR_BACK
         ]
         ret = xbmcgui.Dialog().select(
-            ' - '.join(
-                [
-                    STR_STAGED_EPISODE_OPTIONS,
-                    color(bold(item.showtitle()), 'skyblue'),
-                    color(bold(item.episode_id()), 'green')
-                ]
-            ), lines
+            f"{STR_STAGED_EPISODE_OPTIONS} - {color(bold(item.showtitle()), 'skyblue')} - {color(bold(item.episode_id()), 'green')}",
+            lines
         )
         if ret >= 0:
             if lines[ret] == STR_ADD:
@@ -286,8 +268,7 @@ class StagedTVMenu():
             self.view_shows()
             return
         sel = Select(
-            '%s - %s' % (ADDON_NAME, STR_STAGED_x_EPISODES %
-                         color(bold(showtitle), 'skyblue'))
+            f"{ADDON_NAME} - {STR_STAGED_x_EPISODES % color(bold(showtitle), 'skyblue')}"
         )
         sel.items([str(x) for x in staged_episodes])
         sel.extraopts([getstring(x) for x in OPTIONS])
@@ -327,20 +308,11 @@ class StagedTVMenu():
                 showtitle=showtitle
             )
         )
-        season_interger_list = list(
-            set([x.season() for x in staged_seasons])
-        )
         sel = Select(
-            heading='%s - %s' % (
-                ADDON_NAME,
-                STR_STAGED_x_SEASONS % color(
-                    bold(showtitle),
-                    'skyblue'
-                )
-            )
+            heading=f"{ADDON_NAME} - {STR_STAGED_x_SEASONS % color(bold(showtitle), 'skyblue')}"
         )
         sel.items(
-            [f'Season {x}' for x in season_interger_list]
+            [f'Season {x}' for x in {x.season() for x in staged_seasons}]
         )
         sel.extraopts([getstring(x) for x in OPTIONS])
         if not staged_seasons:
@@ -383,10 +355,7 @@ class StagedTVMenu():
             self.database.get_all_shows('staged')
         )
         sel = Select(
-            heading='%s - %s' % (
-                ADDON_NAME,
-                color(bold(STR_STAGED_TV_SHOWS), 'lightblue')
-            )
+            heading=f"{ADDON_NAME} - {color(bold(STR_STAGED_TV_SHOWS), 'lightblue')}"
         )
         sel.items([str(x) for x in staged_tvshows])
         sel.extraopts([getstring(x) for x in OPTIONS])

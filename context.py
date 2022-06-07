@@ -53,10 +53,7 @@ def main():
     year = xbmc.getInfoLabel('ListItem.Year')
     year = int(year) if year else False
     file = sys.listitem.getPath()
-    STR_FORMED_TYPE_OF_CONTENT = '%s - %s' % (
-        title_with_color(label=title, year=year),
-        STR_CHOOSE_CONTENT_TYPE
-    )
+    STR_FORMED_TYPE_OF_CONTENT = f"{title_with_color(label=title, year=year)} - {STR_CHOOSE_CONTENT_TYPE}"
     lines = [
         STR_IS_A_MOVIE,
         STR_IS_A_SHOW,
@@ -92,11 +89,7 @@ def main():
             notification(getstring(32158))
         else:
             xbmc.sleep(300)
-            notification('%s %s' % (
-                title_with_color(label=title, year=year),
-                STR_NOT_SELECTED
-            )
-            )
+            notification(f"{title_with_color(label=title, year=year)} {STR_NOT_SELECTED}")
 
 
 if __name__ == '__main__':

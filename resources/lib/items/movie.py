@@ -53,5 +53,5 @@ class MovieItem():
                 'type': 'movie'
             }
         except Exception as error:
-            log_msg('MovieItem.returasjson: %s' % error)
+            log_msg(f"MovieItem.returasjson: {error}")
         return None

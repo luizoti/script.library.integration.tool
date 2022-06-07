@@ -38,10 +38,12 @@ class BlockedMenu():
             xbmcgui.Dialog().ok(ADDON_NAME, STR_NO_BLOCKED_ITEMS)
             return
         lines = [
-            '{0} - [B]{1}[/B]'.format(x.localize_type(), x['value']) for x in blocked_items]
+            f"{x.localize_type()} - [B]{x['value']}[/B]" for x in blocked_items
+        ]
         lines += [STR_BACK]
         ret = xbmcgui.Dialog().select(
-            '{0} - {1}'.format(ADDON_NAME, STR_BLOCKED_ITEMS), lines
+            f"{ADDON_NAME} - {STR_BLOCKED_ITEMS}",
+            lines
         )
         if ret >= 0:
             if ret < len(blocked_items):  # managed item
@@ -60,8 +62,7 @@ class BlockedMenu():
         STR_BLOCKED_ITEM_OPTIONS = getstring(32099)
         lines = [STR_REMOVE, STR_BACK]
         ret = xbmcgui.Dialog().select(
-            '{0} - {1} - {2}'.format(ADDON_NAME,
-                                     STR_BLOCKED_ITEM_OPTIONS, item['value']),
+            f"{ADDON_NAME} - {STR_BLOCKED_ITEM_OPTIONS} - {item['value']}",
             lines
         )
         if ret >= 0:

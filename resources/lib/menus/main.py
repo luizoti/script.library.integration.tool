@@ -57,7 +57,7 @@ class MainMenu():
             14247: 'clean',
         }
         selection = xbmcgui.Dialog().select(
-            heading='%s - %s' % (ADDON_NAME, color(bold('Library options'))),
+            heading=f"{ADDON_NAME} - {color(bold('Library options'))}",
             list=[xbmc.getLocalizedString(x).title() for x in OPTIONS],
             useDetails=True,
             preselect=self.lastchoice
@@ -97,7 +97,7 @@ class MainMenu():
             command = OPTIONS[list(OPTIONS.keys())[selection]]
             if command:
                 if xbmc.executebuiltin == command:
-                    command('Addon.OpenSettings(%s)' % ADDON_ID)
+                    command(f"Addon.OpenSettings({ADDON_ID})")
                     return
                 command()
             self.view()

@@ -12,7 +12,7 @@ def _bold(string):
     """
     Return string formated with a bold.
     """
-    return str('[B]%s[/B]' % (string))
+    return f"[B]{string}[/B]"
 
 
 def _getstring(string_id):

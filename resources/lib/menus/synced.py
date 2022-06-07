@@ -144,8 +144,8 @@ class SyncedMenu():
         STR_BACK = getstring(32011)
         lines = [STR_REMOVE, STR_BACK]
         ret = xbmcgui.Dialog().select(
-            '{0} - {1} - {2}'.format(ADDON_NAME,
-                                     STR_SYNCED_DIR_OPTIONS, item['label']), lines
+            f"{ADDON_NAME} - {STR_SYNCED_DIR_OPTIONS} - {item['label']}",
+            lines
         )
         if ret >= 0:
             if lines[ret] == STR_REMOVE:
@@ -159,8 +159,7 @@ class SyncedMenu():
         STR_REMOVE_ALL_SYNCED_DIRS = getstring(32086)
         STR_ALL_SYNCED_DIRS_REMOVED = getstring(32087)
         STR_ARE_YOU_SURE = getstring(32088)
-        if xbmcgui.Dialog().yesno('{0} - {1}'.format(ADDON_NAME, STR_REMOVE_ALL_SYNCED_DIRS),
-                                  STR_ARE_YOU_SURE):
+        if xbmcgui.Dialog().yesno(f"{ADDON_NAME} - {STR_REMOVE_ALL_SYNCED_DIRS}", STR_ARE_YOU_SURE):
             self.database.delete_all_from_synced()
             notification(STR_ALL_SYNCED_DIRS_REMOVED)
 
@@ -195,11 +194,7 @@ class SyncedMenu():
             # Add item to database
             item = build_json_item([file, title, 'movie', None, year])
             self.database.add_content_item(build_contentitem(item))
-            notification('%s: %s' % (
-                STR_MOVIE_STAGED,
-                title_with_color(title, year)
-            )
-            )
+            notification(f"{STR_MOVIE_STAGED}: {title_with_color(title, year)}")
 
     @logged_function
     def add_single_tvshow(self, title, year, file):
@@ -259,7 +254,7 @@ class SyncedMenu():
                 items_to_stage += 1
                 xbmc.sleep(300)
             except Exception as error:
-                log_msg('SyncedMenu.add_single_tvshow: %s' % error)
+                log_msg(f"SyncedMenu.add_single_tvshow: {error}")
 
         if num_already_staged > 0 or num_already_managed > 0:
             notification(
@@ -374,11 +369,7 @@ class SyncedMenu():
             for index, diretory in enumerate(synced_dirs):
                 self.bgprogressbar._update(
                     int(99 * index / len(synced_dirs)),
-                    '{label} - {type}'.format(
-                        label=diretory['label'],
-                        type=diretory.localize_type(
-                        )
-                    )
+                    f"{diretory['label']} - {diretory.localize_type()}"
                 )
                 if diretory['type'] == 'single-movie':
                     # Directory is just a path to a single movie
@@ -572,11 +563,7 @@ class SyncedMenu():
             )
             return
         lines = [
-            '[B]%s[/B] - %s - [I]%s[/I]' % (
-                x['label'],
-                x.localize_type(),
-                x['file']
-            ) for x in synced_dirs
+            f"[B]{x['label']}[/B] - {x.localize_type()} - [I]{x['file']}[/I]" for x in synced_dirs
         ]
         lines += [
             STR_UPDATE_ALL,
@@ -586,7 +573,8 @@ class SyncedMenu():
             STR_REMOVE_ALL, STR_BACK
             ]
         ret = xbmcgui.Dialog().select(
-            '{0} - {1}'.format(ADDON_NAME, STR_SYNCED_DIRECTORIES), lines
+            f"{ADDON_NAME} - {STR_SYNCED_DIRECTORIES}",
+            lines
         )
         if ret >= 0:
             if ret < len(synced_dirs):

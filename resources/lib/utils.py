@@ -72,7 +72,7 @@ def create_content_dirs():
     for folder in folders:
         dest_dir = join(MANAGED_FOLDER, folder)
         if not isdir(dest_dir):
-            # log_msg('Created diretory {}'.format(dest_dir), loglevel=xbmc.LOGINFO)
+            # log_msg(f"Created diretory {dest_dir}", loglevel=xbmc.LOGINFO)
             notification(f'Created diretory {dest_dir}')
             mkdir(dest_dir)
             created_folders = True
@@ -497,7 +497,7 @@ def crunchyroll_language_menu(results):
             elif not is_language_episode:
                 yield item
     except Exception as error:
-        log_msg('crunchyroll_language_menu error: %s' % error)
+        log_msg(f"crunchyroll_language_menu error: {error}")
     if crunchyroll_language_selected:
         for lang_dir in results:
             if not '(' in crunchyroll_language_selected:
@@ -536,7 +536,7 @@ def load_directory_items(progressdialog, _path, recursive=False,
         )
     except (KeyError, TypeError) as error:
         results = []
-        log_msg("INFO ERROR -> %s -> %s" % (error, results))
+        log_msg(f"INFO ERROR -> {error} -> {results}")
     if not allow_directories:
         for item in results:
             if item and item['filetype'] == 'file':
@@ -546,7 +546,7 @@ def load_directory_items(progressdialog, _path, recursive=False,
         if item['type'] == 'movie':
             progressdialog.update_progressdialog(
                 index / len(results),
-                'Processando items:\n%s' % item['title']
+                f"Processando items:\n{item['title']}"
             )
             if item:
                 yield item
@@ -561,7 +561,7 @@ def load_directory_items(progressdialog, _path, recursive=False,
                     showtitle = item['showtitle']
                     progressdialog.update_progressdialog(
                         index / len(results),
-                        'Coletando itens no diretorio!\n%s' % item['label']
+                        f"Coletando itens no diretorio!\n{item['label']}"
                     )
                     directories.append(item)
             # if content is a episode, will be stored with yeld
@@ -570,7 +570,7 @@ def load_directory_items(progressdialog, _path, recursive=False,
                 item['type'] = 'tvshow'
                 progressdialog.update_progressdialog(
                     index / len(results),
-                    'Processando items:\n%s' % item['label']
+                    f"Processando items:\n{item['label']}"
                 )
                 item['showtitle'] = showtitle
                 if item:

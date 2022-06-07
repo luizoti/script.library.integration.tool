@@ -32,13 +32,7 @@ class CreateNfo():
             'episodedetails': '<episodedetails>\n%s</episodedetails>',
             'movie': '<movie>\n%s</movie>',
         }
-        self.root = ''.join(
-            [
-                '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n',
-                ROOT_TYPES[self.type]
-            ]
-        )
-
+        self.root = f'<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n{ROOT_TYPES[self.type]}'
         self.create()
 
     def tvshow(self):
@@ -48,7 +42,7 @@ class CreateNfo():
                 [
                     '\t<title>{showtitle}</title>\n',
                     '\t<showtitle>{showtitle}</showtitle>\n',
-                    '\t<year>{year}</year>\n'
+                    '\t<year>{year}</year>\n',
                 ]
             ).format(**self.jsondata)
 
@@ -86,6 +80,7 @@ class CreateNfo():
                     '\t<original_filename>{file}</original_filename>\n'
                 ]
             ).format(**self.jsondata)
+
 
     def create(self):
         """
@@ -125,10 +120,9 @@ def mkdir(dir_path):
         return False
     return xbmcvfs.mkdirs(dir_path)
 
-
 # def mv_with_type(title_path, filetype, title_dst):
 #     """Move files with wildcard between title_path & filetype to title_dst."""
-#     os.system('mv "{0}"*{1} "{2}{1}"'.format(title_path, filetype, title_dst))
+#     os.system(f'mv "{title_path}"*{filetype} "{title_dst}{filetype}"')
 
 def listdir(dir_path_to_list, full_path=False):
     """Function to list files in dir."""

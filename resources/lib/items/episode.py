@@ -58,19 +58,19 @@ class EpisodeItem():
 
     def season_dir(self):
         """retirn season_dir."""
-        return 'Season %s' % (self.season())
+        return f"Season {self.season()}"
 
     def episode_id(self):
         """Return episode_id."""
-        season = ('S%s' % self.season())
-        ep = ('E%s' % self.episode())
+        season = (f"S{self.season()}")
+        ep = (f"E{self.episode()}")
 
         if self.season() <= 9:
-            season = ('S0%s' % self.season())
+            season = (f"S0{self.season()}")
 
         if self.episode() <= 9:
-            ep = ('E0%s' % self.episode())
-        return '%s%s' % (season, ep)
+            ep = (f"E0{self.episode()}")
+        return f"{season}{ep}"
 
     def managed_show_dir(self):
         """Return managed_show_dir."""

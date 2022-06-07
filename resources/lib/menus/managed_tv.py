@@ -238,10 +238,8 @@ class ManagedTVMenu():
             STR_BACK
         ]
         ret = xbmcgui.Dialog().select(
-            '%s - %s' % (
-                ADDON_NAME,
-                STR_MANAGED_x_EPISODES % color(bold(showtitle), 'skyblue')
-            ), lines
+            f"{ADDON_NAME} - {STR_MANAGED_x_EPISODES % color(bold(showtitle), 'skyblue')}",
+            lines
         )
         if ret >= 0:
             if ret < len(managed_episodes):  # managed item
@@ -284,7 +282,7 @@ class ManagedTVMenu():
             )
             self.view_shows()
             return
-        season_interger_list = list(set([x.season() for x in managed_seasons]))
+        season_interger_list = {x.season() for x in managed_seasons}
         lines=[f'[B]Season {x}[/B]' for x in season_interger_list]
         lines += [
             STR_MOVE_ALL_SEASONS_BACK_TO_STAGED,
@@ -292,10 +290,8 @@ class ManagedTVMenu():
             STR_BACK
         ]
         ret = xbmcgui.Dialog().select(
-            '%s - %s' % (
-                ADDON_NAME,
-                STR_MANAGED_X_SEASONS % color(bold(showtitle), 'skyblue')
-            ), lines
+            f"{ADDON_NAME} - {STR_MANAGED_X_SEASONS % color(bold(showtitle), 'skyblue')}",
+            lines
         )
         selection = lines[ret]
         if ret >= 0:
@@ -348,10 +344,8 @@ class ManagedTVMenu():
             STR_BACK
         ]
         ret = xbmcgui.Dialog().select(
-            '%s - %s' % (
-                ADDON_NAME,
-                color(bold(STR_MANAGED_TV_SHOWS), 'lightgreen')
-            ), lines
+            f"{ADDON_NAME} - {color(bold(STR_MANAGED_TV_SHOWS), 'lightgreen')}",
+            lines
         )
         if ret >= 0:
             if ret < len(managed_tvshows):

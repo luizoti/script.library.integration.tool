@@ -95,7 +95,7 @@ def cleaner(func):
                 for key, val in MAPPED_STRINGS.items():
                     showtitle = re.sub(key, val, showtitle)
                     item['showtitle'] = showtitle
-                    log_msg('Cleaner ---> %s' % item)
+                    log_msg(f'Cleaner ---> {item}')
                 # if 'type' in item and _type:
                 #     item['type'] = 'tvshow'
             if 'title' in item:
@@ -104,12 +104,12 @@ def cleaner(func):
                     title = re.sub(key, val, title)
                     title = title.replace(showtitle, '')
                     item['title'] = title
-                    log_msg('Cleaner ---> %s' % item)
+                    log_msg(f'Cleaner ---> {item}')
             if 'label' in item:
                 label = item['label']
                 for key, val in MAPPED_STRINGS.items():
                     label = re.sub(key, val, label)
                     item['label'] = label
-                    log_msg('Cleaner ---> %s' % item)
+                    log_msg(f'Cleaner ---> {item}')
         return result
     return dict_cleaner
