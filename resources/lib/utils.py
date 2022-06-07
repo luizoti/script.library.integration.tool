@@ -19,25 +19,38 @@ from resources.lib.misc import skip_filter
 from resources.lib.misc import notification
 from resources.lib.misc import SKIP_STRINGS
 
-from resources import ADDON
-from resources import ADDON_ID
 from resources import RECURSION_LIMIT
 from resources import USING_CUSTOM_MANAGED_FOLDER
+from resources import CUSTOM_MANAGED_FOLDER
+from resources import ADDON_SPECIAL_DIR
 
 from resources.lib.log import log_msg
 from resources.lib.filesystem import isdir, mkdir
 from resources.lib.dialog_select import Select
 from resources.lib.version import check_version_file
 
+NETWORK_PATHS = [
+    r"smb://",
+    r"nfs://",
+    r"ftp://",
+]
+
+MANAGED_FOLDER = xbmcvfs.translatePath(
+    ADDON_SPECIAL_DIR
+)
+DATABASE_PATH = xbmcvfs.translatePath(
+    join(MANAGED_FOLDER, "managed.db")
+)
 
 if USING_CUSTOM_MANAGED_FOLDER:
-    MANAGED_FOLDER = xbmcvfs.validatePath(ADDON.getSetting('managed_folder'))
-else:
-    MANAGED_FOLDER = xbmcvfs.translatePath(
-        f"special://userdata/addon_data/{ADDON_ID}/"
-    )
+    MANAGED_FOLDER = xbmcvfs.validatePath(CUSTOM_MANAGED_FOLDER)
 
-DATABASE_PATH = join(MANAGED_FOLDER, 'managed.db')
+    if re_search(CUSTOM_MANAGED_FOLDER, NETWORK_PATHS):
+        DATABASE_PATH = xbmcvfs.translatePath(
+            join(ADDON_SPECIAL_DIR, "managed.db")
+        )
+
+log_msg(f"DATABASE PATH {DATABASE_PATH}")
 
 def check_managed_folder():
     """Check if the managed folder is configured."""
