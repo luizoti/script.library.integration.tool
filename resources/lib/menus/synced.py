@@ -361,13 +361,13 @@ class SyncedMenu():
         STR_STAGING_ITEMS = getstring(32095)
         STR_ALL_ITEMS_UPTODATE = getstring(32121)
         STR_SUCCESS = getstring(32122)
-        self.bgprogressbar._create(ADDON_NAME)
+        self.bgprogressbar.create_progress_bar(ADDON_NAME)
         try:
             # Get current items in all directories
             synced_dirs = self.database.get_synced_dirs()
             all_items = []
             for index, diretory in enumerate(synced_dirs):
-                self.bgprogressbar._update(
+                self.bgprogressbar.update_progress_bar(
                     int(99 * index / len(synced_dirs)),
                     f"{diretory['label']} - {diretory.localize_type()}"
                 )
@@ -396,11 +396,11 @@ class SyncedMenu():
                         self.bgprogressbar
                     )
             # Find managed paths not in dir_items, and prepare to remove
-            self.bgprogressbar._update(99, STR_FINDING_ITEMS_TO_REMOVE)
+            self.bgprogressbar.update_progress_bar(99, STR_FINDING_ITEMS_TO_REMOVE)
             all_paths = [x['file'] for x in all_items]
             paths_to_remove = self.find_paths_to_remove(all_paths)
             # Find dir_items not in managed_items or staged_items, and prepare to add
-            self.bgprogressbar._update(99, STR_FINDING_ITEMS_TO_ADD)
+            self.bgprogressbar.update_progress_bar(99, STR_FINDING_ITEMS_TO_ADD)
             items_to_stage = self.find_items_to_stage(all_items)
             # Prompt user to remove & stage
             if paths_to_remove or items_to_stage:
@@ -410,17 +410,17 @@ class SyncedMenu():
                             len(paths_to_remove),
                             len(items_to_stage))):
                     if paths_to_remove:
-                        self.bgprogressbar._update(99, STR_REMOVING_ITEMS)
+                        self.bgprogressbar.update_progress_bar(99, STR_REMOVING_ITEMS)
                         self.remove_paths(paths_to_remove)
                     if items_to_stage:
-                        self.bgprogressbar._update(99, STR_STAGING_ITEMS)
+                        self.bgprogressbar.update_progress_bar(99, STR_STAGING_ITEMS)
                         self.stage_items(items_to_stage)
                     # TODO: update/clean managed folder
                     xbmcgui.Dialog().ok(ADDON_NAME, STR_SUCCESS)
             else:
                 xbmcgui.Dialog().ok(ADDON_NAME, STR_ALL_ITEMS_UPTODATE)
         finally:
-            self.bgprogressbar._close()
+            self.bgprogressbar.close_progress_bar()
 
     def update_movies(self):
         """Update all synced movie directories."""
@@ -431,7 +431,7 @@ class SyncedMenu():
         STR_STAGING_ITEMS = getstring(32095)
         STR_ALL_ITEMS_UPTODATE = getstring(32121)
         STR_SUCCESS = getstring(32122)
-        self.bgprogressbar._create(ADDON_NAME)
+        self.bgprogressbar.create_progress_bar(ADDON_NAME)
         try:
             all_items = []
             movie_dirs = self.database.get_synced_dirs(synced_type='movie')
@@ -439,12 +439,12 @@ class SyncedMenu():
                 synced_type='single-movie')
             total_num_dirs = len(movie_dirs + single_movie_dirs)
             for index, synced_dir in enumerate(movie_dirs):
-                self.bgprogressbar._update(
+                self.bgprogressbar.update_progress_bar(
                     index / total_num_dirs, synced_dir['label']
                 )
                 all_items += self.get_movies_in_directory(synced_dir['file'])
             for index, synced_dir in enumerate(single_movie_dirs):
-                self.bgprogressbar._update(
+                self.bgprogressbar.update_progress_bar(
                     (index + len(movie_dirs) / total_num_dirs),
                     synced_dir['label']
                 )
@@ -454,12 +454,12 @@ class SyncedMenu():
                     'type': 'movie'
                 })
             # Find managed paths not in dir_items, and prepare to remove
-            self.bgprogressbar._update(99, STR_FINDING_ITEMS_TO_REMOVE)
+            self.bgprogressbar.update_progress_bar(99, STR_FINDING_ITEMS_TO_REMOVE)
             all_paths = [x['file'] for x in all_items]
             paths_to_remove = self.find_paths_to_remove(
                 all_paths, _type='movie')
             # Find dir_items not in managed_items or staged_items, and prepare to add
-            self.bgprogressbar._update(99, STR_FINDING_ITEMS_TO_ADD)
+            self.bgprogressbar.update_progress_bar(99, STR_FINDING_ITEMS_TO_ADD)
             items_to_stage = self.find_items_to_stage(all_items)
             # Prompt user to remove & stage
             if paths_to_remove or items_to_stage:
@@ -469,17 +469,17 @@ class SyncedMenu():
                             len(paths_to_remove),
                             len(items_to_stage))):
                     if paths_to_remove:
-                        self.bgprogressbar._update(99, STR_REMOVING_ITEMS)
+                        self.bgprogressbar.update_progress_bar(99, STR_REMOVING_ITEMS)
                         self.remove_paths(paths_to_remove)
                     if items_to_stage:
-                        self.bgprogressbar._update(99, STR_STAGING_ITEMS)
+                        self.bgprogressbar.update_progress_bar(99, STR_STAGING_ITEMS)
                         self.stage_items(items_to_stage)
                     # TODO: update/clean managed folder
                     xbmcgui.Dialog().ok(ADDON_NAME, STR_SUCCESS)
             else:
                 xbmcgui.Dialog().ok(ADDON_NAME, STR_ALL_ITEMS_UPTODATE)
         finally:
-            self.bgprogressbar._close()
+            self.bgprogressbar.close_progress_bar()
 
     def update_tvshows(self):
         """Update all TV show directories."""
@@ -490,7 +490,7 @@ class SyncedMenu():
         STR_STAGING_ITEMS = getstring(32095)
         STR_ALL_ITEMS_UPTODATE = getstring(32121)
         STR_SUCCESS = getstring(32122)
-        self.bgprogressbar._create(ADDON_NAME)
+        self.bgprogressbar.create_progress_bar(ADDON_NAME)
         try:
             all_items = []
             show_dirs = self.database.get_synced_dirs(synced_type='tvshow')
@@ -498,7 +498,7 @@ class SyncedMenu():
                 synced_type='single-tvshow')
             total_num_dirs = len(show_dirs + single_show_dirs)
             for index, synced_dir in enumerate(show_dirs):
-                self.bgprogressbar._update(
+                self.bgprogressbar.update_progress_bar(
                     index / total_num_dirs,
                     synced_dir['label']
                 )
@@ -507,7 +507,7 @@ class SyncedMenu():
                     self.bgprogressbar
                 )
             for index, synced_dir in enumerate(single_show_dirs):
-                self.bgprogressbar._update(
+                self.bgprogressbar.update_progress_bar(
                     int(99. * (index + len(show_dirs)) / total_num_dirs),
                     synced_dir['label']
                 )
@@ -516,29 +516,29 @@ class SyncedMenu():
                     synced_dir['label']
                 )
             # Find managed paths not in dir_items, and prepare to remove
-            self.bgprogressbar._update(99, STR_FINDING_ITEMS_TO_REMOVE)
+            self.bgprogressbar.update_progress_bar(99, STR_FINDING_ITEMS_TO_REMOVE)
             all_paths = [x['file'] for x in all_items]
             paths_to_remove = self.find_paths_to_remove(
                 all_paths, _type='tvshow')
             # Find dir_items not in managed_items or staged_items, and prepare to add
-            self.bgprogressbar._update(99, STR_FINDING_ITEMS_TO_ADD)
+            self.bgprogressbar.update_progress_bar(99, STR_FINDING_ITEMS_TO_ADD)
             items_to_stage = self.find_items_to_stage(all_items)
             # Prompt user to remove & stage
             if paths_to_remove or items_to_stage:
                 if xbmcgui.Dialog().yesno(ADDON_NAME, STR_i_TO_REMOVE_i_TO_STAGE_PROCEED %
                                           (len(paths_to_remove), len(items_to_stage))):
                     if paths_to_remove:
-                        self.bgprogressbar._update(99, STR_REMOVING_ITEMS)
+                        self.bgprogressbar.update_progress_bar(99, STR_REMOVING_ITEMS)
                         self.remove_paths(paths_to_remove)
                     if items_to_stage:
-                        self.bgprogressbar._update(99, STR_STAGING_ITEMS)
+                        self.bgprogressbar.update_progress_bar(99, STR_STAGING_ITEMS)
                         self.stage_items(items_to_stage)
                     # TODO: update/clean managed folder
                     xbmcgui.Dialog().ok(ADDON_NAME, STR_SUCCESS)
             else:
                 xbmcgui.Dialog().ok(ADDON_NAME, STR_ALL_ITEMS_UPTODATE)
         finally:
-            self.bgprogressbar._close()
+            self.bgprogressbar.close_progress_bar()
 
     @logged_function
     def view(self):

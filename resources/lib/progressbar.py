@@ -50,11 +50,11 @@ class BGProgressBar(xbmcgui.DialogProgressBG):
         super(__class__, self).__init__()
         log_msg("""BGProgressBar __init__.""")
 
-    def _create(self, head=ADDON_NAME, msg=''):
+    def create_progress_bar(self, head=ADDON_NAME, msg=''):
         """Method to create BGProgressBar window"""
         self.create(head, msg)
 
-    def _update(self, perc, msg):
+    def update_progress_bar(self, perc, msg):
         """Method to update BGProgressBar window."""
         if self.isFinished():
             xbmc.sleep(100)
@@ -68,6 +68,6 @@ class BGProgressBar(xbmcgui.DialogProgressBG):
         # Exec operations
         sys.exit()
 
-    def _close(self):
+    def close_progress_bar(self):
         """Close method to close progress by normal progress finish."""
         self.close()
