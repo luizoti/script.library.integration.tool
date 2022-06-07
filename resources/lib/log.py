@@ -13,7 +13,7 @@ from resources import DEFAULT_LOG_LEVEL
 
 def log_msg(msg, loglevel=DEFAULT_LOG_LEVEL):
     """Log message with addon name and version to kodi log."""
-    xbmc.log("{0} v{1} --> {2}".format(ADDON_NAME,
+    msg = msg.replace("\n", "").replace("\t", "")
     xbmc.log(f"{ADDON_NAME} v{ADDON_VERSION} --> {msg}", level=loglevel)
 
 
