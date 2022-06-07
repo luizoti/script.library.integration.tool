@@ -69,7 +69,7 @@ def check_version_file():
         f"special://userdata/addon_data/{ADDON_ID}/.version"
     )
     if isfile(version_file_path):
-        with open(version_file_path, 'r') as version_file:
+        with open(version_file_path, "r", encoding="utf8") as version_file:
             version = Version(version_file.read())
     else:
         # TODO: Use the following after updating to v0.5.0
@@ -88,7 +88,7 @@ def check_version_file():
         # Create addons dir if not exist
         mkdir(dirname(version_file_path))
         # Update version file
-        with open(version_file_path, 'w+') as version_file:
+        with open(version_file_path, "w+", encoding="utf8") as version_file:
             version_file.write(ADDON_VERSION)
         notification(message=STR_UPDATED, time=5000)
         sys.exit()
