@@ -234,10 +234,10 @@ class SyncedMenu():
                 if exist_in_db == ['tvshow', 'staged']:
                     num_already_staged += 1
                     continue
-                elif exist_in_db == ['tvshow', 'managed']:
+                if exist_in_db == ['tvshow', 'managed']:
                     num_already_managed += 1
                     continue
-                elif self.database.check_if_is_blocked(contentitem['showtitle'], 'episode'):
+                if self.database.check_if_is_blocked(contentitem['showtitle'], 'episode'):
                     continue
                 self.progressdialog.update_progressdialog(
                     index / len(files_list),
