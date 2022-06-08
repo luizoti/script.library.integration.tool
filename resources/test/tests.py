@@ -8,11 +8,12 @@ import os
 from os.path import dirname
 
 import unittest
-from resources.lib import log
-from resources.lib.filesystem import delete_strm, isdir, join, removedirs
 
 import xbmcvfs
 import xbmcaddon
+
+from resources.lib import log
+from resources.lib.filesystem import delete_strm, isdir, join, removedirs
 
 from resources.lib.version import Version
 from resources.lib.manipulator import Cleaner
@@ -90,7 +91,8 @@ class TestUtils(unittest.TestCase):
 
         if full_created_dir:
             self.assertEqual(isdir(TEST_DIRS['full']), True)
-            notification(f"full_created_dir: {isdir(dirname(dirname(TEST_DIRS['full'])))}")
+            notification(
+                f"full_created_dir: {isdir(dirname(dirname(TEST_DIRS['full'])))}")
 
         if empty_created_dir:
             self.assertEqual(isdir(TEST_DIRS['empty']), True)
@@ -102,9 +104,19 @@ class TestUtils(unittest.TestCase):
                 f"empty_created_dir: {isdir(TEST_DIRS['file'])}"
             )
 
-        open(join([TEST_DIRS['full'], "teste0.txt"], True), "w", encoding="utf-8")
-        open(join([dirname(dirname(TEST_DIRS['full'])), "teste1.txt"], True), "w", encoding="utf-8")
+        file_test0 = join([TEST_DIRS['full'], "teste0.txt"], True)
+        with open(file_test0, "w", encoding="utf-8") as test0:
+            test0.read()
+            test0.close()
+        file_test1 = join(
+            [dirname(dirname(TEST_DIRS['full'])), "teste1.txt"], True
+        )
+        with open(file_test1, "w", encoding="utf-8") as test1:
+            test1.read()
+            test1.close()
+
         fullpath_base_dir = dirname(dirname(dirname(TEST_DIRS['full'])))
+
         self.assertEqual(
             xbmcvfs.rmdir(
                 TEST_DIRS['empty']
@@ -124,8 +136,6 @@ class TestUtils(unittest.TestCase):
         delete_strm(fullpath_base_dir)
         # removedirs(fullpath_base_dir)
         # self.assertEqual(xbmcvfs.existis(fullpath_base_dir), False)
-
-
 
     @logged_function
     def test_xbmcvfs(self):
@@ -162,7 +172,6 @@ class TestUtils(unittest.TestCase):
         os.remove(VALID_FILE_PATH)
         os.removedirs(VALID_DIR_PATH)
 
-
     @logged_function
     def test_title_cleaner(self):
         """Test cleaner function."""
@@ -179,8 +188,8 @@ class TestUtils(unittest.TestCase):
         }
         self.assertEqual(
             cleaner.title(
-            TITLES['bad_title'],
-            TITLES['bad_showtitle']),
+                TITLES['bad_title'],
+                TITLES['bad_showtitle']),
             TITLES['good_title']
         )
         self.assertEqual(
@@ -221,14 +230,14 @@ class TestUtils(unittest.TestCase):
             'notexit': 'I dont exit and need be ignored',
         }
         self.assertEqual(db.check_if_is_blocked(
-                FAKE_BLOCK_TESTE['exist']
-            ),
-                True
-            )
+            FAKE_BLOCK_TESTE['exist']
+        ),
+            True
+        )
         self.assertEqual(db.check_if_is_blocked(
-                FAKE_BLOCK_TESTE['notexit']
-            ),
-                None
+            FAKE_BLOCK_TESTE['notexit']
+        ),
+            None
         )
         db.delete_entrie_from_blocked(FAKE_BLOCK_TESTE['exist'], 'tvshow')
 
@@ -323,3 +332,8 @@ class TestUtils(unittest.TestCase):
         self.assertGreaterEqual(reference, '1.2.2')
         self.assertLessEqual(reference, '1.2.3')
         self.assertLessEqual(reference, '1.2.4')
+
+
+def run_tests():
+    suite = unittest.defaultTestLoader.loadTestsFromTestCase(TestUtils)
+    unittest.TextTestRunner().run(suite)

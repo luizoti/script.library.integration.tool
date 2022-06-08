@@ -1,3 +1,0 @@
-Name                                                                                                            Stmts   Miss  Cover
------------------------------------------------------------------------------------------------------------------------------------
-/Users/patrick/Library/Application Support/Kodi/addons/script.library.integration.tool/resources/lib/utils.py     167    147    12%

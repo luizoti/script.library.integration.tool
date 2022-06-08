@@ -512,10 +512,6 @@ msgctxt "#32131"
 msgid "Run Test Suite"
 msgstr "Executar suíte de teste"
 
-msgctxt "#32132"
-msgid "Run Fuzzer"
-msgstr "Executar Fuzzer"
-
 msgctxt "#32133"
 msgid "Updating addon settings..."
 msgstr "Atualizando configurações do addon..."
