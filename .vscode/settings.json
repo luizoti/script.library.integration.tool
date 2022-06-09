@@ -1,3 +1,12 @@
 {
-    "python.formatting.provider": "autopep8"
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": true
+    },
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "python.formatting.provider": "black",
+    "python.formatting.blackArgs": [
+        "-t",
+        "py38"
+    ]
 }
