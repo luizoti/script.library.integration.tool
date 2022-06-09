@@ -18,17 +18,17 @@ from resources.lib.progressbar import ProgressBar
 from resources.lib.menus.synced import SyncedMenu
 
 from resources.lib.misc import re_search
-from resources.lib.misc import getstring
+from resources.lib.misc import get_string
 from resources.lib.misc import notification
 from resources.lib.misc import title_with_color
 
 from resources.lib.utils import entrypoint
 
-STR_IS_A_MOVIE = getstring(32155)
-STR_IS_A_SHOW = getstring(32156)
-STR_CANCEL_RED = getstring(32157)
-STR_NOT_SELECTED = getstring(32163)
-STR_CHOOSE_CONTENT_TYPE = getstring(32159)
+STR_IS_A_MOVIE = get_string(32155)
+STR_IS_A_SHOW = get_string(32156)
+STR_CANCEL_RED = get_string(32157)
+STR_NOT_SELECTED = get_string(32163)
+STR_CHOOSE_CONTENT_TYPE = get_string(32159)
 
 # possible values ​​that content can have
 LIST_TYPE_SERIES = ['series',
@@ -86,7 +86,7 @@ def main():
                 )
         elif selection == STR_CANCEL_RED:
             xbmc.sleep(300)
-            notification(getstring(32158))
+            notification(get_string(32158))
         else:
             xbmc.sleep(300)
             notification(f"{title_with_color(label=title, year=year)} {STR_NOT_SELECTED}")

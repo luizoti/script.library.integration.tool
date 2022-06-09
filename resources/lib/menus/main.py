@@ -10,7 +10,7 @@ from resources import ADDON_ID
 from resources import ADDON_NAME
 
 
-from resources.lib.misc import color, getstring, videolibrary
+from resources.lib.misc import color, get_string, videolibrary
 from resources.lib.dialog_select import Select
 
 from resources.lib.database import Database
@@ -91,8 +91,8 @@ class MainMenu():
             heading=ADDON_NAME,
             turnbold=True
         )
-        sel.items([getstring(x) for x in OPTIONS])
-        sel.extraopts([getstring(x) for x in EXTRA_OPTIONS])
+        sel.options([get_string(x) for x in OPTIONS])
+        sel.extra_options([get_string(x) for x in EXTRA_OPTIONS])
         selection = sel.show(
             useDetails=True,
             preselect=self.lastchoice,

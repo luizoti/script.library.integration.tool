@@ -17,7 +17,7 @@ from resources.lib import build_contentitem
 from resources.lib.log import log_msg
 from resources.lib.log import logged_function
 
-from resources.lib.misc import getstring
+from resources.lib.misc import get_string
 from resources.lib.misc import notification
 from resources.lib.misc import title_with_color
 
@@ -139,9 +139,9 @@ class SyncedMenu():
         """Provide options for a single synced directory in a dialog window."""
         # TODO: Remove all from plugin
         # TODO: Rename label
-        STR_REMOVE = getstring(32017)
-        STR_SYNCED_DIR_OPTIONS = getstring(32085)
-        STR_BACK = getstring(32011)
+        STR_REMOVE = get_string(32017)
+        STR_SYNCED_DIR_OPTIONS = get_string(32085)
+        STR_BACK = get_string(32011)
         lines = [STR_REMOVE, STR_BACK]
         ret = xbmcgui.Dialog().select(
             f"{ADDON_NAME} - {STR_SYNCED_DIR_OPTIONS} - {item['label']}",
@@ -156,9 +156,9 @@ class SyncedMenu():
 
     def remove_all(self):
         """Remove all synced directories."""
-        STR_REMOVE_ALL_SYNCED_DIRS = getstring(32086)
-        STR_ALL_SYNCED_DIRS_REMOVED = getstring(32087)
-        STR_ARE_YOU_SURE = getstring(32088)
+        STR_REMOVE_ALL_SYNCED_DIRS = get_string(32086)
+        STR_ALL_SYNCED_DIRS_REMOVED = get_string(32087)
+        STR_ARE_YOU_SURE = get_string(32088)
         if xbmcgui.Dialog().yesno(f"{ADDON_NAME} - {STR_REMOVE_ALL_SYNCED_DIRS}", STR_ARE_YOU_SURE):
             self.database.delete_all_from_synced()
             notification(STR_ALL_SYNCED_DIRS_REMOVED)
@@ -178,9 +178,9 @@ class SyncedMenu():
     @logged_function
     def add_single_movie(self, title, year, file):
         """Sync single movie path and stage item."""
-        STR_MOVIE_STAGED = getstring(32105)
-        STR_ITEM_IS_ALREADY_STAGED = getstring(32103)
-        STR_ITEM_IS_ALREADY_MANAGED = getstring(32104)
+        STR_MOVIE_STAGED = get_string(32105)
+        STR_ITEM_IS_ALREADY_STAGED = get_string(32103)
+        STR_ITEM_IS_ALREADY_MANAGED = get_string(32104)
         # Add synced directory to database
         # TODO: add single-movie to synced is necessary? revise this
         self.database.add_item_to_synced(title, file, 'single-movie')
@@ -199,9 +199,9 @@ class SyncedMenu():
     @logged_function
     def add_single_tvshow(self, title, year, file):
         """Sync single tvshow directory and stage items."""
-        STR_i_NEW = getstring(32107)
-        STR_i_NEW_i_STAGED_i_MANAGED = getstring(32106)
-        STR_GETTING_ITEMS_IN_DIR = getstring(32125)
+        STR_i_NEW = get_string(32107)
+        STR_i_NEW_i_STAGED_i_MANAGED = get_string(32106)
+        STR_GETTING_ITEMS_IN_DIR = get_string(32125)
         # STR_GETTING_ITEMS_IN_x = getstring(32126)
         self.progressdialog.create_progressdialog(head=ADDON_NAME)
         # Add synced directory to database
@@ -271,10 +271,10 @@ class SyncedMenu():
         #  TV shows and episodes that have been added
         contentitem = None
         content_title = None
-        STR_MOVIE_STAGED = getstring(32165)
-        STR_GETTING_ITEMS_IN_x = getstring(32126)
-        STR_i_EPISODES_STAGED = getstring(32112)
-        STR_GETTING_ITEMS_IN_DIR = getstring(32125)
+        STR_MOVIE_STAGED = get_string(32165)
+        STR_GETTING_ITEMS_IN_x = get_string(32126)
+        STR_i_EPISODES_STAGED = get_string(32112)
+        STR_GETTING_ITEMS_IN_DIR = get_string(32125)
         self.progressdialog.create_progressdialog(head=ADDON_NAME)
         try:
             # add synced directory to database
@@ -354,13 +354,13 @@ class SyncedMenu():
         # TODO: option to only update specified or managed items
         # TODO: option to add update frequencies for specific directories (i.e. weekly/monthly/etc.)
         # TODO: better error handling when plugins dont load during update
-        STR_FINDING_ITEMS_TO_REMOVE = getstring(32090)
-        STR_FINDING_ITEMS_TO_ADD = getstring(32092)
-        STR_i_TO_REMOVE_i_TO_STAGE_PROCEED = getstring(32093)
-        STR_REMOVING_ITEMS = getstring(32094)
-        STR_STAGING_ITEMS = getstring(32095)
-        STR_ALL_ITEMS_UPTODATE = getstring(32121)
-        STR_SUCCESS = getstring(32122)
+        STR_FINDING_ITEMS_TO_REMOVE = get_string(32090)
+        STR_FINDING_ITEMS_TO_ADD = get_string(32092)
+        STR_i_TO_REMOVE_i_TO_STAGE_PROCEED = get_string(32093)
+        STR_REMOVING_ITEMS = get_string(32094)
+        STR_STAGING_ITEMS = get_string(32095)
+        STR_ALL_ITEMS_UPTODATE = get_string(32121)
+        STR_SUCCESS = get_string(32122)
         self.bgprogressbar.create_progress_bar(ADDON_NAME)
         try:
             # Get current items in all directories
@@ -424,13 +424,13 @@ class SyncedMenu():
 
     def update_movies(self):
         """Update all synced movie directories."""
-        STR_FINDING_ITEMS_TO_REMOVE = getstring(32090)
-        STR_FINDING_ITEMS_TO_ADD = getstring(32092)
-        STR_i_TO_REMOVE_i_TO_STAGE_PROCEED = getstring(32093)
-        STR_REMOVING_ITEMS = getstring(32094)
-        STR_STAGING_ITEMS = getstring(32095)
-        STR_ALL_ITEMS_UPTODATE = getstring(32121)
-        STR_SUCCESS = getstring(32122)
+        STR_FINDING_ITEMS_TO_REMOVE = get_string(32090)
+        STR_FINDING_ITEMS_TO_ADD = get_string(32092)
+        STR_i_TO_REMOVE_i_TO_STAGE_PROCEED = get_string(32093)
+        STR_REMOVING_ITEMS = get_string(32094)
+        STR_STAGING_ITEMS = get_string(32095)
+        STR_ALL_ITEMS_UPTODATE = get_string(32121)
+        STR_SUCCESS = get_string(32122)
         self.bgprogressbar.create_progress_bar(ADDON_NAME)
         try:
             all_items = []
@@ -483,13 +483,13 @@ class SyncedMenu():
 
     def update_tvshows(self):
         """Update all TV show directories."""
-        STR_FINDING_ITEMS_TO_REMOVE = getstring(32090)
-        STR_FINDING_ITEMS_TO_ADD = getstring(32092)
-        STR_i_TO_REMOVE_i_TO_STAGE_PROCEED = getstring(32093)
-        STR_REMOVING_ITEMS = getstring(32094)
-        STR_STAGING_ITEMS = getstring(32095)
-        STR_ALL_ITEMS_UPTODATE = getstring(32121)
-        STR_SUCCESS = getstring(32122)
+        STR_FINDING_ITEMS_TO_REMOVE = get_string(32090)
+        STR_FINDING_ITEMS_TO_ADD = get_string(32092)
+        STR_i_TO_REMOVE_i_TO_STAGE_PROCEED = get_string(32093)
+        STR_REMOVING_ITEMS = get_string(32094)
+        STR_STAGING_ITEMS = get_string(32095)
+        STR_ALL_ITEMS_UPTODATE = get_string(32121)
+        STR_SUCCESS = get_string(32122)
         self.bgprogressbar.create_progress_bar(ADDON_NAME)
         try:
             all_items = []
@@ -547,14 +547,14 @@ class SyncedMenu():
 
         Also provides additional options at bottom of menu.
         """
-        STR_UPDATE_ALL = getstring(32081)
-        STR_UPDATE_TV_SHOWS = getstring(32137)
-        STR_UPDATE_MOVIES = getstring(32138)
-        STR_REMOVE_ALL = getstring(32082)
-        STR_BACK = getstring(32011)
+        STR_UPDATE_ALL = get_string(32081)
+        STR_UPDATE_TV_SHOWS = get_string(32137)
+        STR_UPDATE_MOVIES = get_string(32138)
+        STR_REMOVE_ALL = get_string(32082)
+        STR_BACK = get_string(32011)
         STOP_CURRENT_UPDATE = 'Stop current update'
-        STR_SYNCED_DIRECTORIES = getstring(32128)
-        STR_NO_SYNCED_DIRS = getstring(32120)
+        STR_SYNCED_DIRECTORIES = get_string(32128)
+        STR_NO_SYNCED_DIRS = get_string(32120)
         synced_dirs = self.database.get_synced_dirs()
         if not synced_dirs:
             xbmcgui.Dialog().ok(

@@ -14,7 +14,7 @@ import xbmcvfs
 
 from resources.lib.misc import is_season
 from resources.lib.misc import re_search
-from resources.lib.misc import getstring
+from resources.lib.misc import get_string
 from resources.lib.misc import skip_filter
 from resources.lib.misc import notification
 from resources.lib.misc import SKIP_STRINGS
@@ -78,7 +78,7 @@ def create_content_dirs():
             created_folders = True
 
     if created_folders:
-        STR_SUBFOLDERS_CREATED = getstring(32127)
+        STR_SUBFOLDERS_CREATED = get_string(32127)
         notification(STR_SUBFOLDERS_CREATED)
         # TODO: Add video sources here
         xbmc.sleep(1)

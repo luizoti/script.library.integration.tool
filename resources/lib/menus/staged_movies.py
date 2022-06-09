@@ -8,7 +8,7 @@ from resources import ADDON_NAME
 
 from resources.lib.log import logged_function
 
-from resources.lib.misc import getstring
+from resources.lib.misc import get_string
 from resources.lib.misc import notification
 
 
@@ -27,8 +27,8 @@ class StagedMoviesMenu():
     @logged_function
     def add_all(self, items):
         """Add all staged movies to library."""
-        STR_ADDING_ALL_MOVIES = getstring(32042)
-        STR_ALL_MOVIES_ADDED = getstring(32043)
+        STR_ADDING_ALL_MOVIES = get_string(32042)
+        STR_ALL_MOVIES_ADDED = get_string(32043)
         self.progressdialog.create_progressdialog(
             msg=STR_ADDING_ALL_MOVIES
         )
@@ -55,12 +55,12 @@ class StagedMoviesMenu():
     @logged_function
     def options(self, item):
         """Provide options for a single staged movie in a dialog window."""
-        STR_ADD = getstring(32048)
-        STR_REMOVE = getstring(32017)
-        STR_REMOVE_AND_BLOCK = getstring(32049)
-        STR_RENAME = getstring(32050)
-        STR_STAGED_MOVIE_OPTIONS = getstring(32053)
-        STR_BACK = getstring(32011)
+        STR_ADD = get_string(32048)
+        STR_REMOVE = get_string(32017)
+        STR_REMOVE_AND_BLOCK = get_string(32049)
+        STR_RENAME = get_string(32050)
+        STR_STAGED_MOVIE_OPTIONS = get_string(32053)
+        STR_BACK = get_string(32011)
         lines = [
             STR_ADD,
             STR_REMOVE,
@@ -94,8 +94,8 @@ class StagedMoviesMenu():
     @logged_function
     def remove_all(self):
         """Remove all staged movies."""
-        STR_REMOVING_ALL_MOVIES = getstring(32013)
-        STR_ALL_MOVIES_REMOVED = getstring(32014)
+        STR_REMOVING_ALL_MOVIES = get_string(32013)
+        STR_ALL_MOVIES_REMOVED = get_string(32014)
         self.progressdialog.create_progressdialog(
             msg=STR_REMOVING_ALL_MOVIES
         )
@@ -113,11 +113,11 @@ class StagedMoviesMenu():
 
         Also provides additional options at bottom of menu.
         """
-        STR_NO_STAGED_MOVIES = getstring(32037)
-        STR_ADD_ALL_MOVIES = getstring(32038)
-        STR_REMOVE_ALL_MOVIES = getstring(32009)
-        STR_BACK = getstring(32011)
-        STR_STAGED_MOVIES = getstring(32004)
+        STR_NO_STAGED_MOVIES = get_string(32037)
+        STR_ADD_ALL_MOVIES = get_string(32038)
+        STR_REMOVE_ALL_MOVIES = get_string(32009)
+        STR_BACK = get_string(32011)
+        STR_STAGED_MOVIES = get_string(32004)
         staged_movies = list(
             self.database.get_content_items(
                 status='staged',

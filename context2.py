@@ -9,7 +9,7 @@ import xbmc
 import xbmcgui
 
 from resources.lib.misc import notification
-from resources.lib.misc import getstring
+from resources.lib.misc import get_string
 
 from resources.lib.database import Database
 from resources.lib.progressbar import ProgressBar
@@ -24,7 +24,7 @@ def main():
     sync_type = False
     file = xbmc.getInfoLabel('Container.FolderPath')
     label = xbmc.getInfoLabel('Container.FolderName')
-    STR_CHOOSE_CONTENT_TYPE = getstring(32164)
+    STR_CHOOSE_CONTENT_TYPE = get_string(32164)
     OPTIONS = {
         32160: 'all_items',
         32161: 'movie',
@@ -34,12 +34,12 @@ def main():
     }
     selection = xbmcgui.Dialog().select(
         heading=STR_CHOOSE_CONTENT_TYPE,
-        list=[getstring(x) for x in OPTIONS],
+        list=[get_string(x) for x in OPTIONS],
         useDetails=False,
         preselect=False
     )
     if selection == 'cancel':
-        STR_NOT_SELECTED = getstring(32158)
+        STR_NOT_SELECTED = get_string(32158)
         notification(STR_NOT_SELECTED, 4000)
     else:
         sync_type = OPTIONS[list(OPTIONS.keys())[selection]]

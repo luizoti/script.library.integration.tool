@@ -15,7 +15,7 @@ from resources import ADDON_VERSION
 
 from resources.lib.filesystem import mkdir
 
-from resources.lib.misc import getstring
+from resources.lib.misc import get_string
 from resources.lib.misc import notification
 
 
@@ -78,8 +78,8 @@ def check_version_file():
         # version = Version(ADDON_VERSION)
         version = Version('0.3.2')
     if version != ADDON_VERSION:
-        STR_UPDATING = getstring(32133)
-        STR_UPDATED = getstring(32134)
+        STR_UPDATING = get_string(32133)
+        STR_UPDATED = get_string(32134)
         notification(message=STR_UPDATING, time=5000)
         if version < '0.4.0':
             # Maintain previous settings if managed folder is already set

@@ -10,7 +10,7 @@ from resources.lib.log import logged_function
 from resources.lib.misc import bold
 from resources.lib.misc import color
 from resources.lib.misc import notification
-from resources.lib.misc import getstring
+from resources.lib.misc import get_string
 
 
 class ManagedTVMenu():
@@ -29,8 +29,8 @@ class ManagedTVMenu():
     def move_all_episodes_to_staged(self, items):
         """Remove staged spisodes from library and move to staged."""
         showtitle = bold(items[0].showtitle)
-        STR_MOVING_ALL_x_EPISODES_TO_STAGED = getstring(32034)
-        STR_ALL_x_EPISODES_MOVED_TO_STAGED = getstring(
+        STR_MOVING_ALL_x_EPISODES_TO_STAGED = get_string(32034)
+        STR_ALL_x_EPISODES_MOVED_TO_STAGED = get_string(
             32035) % color(showtitle, 'skyblue')
         self.progressdialog.create_progressdialog(
             msg=STR_MOVING_ALL_x_EPISODES_TO_STAGED % color(showtitle)
@@ -49,8 +49,8 @@ class ManagedTVMenu():
     def move_all_seasons_to_staged(self, showtitle):
         """Remove staged seasons from library and move to staged."""
         _showtitle = bold(showtitle)
-        STR_MOVING_ALL_x_SEASONS_TO_STAGED = getstring(32026)
-        STR_ALL_x_SEASONS_MOVED_TO_STAGED = getstring(32173) % color(_showtitle, 'skyblue')
+        STR_MOVING_ALL_x_SEASONS_TO_STAGED = get_string(32026)
+        STR_ALL_x_SEASONS_MOVED_TO_STAGED = get_string(32173) % color(_showtitle, 'skyblue')
         self.progressdialog.create_progressdialog(
             msg=STR_MOVING_ALL_x_SEASONS_TO_STAGED % color(_showtitle)
         )
@@ -73,8 +73,8 @@ class ManagedTVMenu():
     @logged_function
     def move_all_tvshows_to_staged(self):
         """Remove all managed tvshow from library, move to staged."""
-        STR_MOVING_ALL_TV_SHOWS_TO_STAGED = getstring(32026)
-        STR_ALL_TV_SHOWS_MOVED_TO_STAGED = getstring(32027)
+        STR_MOVING_ALL_TV_SHOWS_TO_STAGED = get_string(32026)
+        STR_ALL_TV_SHOWS_MOVED_TO_STAGED = get_string(32027)
         self.progressdialog.create_progressdialog(
             msg=STR_MOVING_ALL_TV_SHOWS_TO_STAGED
         )
@@ -97,8 +97,8 @@ class ManagedTVMenu():
     @logged_function
     def generate_all_managed_episodes_metadata(self, episodes):
         """Create metadata for all managed episodes."""
-        STR_GENERATING_ALL_TV_EPISODES_METADATA = getstring(32181)
-        STR_ALL_TV_EPISODES_METADATA_CREATED = getstring(32182)
+        STR_GENERATING_ALL_TV_EPISODES_METADATA = get_string(32181)
+        STR_ALL_TV_EPISODES_METADATA_CREATED = get_string(32182)
         self.progressdialog.create_progressdialog(
             msg=STR_GENERATING_ALL_TV_EPISODES_METADATA
         )
@@ -119,8 +119,8 @@ class ManagedTVMenu():
     @logged_function
     def generate_all_managed_seasons_metadata(self, showtitle):
         """Create metadata for all managed seasons."""
-        STR_GENERATING_ALL_TV_SEASONS_METADATA = getstring(32181)
-        STR_ALL_TV_SEASONS_METADATA_CREATED = getstring(32182)
+        STR_GENERATING_ALL_TV_SEASONS_METADATA = get_string(32181)
+        STR_ALL_TV_SEASONS_METADATA_CREATED = get_string(32182)
         self.progressdialog.create_progressdialog(
             msg=STR_GENERATING_ALL_TV_SEASONS_METADATA
         )
@@ -147,8 +147,8 @@ class ManagedTVMenu():
     @logged_function
     def generate_all_managed_tvshows_metadata(self):
         """Create metadata for all managed tvshows."""
-        STR_GENERATING_ALL_TV_SHOWS_METADATA = getstring(32063)
-        STR_ALL_TV_SHOWS_METADATA_CREATED = getstring(32064)
+        STR_GENERATING_ALL_TV_SHOWS_METADATA = get_string(32063)
+        STR_ALL_TV_SHOWS_METADATA_CREATED = get_string(32064)
         self.progressdialog.create_progressdialog(
             msg=STR_GENERATING_ALL_TV_SHOWS_METADATA
         )
@@ -176,10 +176,10 @@ class ManagedTVMenu():
     @logged_function
     def episode_options(self, item, season):
         """Provide options for a single managed episode in a dialog window."""
-        STR_GENERATE_EPISODE_METADATA = getstring(32017)
-        STR_MOVE_BACK_TO_STAGED = getstring(32018)
-        STR_BACK = getstring(32011)
-        STR_MANAGED_EPISODE_OPTIONS = getstring(32036)
+        STR_GENERATE_EPISODE_METADATA = get_string(32017)
+        STR_MOVE_BACK_TO_STAGED = get_string(32018)
+        STR_BACK = get_string(32011)
+        STR_MANAGED_EPISODE_OPTIONS = get_string(32036)
         lines = [
             STR_GENERATE_EPISODE_METADATA,
             STR_MOVE_BACK_TO_STAGED,
@@ -207,16 +207,8 @@ class ManagedTVMenu():
 
     @logged_function
     def view_episodes(self, showtitle, season):
-        """
-        Display all managed episodes in the specified show, which are selectable and lead to options.
-
-        Also provides additional options at bottom of menu.
-        """
-        STR_NO_MANAGED_x_EPISODES = getstring(32028)
-        STR_GENERATING_ALL_TV_EPISODES_METADATA = getstring(32183)
-        STR_MOVE_ALL_EPISODES_BACK_TO_STAGED = getstring(32172)
-        STR_BACK = getstring(32011)
-        STR_MANAGED_x_EPISODES = getstring(32031)
+        STR_NO_MANAGED_x_EPISODES = get_string(32028)
+        STR_MANAGED_x_EPISODES = get_string(32031)
         managed_episodes = list(
             self.database.get_episode_items(
                 status='managed',
@@ -259,16 +251,9 @@ class ManagedTVMenu():
 
     @logged_function
     def view_seasons(self, showtitle):
-        """
-        Display all managed seasons in the specified show, which are selectable and lead to options.
-
-        Also provides additional options at bottom of menu.
-        """
-        STR_NO_MANAGED_X_SEASONS = getstring(32170)
-        STR_GENERATING_ALL_TV_SEASONS_METADATA = getstring(32181)
-        STR_MOVE_ALL_SEASONS_BACK_TO_STAGED = getstring(32172)
-        STR_BACK = getstring(32011)
-        STR_MANAGED_X_SEASONS = getstring(32175)
+        STR_NO_MANAGED_X_SEASONS = get_string(32170)
+        STR_MANAGED_X_SEASONS = get_string(32175)
+        OPTIONS = {
         managed_seasons = list(
             self.database.get_season_items(
                 status='managed',
@@ -317,17 +302,8 @@ class ManagedTVMenu():
             self.view_shows()
 
     @logged_function
-    def view_shows(self):
-        """
-        Display all managed tvshows, which are selectable and lead to options.
-
-        Also provides additional options at bottom of menu.
-        """
-        STR_NO_MANAGED_TV_SHOWS = getstring(32020)
-        STR_MOVE_ALL_TV_SHOWS_BACK_TO_STAGED = getstring(32022)
-        STR_GENERATE_ALL_METADATA_ITEMS = getstring(32040)
-        STR_BACK = getstring(32011)
-        STR_MANAGED_TV_SHOWS = getstring(32003)
+        STR_NO_MANAGED_TV_SHOWS = get_string(32020)
+        STR_MANAGED_TV_SHOWS = get_string(32003)
         managed_tvshows = list(
             self.database.get_all_shows('managed')
         )

@@ -18,7 +18,7 @@ from resources.lib.log import logged_function
 from resources.lib.misc import bold
 from resources.lib.misc import color
 from resources.lib.misc import notification
-from resources.lib.misc import getstring
+from resources.lib.misc import get_string
 
 
 class ManagedMoviesMenu():
@@ -38,7 +38,7 @@ class ManagedMoviesMenu():
     @logged_function
     def move_all_to_staged(self, items):
         """Remove all managed movies from library, and add them to staged."""
-        STR_MOVING_ALL_MOVIES_BACK_TO_STAGED = getstring(32015)
+        STR_MOVING_ALL_MOVIES_BACK_TO_STAGED = get_string(32015)
         self.progressdialog.create_progressdialog(
             msg=STR_MOVING_ALL_MOVIES_BACK_TO_STAGED
         )
@@ -55,8 +55,8 @@ class ManagedMoviesMenu():
     @logged_function
     def remove_all(self, items):
         """Remove all managed movies from library."""
-        STR_REMOVING_ALL_MOVIES = getstring(32013)
-        STR_ALL_MOVIES_REMOVED = getstring(32014)
+        STR_REMOVING_ALL_MOVIES = get_string(32013)
+        STR_ALL_MOVIES_REMOVED = get_string(32014)
         self.progressdialog.create_progressdialog(
             msg=STR_REMOVING_ALL_MOVIES
         )
@@ -74,7 +74,7 @@ class ManagedMoviesMenu():
     @logged_function
     def clean_up_all_managed_metadata(_=None):
         """Delete all metada (.nfo only) for all movies."""
-        STR_MOVIE_METADATA_CLEANED = getstring(32136)
+        STR_MOVIE_METADATA_CLEANED = get_string(32136)
         managed_movies_dir = join(MANAGED_FOLDER, 'movies')
         for full_path_movie_dir in listdir(managed_movies_dir, True):
             try:
@@ -88,8 +88,8 @@ class ManagedMoviesMenu():
     @logged_function
     def generate_all_managed_metadata(self, items):
         """Generate metadata items for all managed movies."""
-        STR_GENERATING_ALL_MOVIE_METADATA = getstring(32046)
-        STR_ALL_MOVIE_METADTA_CREATED = getstring(32047)
+        STR_GENERATING_ALL_MOVIE_METADATA = get_string(32046)
+        STR_ALL_MOVIE_METADTA_CREATED = get_string(32047)
         self.progressdialog.create_progressdialog(
             msg=STR_GENERATING_ALL_MOVIE_METADATA
         )
@@ -107,11 +107,11 @@ class ManagedMoviesMenu():
         """Provide options for a single managed movie in a dialog window."""
         # TODO: add rename option
         # TODO: add reload metadata option
-        STR_REMOVE = getstring(32017)
-        STR_MOVE_BACK_TO_STAGED = getstring(32018)
-        STR_GENERATE_METADATA_ITEM = getstring(32052)
-        STR_BACK = getstring(32011)
-        STR_MANAGED_MOVIE_OPTIONS = getstring(32019)
+        STR_REMOVE = get_string(32017)
+        STR_MOVE_BACK_TO_STAGED = get_string(32018)
+        STR_GENERATE_METADATA_ITEM = get_string(32052)
+        STR_BACK = get_string(32011)
+        STR_MANAGED_MOVIE_OPTIONS = get_string(32019)
         lines = [
             STR_REMOVE,
             STR_MOVE_BACK_TO_STAGED,
@@ -150,8 +150,8 @@ class ManagedMoviesMenu():
 
         Also provides additional options at bottom of menu.
         """
-        STR_NO_MANAGED_MOVIES = getstring(32008)
-        STR_MANAGED_MOVIES = getstring(32002)
+        STR_NO_MANAGED_MOVIES = get_string(32008)
+        STR_MANAGED_MOVIES = get_string(32002)
         OPTIONS = {
             32009: self.remove_all,
             32010: self.move_all_to_staged,
@@ -168,7 +168,7 @@ class ManagedMoviesMenu():
             heading=f'{ADDON_NAME} - {STR_MANAGED_MOVIES}'
         )
         sel.items([str(x) for x in managed_movies])
-        sel.extraopts([getstring(x) for x in OPTIONS])
+        sel.extra_options([get_string(x) for x in OPTIONS])
         if not managed_movies:
             xbmcgui.Dialog().ok(
                 ADDON_NAME,
@@ -179,7 +179,7 @@ class ManagedMoviesMenu():
             useDetails=False,
             preselect=False,
             back=True,
-            back_value=getstring(32011)
+            back_value=get_string(32011)
         )
         if selection:
             if selection['type'] == 'item':

@@ -10,10 +10,7 @@ from resources.lib.log import logged_function
 
 from resources.lib.dialog_select import Select
 
-from resources.lib.misc import bold
-from resources.lib.misc import color
-from resources.lib.misc import notification
-from resources.lib.misc import getstring
+from resources.lib.misc import bold, color, notification, get_string
 
 
 class StagedTVMenu():
@@ -58,8 +55,8 @@ class StagedTVMenu():
     @logged_function
     def add_all_staged_episodes_to_library(self, episodes):
         """Add all episodes from specified show to library."""
-        STR_ADDING_ALL_x_EPISODES = getstring(32071)
-        STR_ALL_x_EPISODES_ADDED = getstring(32072)
+        STR_ADDING_ALL_x_EPISODES = get_string(32071)
+        STR_ALL_x_EPISODES_ADDED = get_string(32072)
         showtitle = episodes[0].showtitle
         self.progressdialog.create_progressdialog(
             msg=STR_ADDING_ALL_x_EPISODES % showtitle
@@ -111,8 +108,8 @@ class StagedTVMenu():
     @logged_function
     def add_all_staged_shows_to_library(self):
         """Add all tvshow items to library."""
-        STR_ADDING_ALL_TV_SHOWS = getstring(32059)
-        STR_ALL_TV_SHOWS_ADDED = getstring(32060)
+        STR_ADDING_ALL_TV_SHOWS = get_string(32059)
+        STR_ALL_TV_SHOWS_ADDED = get_string(32060)
         self.progressdialog.create_progressdialog(
             msg=STR_ADDING_ALL_TV_SHOWS
         )
@@ -134,8 +131,8 @@ class StagedTVMenu():
     @logged_function
     def remove_all_shows(self):
         """Remove all staged tvshow items."""
-        STR_REMOVING_ALL_TV_SHOWS = getstring(32024)
-        STR_ALL_TV_SHOW_REMOVED = getstring(32025)
+        STR_REMOVING_ALL_TV_SHOWS = get_string(32024)
+        STR_ALL_TV_SHOW_REMOVED = get_string(32025)
         self.progressdialog.create_progressdialog(
             msg=STR_REMOVING_ALL_TV_SHOWS
         )
@@ -149,8 +146,8 @@ class StagedTVMenu():
     @logged_function
     def remove_all_seasons(self, showtitle):
         """Remove all seasons from the specified show."""
-        STR_REMOVING_ALL_x_SEASONS = getstring(32032) % showtitle
-        STR_ALL_x_SEASONS_REMOVED = getstring(32033) % showtitle
+        STR_REMOVING_ALL_x_SEASONS = get_string(32032) % showtitle
+        STR_ALL_x_SEASONS_REMOVED = get_string(32033) % showtitle
         self.progressdialog.create_progressdialog(
             msg=STR_REMOVING_ALL_x_SEASONS
         )
@@ -166,8 +163,8 @@ class StagedTVMenu():
     def remove_all_episodes(self, showtitle):
         """Remove all episodes from the specified show."""
         formed_title = color(bold(showtitle), 'skyblue')
-        STR_REMOVING_ALL_x_EPISODES = getstring(32032) % formed_title
-        STR_ALL_x_EPISODES_REMOVED = getstring(32033) % formed_title
+        STR_REMOVING_ALL_x_EPISODES = get_string(32032) % formed_title
+        STR_ALL_x_EPISODES_REMOVED = get_string(32033) % formed_title
         self.progressdialog.create_progressdialog(
             msg=STR_REMOVING_ALL_x_EPISODES
         )
@@ -199,13 +196,13 @@ class StagedTVMenu():
         # TODO: rename associated metadata when renaming
         # TODO: rename show title
         # TODO: remove item (including metadata)
-        STR_ADD = getstring(32048)
-        STR_REMOVE = getstring(32017)
-        STR_REMOVE_AND_BLOCK_EPISODE = getstring(32079)
+        STR_ADD = get_string(32048)
+        STR_REMOVE = get_string(32017)
+        STR_REMOVE_AND_BLOCK_EPISODE = get_string(32079)
         # STR_RENAME = getstring(32050)
-        STR_GENERATE_METADATA_ITEM = getstring(32052)
-        STR_BACK = getstring(32011)
-        STR_STAGED_EPISODE_OPTIONS = getstring(32080)
+        STR_GENERATE_METADATA_ITEM = get_string(32052)
+        STR_BACK = get_string(32011)
+        STR_STAGED_EPISODE_OPTIONS = get_string(32080)
         lines = [
             STR_ADD, STR_REMOVE,
             # STR_RENAME,
@@ -240,13 +237,8 @@ class StagedTVMenu():
 
     @logged_function
     def view_episodes(self, showtitle, season):
-        """
-        Display all staged episodes in the specified show, which are selectable and lead to options.
-
-        Also provides additional options at bottom of menu.
-        """
-        STR_NO_STAGED_x_EPISODES = getstring(32065)
-        STR_STAGED_x_EPISODES = getstring(32070)
+        STR_NO_STAGED_x_EPISODES = get_string(32065)
+        STR_STAGED_x_EPISODES = get_string(32070)
         staged_episodes = list(
             self.database.get_episode_items(
                 status='staged',
@@ -271,7 +263,7 @@ class StagedTVMenu():
             f"{ADDON_NAME} - {STR_STAGED_x_EPISODES % color(bold(showtitle), 'skyblue')}"
         )
         sel.items([str(x) for x in staged_episodes])
-        sel.extraopts([getstring(x) for x in OPTIONS])
+        sel.extra_options([get_string(x) for x in OPTIONS])
         selection = sel.show(
             useDetails=False,
             preselect=False,
@@ -290,13 +282,8 @@ class StagedTVMenu():
 
     @logged_function
     def view_seasons(self, showtitle):
-        """
-        Display all staged seasons in the specified show, which are selectable and lead to options.
-
-        Also provides additional options at bottom of menu.
-        """
-        STR_STAGED_x_SEASONS = getstring(32176)
-        STR_NO_STAGED_x_SEASONS = getstring(32170)
+        STR_STAGED_x_SEASONS = get_string(32176)
+        STR_NO_STAGED_x_SEASONS = get_string(32170)
         OPTIONS = {
             32177: self.add_all_staged_seasons_to_library,
             32171: self.remove_all_seasons,
@@ -314,7 +301,7 @@ class StagedTVMenu():
         sel.items(
             [f'Season {x}' for x in {x.season() for x in staged_seasons}]
         )
-        sel.extraopts([getstring(x) for x in OPTIONS])
+        sel.extra_options(list(map(get_string, OPTIONS)))
         if not staged_seasons:
             xbmcgui.Dialog().ok(
                 ADDON_NAME,
@@ -345,8 +332,8 @@ class StagedTVMenu():
     @logged_function
     def view_shows(self):
         """Display all managed tvshows, which are selectable and lead to options."""
-        STR_NO_STAGED_TV_SHOWS = getstring(32054)
-        STR_STAGED_TV_SHOWS = getstring(32005)
+        STR_NO_STAGED_TV_SHOWS = get_string(32054)
+        STR_STAGED_TV_SHOWS = get_string(32005)
         OPTIONS = {
             32055: self.add_all_staged_shows_to_library,
             32057: self.remove_all_shows,
@@ -358,7 +345,7 @@ class StagedTVMenu():
             heading=f"{ADDON_NAME} - {color(bold(STR_STAGED_TV_SHOWS), 'lightblue')}"
         )
         sel.items([str(x) for x in staged_tvshows])
-        sel.extraopts([getstring(x) for x in OPTIONS])
+        sel.extra_options([get_string(x) for x in OPTIONS])
         if not staged_tvshows:
             xbmcgui.Dialog().ok(
                 ADDON_NAME,

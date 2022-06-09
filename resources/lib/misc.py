@@ -80,7 +80,7 @@ def savetojson(data):
         pass
 
 
-def getstring(string_id):
+def get_string(string_id):
     """Shortcut function to return string from String ID."""
     return str(ADDON.getLocalizedString(string_id))
 

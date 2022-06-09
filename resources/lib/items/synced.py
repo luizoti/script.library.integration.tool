@@ -2,7 +2,7 @@
 
 """Defines the SyncedItem class."""
 
-from resources.lib.misc import getstring
+from resources.lib.misc import get_string
 
 
 class SyncedItem(dict):
@@ -24,5 +24,5 @@ class SyncedItem(dict):
             'single-movie': 32116,
             'single-tvshow': 32115
         }
-        self._localized_type = getstring(_TYPES[self['type']])
+        self._localized_type = get_string(_TYPES[self['type']])
         return self._localized_type
