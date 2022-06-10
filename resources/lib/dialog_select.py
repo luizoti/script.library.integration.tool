@@ -60,8 +60,12 @@ class Select(xbmcgui.Dialog):
         self.options_dict.update(options)
         self._parse_options(options=options)
 
-    def show(self, autoclose=False, useDetails=False, preselect=False) -> tuple:
-        """Open dialog select with all params."""
+    def show(self, autoclose=False, useDetails=False, preselect=99999) -> tuple:
+        """
+        Open dialog select with all params.
+
+        preselect: 99999, It seems to force the api to not choose any options.
+        """
         # False returns "Programs" string
         # check if self.back_option key is not False
         if False not in self.back_option:

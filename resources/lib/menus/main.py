@@ -33,7 +33,9 @@ class MainMenu:
         """__init__ MainMenu."""
         self.database = Database()
         self.progressbar = ProgressBar()
-        self.lastchoice = -1
+        # An impossible value seems to force
+        # the parent to choose none, in list
+        self.lastchoice = 99999
 
     def library_options(self):
         """Display dedicated menu to Library functions."""
@@ -52,10 +54,8 @@ class MainMenu:
 
         if selected_option:
             selected_index, _, selected_value = selected_option
-            try:
-                self.lastchoice = selected_index
-            except TypeError:
-                pass
+            self.lastchoice = selected_index
+
             if selected_value == "back":
                 self.show()
             else:
@@ -66,7 +66,6 @@ class MainMenu:
 
     def show(self):
         """Display main menu which leads to other menus."""
-        self.lastchoice = False
         select_menu = Select(heading=ADDON_NAME, turnbold=True, back_option=False)
         select_menu.options(
             {
@@ -84,9 +83,7 @@ class MainMenu:
                 32179: xbmc.executebuiltin,
             }
         )
-        selected_option: tuple = select_menu.show(
-            useDetails=True, preselect=self.lastchoice
-        )
+        selected_option: tuple = select_menu.show(useDetails=True)
         if selected_option:
             _, selected_key, selected_value = selected_option
             if selected_key == 32179:
