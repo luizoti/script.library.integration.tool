@@ -62,7 +62,7 @@ class Select(xbmcgui.Dialog):
 
     def show(self, autoclose=False, useDetails=False, preselect=99999) -> tuple:
         """
-        Open dialog select with all params.
+        Open xbmcgui.Dialog with custom settings.
 
         preselect: 99999, It seems to force the api to not choose any options.
         """
