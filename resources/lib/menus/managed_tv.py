@@ -23,7 +23,7 @@ class ManagedTVMenu:
         self.progressdialog = progressdialog
 
     def move_all_episodes_to_staged(self, items):
-        """Remove staged spisodes from library and move to staged."""
+        """Move all episodes to staged."""
         showtitle = bold(items[0].showtitle)
         STR_MOVING_ALL_x_EPISODES_TO_STAGED = get_string(32034)
         STR_ALL_x_EPISODES_MOVED_TO_STAGED = get_string(32035) % color(
@@ -43,7 +43,7 @@ class ManagedTVMenu:
         notification(STR_ALL_x_EPISODES_MOVED_TO_STAGED)
 
     def move_all_seasons_to_staged(self, showtitle):
-        """Remove staged seasons from library and move to staged."""
+        """Move all Seasons to staged."""
         _showtitle = bold(showtitle)
         STR_MOVING_ALL_x_SEASONS_TO_STAGED = get_string(32026)
         STR_ALL_x_SEASONS_MOVED_TO_STAGED = get_string(32173) % color(
@@ -64,7 +64,7 @@ class ManagedTVMenu:
         notification(STR_ALL_x_SEASONS_MOVED_TO_STAGED)
 
     def move_all_tvshows_to_staged(self):
-        """Remove all managed tvshow from library, move to staged."""
+        """Move all shows to staged."""
         STR_MOVING_ALL_TV_SHOWS_TO_STAGED = get_string(32026)
         STR_ALL_TV_SHOWS_MOVED_TO_STAGED = get_string(32027)
         self.progressdialog.create_progressdialog(msg=STR_MOVING_ALL_TV_SHOWS_TO_STAGED)
@@ -180,6 +180,7 @@ class ManagedTVMenu:
         self.view_episodes(item.showtitle(), season)
 
     def view_episodes(self, showtitle, season):
+        """Display all managed episodes in the specified show, which are selectable and lead to options."""
         STR_NO_MANAGED_x_EPISODES = get_string(32028)
         STR_MANAGED_x_EPISODES = get_string(32031)
         managed_episodes = list(
@@ -214,6 +215,7 @@ class ManagedTVMenu:
             self.view_seasons(showtitle)
 
     def view_seasons(self, showtitle):
+        """Display all managed seasons in the specified show, which are selectable and lead to options."""
         STR_NO_MANAGED_X_SEASONS = get_string(32170)
         STR_MANAGED_X_SEASONS = get_string(32175)
         OPTIONS = {
