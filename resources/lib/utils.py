@@ -3,29 +3,22 @@
 
 """Contains various constants and utility functions used thoughout the addon."""
 
-import re
 import json
 import logging
+import re
 from os.path import basename, join
 
 import xbmc
 import xbmcgui
 import xbmcvfs
-
-from resources.lib.misc import is_season
-from resources.lib.misc import re_search
-from resources.lib.misc import get_string
-from resources.lib.misc import skip_filter
-from resources.lib.misc import notification
-from resources.lib.misc import SKIP_STRINGS
-
-from resources import RECURSION_LIMIT
-from resources import USING_CUSTOM_MANAGED_FOLDER
-from resources import CUSTOM_MANAGED_FOLDER
-from resources import ADDON_SPECIAL_DIR
-
-from resources.lib.log import log_msg
+from resources import (ADDON_SPECIAL_DIR, CUSTOM_MANAGED_FOLDER,
+                       RECURSION_LIMIT, USING_CUSTOM_MANAGED_FOLDER)
+from resources.lib.dialog_select import Select
 from resources.lib.filesystem import isdir, mkdir
+from resources.lib.misc import (SKIP_STRINGS, get_string, is_season,
+                                notification, re_search, skip_filter)
+from resources.lib.version import check_version_file
+
 LOG = logging.getLogger(basename(__file__))
 
 NETWORK_PATHS = [

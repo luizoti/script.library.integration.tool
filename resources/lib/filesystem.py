@@ -12,8 +12,7 @@ import xbmcvfs
 LOG = logging.getLogger(basename(__file__))
 
 
-
-class CreateNfo():
+class CreateNfo:
     """
     Module to create a .nfo file.
 

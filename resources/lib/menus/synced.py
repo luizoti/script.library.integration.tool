@@ -3,31 +3,23 @@
 
 """Defines the SyncedMenu class."""
 
-# TODO: Different notifications depending on whether items were staged vs. automatically added
 import logging
+# TODO: Different notifications depending on whether items were staged vs. automatically added
 import sys
+from os.path import basename
 
 import xbmc
 import xbmcgui
-
 from resources import ADDON_NAME
-
-from resources.lib import build_json_item
-from resources.lib import build_contentitem
-
-from resources.lib.log import log_msg
-from resources.lib.log import logged_function
-
-from resources.lib.misc import get_string
-from resources.lib.misc import notification
-from resources.lib.misc import title_with_color
-
+from resources.lib import build_contentitem, build_json_item
+from resources.lib.misc import get_string, notification, title_with_color
+from resources.lib.progressbar import BGProgressBar
 from resources.lib.utils import load_directory_items
 
 LOG = logging.getLogger(basename(__file__))
 
 
-class SyncedMenu():
+class SyncedMenu:
     """
     Provide windows for displaying synced directories.
 

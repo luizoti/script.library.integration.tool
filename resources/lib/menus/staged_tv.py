@@ -3,22 +3,13 @@
 """Defines the StagedTVMenu class."""
 
 import xbmcgui
-
 from resources import ADDON_NAME
-
-from resources.lib.log import logged_function
-
 from resources.lib.dialog_select import Select
+from resources.lib.misc import bold, color, get_string, notification
 
-from resources.lib.misc import bold, color, notification, get_string
 
-
-class StagedTVMenu():
-    """
-    Provide windows for displaying staged tvshows and episodes.
-
-    Provide tools for managing the items.
-    """
+class StagedTVMenu:
+    """Provide windows for displaying staged tvshows and episodes."""
 
     def __init__(self, database, progressdialog):
         """__init__ StagedTVMenu."""

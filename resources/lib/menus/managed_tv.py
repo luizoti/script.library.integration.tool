@@ -1,19 +1,16 @@
+# pylint: disable=line-too-long
 # -*- coding: utf-8 -*-
 
 """Defines the ManagedTVMenu class."""
 
 import xbmcgui
-
 from resources import ADDON_NAME
-from resources.lib.log import logged_function
+from resources.lib.dialog_select import Select
 
-from resources.lib.misc import bold
-from resources.lib.misc import color
-from resources.lib.misc import notification
-from resources.lib.misc import get_string
+from resources.lib.misc import bold, color, get_string, notification
 
 
-class ManagedTVMenu():
+class ManagedTVMenu:
     """
     Provide windows for displaying managed shows and episodes.
 
@@ -70,9 +67,7 @@ class ManagedTVMenu():
         """Remove all managed tvshow from library, move to staged."""
         STR_MOVING_ALL_TV_SHOWS_TO_STAGED = get_string(32026)
         STR_ALL_TV_SHOWS_MOVED_TO_STAGED = get_string(32027)
-        self.progressdialog.create_progressdialog(
-            msg=STR_MOVING_ALL_TV_SHOWS_TO_STAGED
-        )
+        self.progressdialog.create_progressdialog(msg=STR_MOVING_ALL_TV_SHOWS_TO_STAGED)
         managed_tv_items = list(
             self.database.get_content_items(status="managed", _type="tvshow")
         )
@@ -162,11 +157,7 @@ class ManagedTVMenu():
         STR_MOVE_BACK_TO_STAGED = get_string(32018)
         STR_BACK = get_string(32011)
         STR_MANAGED_EPISODE_OPTIONS = get_string(32036)
-        lines = [
-            STR_GENERATE_EPISODE_METADATA,
-            STR_MOVE_BACK_TO_STAGED,
-            STR_BACK
-        ]
+        lines = [STR_GENERATE_EPISODE_METADATA, STR_MOVE_BACK_TO_STAGED, STR_BACK]
         ret = xbmcgui.Dialog().select(
             " - ".join(
                 [
@@ -196,6 +187,11 @@ class ManagedTVMenu():
                 status="managed", showtitle=showtitle, season=season
             )
         )
+        OPTIONS = {
+            32183: [self.generate_all_managed_episodes_metadata, managed_episodes],
+            32172: [self.move_all_episodes_to_staged, managed_episodes],
+            # 32069: [self.rename_episodes_using_metadata, staged_episodes],
+        }
         if not managed_episodes:
             xbmcgui.Dialog().ok(
                 ADDON_NAME,
@@ -221,85 +217,57 @@ class ManagedTVMenu():
         STR_NO_MANAGED_X_SEASONS = get_string(32170)
         STR_MANAGED_X_SEASONS = get_string(32175)
         OPTIONS = {
+            32181: self.generate_all_managed_seasons_metadata,
+            32172: self.move_all_seasons_to_staged,
+        }
         managed_seasons = list(
-            self.database.get_season_items(
-                status='managed',
-                showtitle=showtitle
-            )
+            self.database.get_season_items(status="managed", showtitle=showtitle)
         )
+        sel = Select(
+            heading=f"{ADDON_NAME} - {STR_MANAGED_X_SEASONS % color(bold(showtitle), 'skyblue')}",
+            back_option=True,
+        )
+        sel.options([f"Season {x}" for x in {x.season() for x in managed_seasons}])
+        sel.extra_options(OPTIONS)
         if not managed_seasons:
             xbmcgui.Dialog().ok(
-                ADDON_NAME,
-                STR_NO_MANAGED_X_SEASONS % color(bold(showtitle), 'skyblue')
+                ADDON_NAME, STR_NO_MANAGED_X_SEASONS % color(bold(showtitle), "skyblue")
             )
-            self.view_shows()
+            self.show_all()
             return
-        season_interger_list = {x.season() for x in managed_seasons}
-        lines=[f'[B]Season {x}[/B]' for x in season_interger_list]
-        lines += [
-            STR_MOVE_ALL_SEASONS_BACK_TO_STAGED,
-            STR_GENERATING_ALL_TV_SEASONS_METADATA,
-            STR_BACK
-        ]
-        ret = xbmcgui.Dialog().select(
-            f"{ADDON_NAME} - {STR_MANAGED_X_SEASONS % color(bold(showtitle), 'skyblue')}",
-            lines
-        )
-        selection = lines[ret]
-        if ret >= 0:
-            if selection == STR_GENERATING_ALL_TV_SEASONS_METADATA:
-                self.generate_all_managed_seasons_metadata(showtitle)
-                self.view_shows()
-            elif selection == STR_MOVE_ALL_SEASONS_BACK_TO_STAGED:
-                self.move_all_seasons_to_staged(showtitle)
-                self.view_shows()
-            elif selection == STR_BACK:
-                self.view_shows()
-            else:
+        selection = sel.show(useDetails=False, preselect=False)
+        if selection:
+            if selection["type"] == "item":
                 self.view_episodes(
-                    showtitle=showtitle,
-                    season=''.join(
-                        filter(
-                            str.isdigit,
-                            selection
-                        )
-                    )
+                    showtitle, season="".join(filter(str.isdigit, selection["str"]))
                 )
-        else:
-            self.view_shows()
+            elif selection["type"] == "opt":
+                command = OPTIONS[list(OPTIONS.keys())[selection["index1"]]]
+                command(showtitle)
+        self.show_all()
 
-    @logged_function
+    def show_all(self):
+        """Display all managed tvshows, which are selectable and lead to options."""
         STR_NO_MANAGED_TV_SHOWS = get_string(32020)
         STR_MANAGED_TV_SHOWS = get_string(32003)
-        managed_tvshows = list(
-            self.database.get_all_shows('managed')
+        OPTIONS = {
+            32022: self.move_all_tvshows_to_staged,
+            32040: self.generate_all_managed_tvshows_metadata,
+        }
+        managed_tvshows = list(self.database.get_all_shows("managed"))
+        sel = Select(
+            heading=f"{ADDON_NAME} - {color(bold(STR_MANAGED_TV_SHOWS), 'lightblue')}",
+            back_option=True,
         )
+        sel.options([str(x) for x in managed_tvshows])
+        sel.extra_options([get_string(x) for x in OPTIONS])
         if not managed_tvshows:
-            xbmcgui.Dialog().ok(
-                ADDON_NAME,
-                STR_NO_MANAGED_TV_SHOWS
-            )
+            xbmcgui.Dialog().ok(ADDON_NAME, STR_NO_MANAGED_TV_SHOWS)
             return
-        lines = [bold(x) for x in managed_tvshows]
-        lines += [
-            STR_MOVE_ALL_TV_SHOWS_BACK_TO_STAGED,
-            STR_GENERATE_ALL_METADATA_ITEMS,
-            STR_BACK
-        ]
-        ret = xbmcgui.Dialog().select(
-            f"{ADDON_NAME} - {color(bold(STR_MANAGED_TV_SHOWS), 'lightgreen')}",
-            lines
-        )
-        if ret >= 0:
-            if ret < len(managed_tvshows):
-                for showtitle in managed_tvshows:
-                    if managed_tvshows[ret] == showtitle:
-                        self.view_seasons(showtitle)
-                        break
-            elif lines[ret] == STR_MOVE_ALL_TV_SHOWS_BACK_TO_STAGED:
-                self.move_all_tvshows_to_staged()
-            elif lines[ret] == STR_GENERATE_ALL_METADATA_ITEMS:
-                self.generate_all_managed_tvshows_metadata()
-                self.view_shows()
-            elif lines[ret] == STR_BACK:
-                return
+        selection = sel.show(useDetails=False, preselect=False)
+        if selection:
+            if selection["type"] == "item":
+                self.view_seasons(selection["str"])
+            elif selection["type"] == "opt":
+                command = OPTIONS[list(OPTIONS.keys())[selection["index1"]]]
+                command()

@@ -6,22 +6,14 @@ from os.path import join
 
 import xbmcgui
 import xbmcvfs
-
-from resources.lib.filesystem import listdir
-
 from resources import ADDON_NAME
-from resources.lib.utils import MANAGED_FOLDER
 from resources.lib.dialog_select import Select
-
-from resources.lib.log import logged_function
-
-from resources.lib.misc import bold
-from resources.lib.misc import color
-from resources.lib.misc import notification
-from resources.lib.misc import get_string
+from resources.lib.filesystem import listdir
+from resources.lib.misc import bold, color, get_string, notification
+from resources.lib.utils import MANAGED_FOLDER
 
 
-class ManagedMoviesMenu():
+class ManagedMoviesMenu:
     """
     Contain window for displaying managed movies.
 
@@ -42,10 +34,7 @@ class ManagedMoviesMenu():
             msg=STR_MOVING_ALL_MOVIES_BACK_TO_STAGED
         )
         for index, item in enumerate(items):
-            self.progressdialog.update_progressdialog(
-                index / len(items),
-                item.title()
-            )
+            self.progressdialog.update_progressdialog(index / len(items), item.title())
             item.remove_from_library()
             item.set_as_staged()
         self.progressdialog.close_progressdialog()
@@ -55,14 +44,9 @@ class ManagedMoviesMenu():
         """Remove all managed movies from library."""
         STR_REMOVING_ALL_MOVIES = get_string(32013)
         STR_ALL_MOVIES_REMOVED = get_string(32014)
-        self.progressdialog.create_progressdialog(
-            msg=STR_REMOVING_ALL_MOVIES
-        )
+        self.progressdialog.create_progressdialog(msg=STR_REMOVING_ALL_MOVIES)
         for index, item in enumerate(items):
-            self.progressdialog.update_progressdialog(
-                index / len(items),
-                item.title()
-            )
+            self.progressdialog.update_progressdialog(index / len(items), item.title())
             item.remove_from_library()
             item.delete()
         self.progressdialog.close_progressdialog()
@@ -86,14 +70,9 @@ class ManagedMoviesMenu():
         """Generate metadata items for all managed movies."""
         STR_GENERATING_ALL_MOVIE_METADATA = get_string(32046)
         STR_ALL_MOVIE_METADTA_CREATED = get_string(32047)
-        self.progressdialog.create_progressdialog(
-            msg=STR_GENERATING_ALL_MOVIE_METADATA
-        )
+        self.progressdialog.create_progressdialog(msg=STR_GENERATING_ALL_MOVIE_METADATA)
         for index, item in enumerate(items):
-            self.progressdialog.update_progressdialog(
-                index / len(items),
-                item.title()
-            )
+            self.progressdialog.update_progressdialog(index / len(items), item.title())
             item.create_metadata_item()
         self.progressdialog.close_progressdialog()
         notification(STR_ALL_MOVIE_METADTA_CREATED)
@@ -111,7 +90,7 @@ class ManagedMoviesMenu():
             STR_REMOVE,
             STR_MOVE_BACK_TO_STAGED,
             STR_GENERATE_METADATA_ITEM,
-            STR_BACK
+            STR_BACK,
         ]
         ret = xbmcgui.Dialog().select(
             f"{ADDON_NAME} - {STR_MANAGED_MOVIE_OPTIONS} - {bold(color(item.title(), colorname="skyblue"))}",
@@ -121,19 +100,17 @@ class ManagedMoviesMenu():
             if lines[ret] == STR_REMOVE:
                 item.remove_from_library()
                 item.delete()
-                return self.view_all()
             elif lines[ret] == STR_MOVE_BACK_TO_STAGED:
                 item.remove_from_library()
                 item.set_as_staged()
-                return self.view_all()
             elif lines[ret] == STR_GENERATE_METADATA_ITEM:
                 item.create_metadata_item()
                 self.options(item)
             elif lines[ret] == STR_BACK:
-                return self.view_all()
-        return self.view_all()
+                return self.show_all()
+        return self.show_all()
 
-    def view_all(self):
+    def show_all(self):
         """
         Display all managed movies, which are selectable and lead to options.
 
@@ -151,25 +128,20 @@ class ManagedMoviesMenu():
             self.database.get_content_items(status="managed", _type="movie")
         )
         sel = Select(
-            heading=f'{ADDON_NAME} - {STR_MANAGED_MOVIES}'
+            heading=f"{ADDON_NAME} - {STR_MANAGED_MOVIES}",
+            back_option=True,
+            back_value=get_string(32011),
         )
-        sel.items([str(x) for x in managed_movies])
+        sel.options([str(x) for x in managed_movies])
         sel.extra_options([get_string(x) for x in OPTIONS])
         if not managed_movies:
-            xbmcgui.Dialog().ok(
-                ADDON_NAME,
-                STR_NO_MANAGED_MOVIES
-            )
+            xbmcgui.Dialog().ok(ADDON_NAME, STR_NO_MANAGED_MOVIES)
             return
-        selection = sel.show(
-            useDetails=False,
-            preselect=False,
-            back=True,
-            back_value=get_string(32011)
-        )
+        selection = sel.show(useDetails=False, preselect=False)
         if selection:
             if selection["type"] == "item":
                 self.options(managed_movies[selection["index1"]])
             elif selection["type"] == "opt":
                 command = OPTIONS[list(OPTIONS.keys())[selection["index1"]]]
                 command(managed_movies)
+        return

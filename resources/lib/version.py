@@ -1,25 +1,16 @@
 # -*- coding: utf-8 -*-
 
 """Module with methos to check version."""
-
 import sys
-
-from os.path import isfile
-from os.path import dirname
+from os.path import dirname, isfile, join
 
 import xbmcvfs
-
-from resources import ADDON
-from resources import ADDON_ID
-from resources import ADDON_VERSION
-
+from resources import ADDON, ADDON_SPECIAL_DIR, ADDON_VERSION
 from resources.lib.filesystem import mkdir
-
-from resources.lib.misc import get_string
-from resources.lib.misc import notification
+from resources.lib.misc import get_string, notification
 
 
-class Version():
+class Version:
     """Class that implements comparison operators for version numbers."""
 
     def __init__(self, version_number):

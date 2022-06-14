@@ -6,23 +6,16 @@ import logging
 import sqlite3
 from os.path import basename
 
-from resources import AUTO_ADD_MOVIES
-from resources import AUTO_ADD_TVSHOWS
-
-from resources.lib import build_json_item
-from resources.lib import build_contentitem
-from resources.lib import build_contentmanager
-
-from resources.lib.log import logged_function
-
-
+from resources import AUTO_ADD_MOVIES, AUTO_ADD_TVSHOWS
+from resources.lib import build_contentitem, build_contentmanager, build_json_item
 from resources.lib.items.blocked import BlockedItem
 from resources.lib.items.synced import SyncedItem
 from resources.lib.utils import DATABASE_PATH
 
 LOG = logging.getLogger(basename(__file__))
 
-class Database():
+
+class Database:
     """Database class with all database methods."""
 
     # TODO: Reimplement blocked keywords

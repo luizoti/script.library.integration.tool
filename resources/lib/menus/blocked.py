@@ -3,23 +3,18 @@
 """Defines the BlockedMenu class."""
 
 import xbmcgui
-
 from resources import ADDON_NAME
-
-from resources.lib.misc import getstring
-
-from resources.lib.log import logged_function
+from resources.lib.misc import get_string
 
 
-class BlockedMenu():
+class BlockedMenu:
     """Provide windows for displaying blocked items and tools for managing them."""
 
     def __init__(self, database, progressdialog):
         """__init__ BlockedMenu."""
         self.database = database
 
-    @logged_function
-    def view(self):
+    def show_all(self):
         """
         Display all blocked items, which are selectable and lead to options.
 
@@ -30,21 +25,16 @@ class BlockedMenu():
         # TODO: add blocked types: plugin, path
         # TODO: add blocked keywords, let you choose type
         # TODO: intialize blocked list with known bad items
-        STR_BACK = getstring(32011)
-        STR_BLOCKED_ITEMS = getstring(32098)
-        STR_NO_BLOCKED_ITEMS = getstring(32119)
+        STR_BACK = get_string(32011)
+        STR_BLOCKED_ITEMS = get_string(32098)
+        STR_NO_BLOCKED_ITEMS = get_string(32119)
         blocked_items = self.database.get_all_blocked_itens()
         if not blocked_items:
             xbmcgui.Dialog().ok(ADDON_NAME, STR_NO_BLOCKED_ITEMS)
             return
-        lines = [
-            f"{x.localize_type()} - [B]{x['value']}[/B]" for x in blocked_items
-        ]
+        lines = [f"{x.localize_type()} - [B]{x['value']}[/B]" for x in blocked_items]
         lines += [STR_BACK]
-        ret = xbmcgui.Dialog().select(
-            f"{ADDON_NAME} - {STR_BLOCKED_ITEMS}",
-            lines
-        )
+        ret = xbmcgui.Dialog().select(f"{ADDON_NAME} - {STR_BLOCKED_ITEMS}", lines)
         if ret >= 0:
             if ret < len(blocked_items):  # managed item
                 for index, item in enumerate(blocked_items):
@@ -56,17 +46,16 @@ class BlockedMenu():
 
     def options(self, item):
         """Provide options for a single blocked item in a dialog window."""
-        STR_REMOVE = getstring(32017)
-        STR_BACK = getstring(32011)
-        STR_BLOCKED_ITEM_OPTIONS = getstring(32099)
+        STR_REMOVE = get_string(32017)
+        STR_BACK = get_string(32011)
+        STR_BLOCKED_ITEM_OPTIONS = get_string(32099)
         lines = [STR_REMOVE, STR_BACK]
         ret = xbmcgui.Dialog().select(
-            f"{ADDON_NAME} - {STR_BLOCKED_ITEM_OPTIONS} - {item['value']}",
-            lines
+            f"{ADDON_NAME} - {STR_BLOCKED_ITEM_OPTIONS} - {item['value']}", lines
         )
         if ret >= 0:
             if lines[ret] == STR_REMOVE:
                 self.database.delete_entrie_from_blocked(item["value"], item["type"])
             elif lines[ret] == STR_BACK:
-                return self.view()
-        return self.view()
+                return self.show_all()
+        return self.show_all()

@@ -1,19 +1,13 @@
-
 # This strings will be used to ignore itens in show diretectories
 
-import re
 import json
-
-from os.path import join
-from os.path import expanduser
+import re
+from enum import Enum
+from os.path import expanduser, join
 
 import xbmc
 import xbmcgui
-
-from resources import ADDON
-from resources import ADDON_NAME
-from resources import ADDON_PATH
-
+from resources import ADDON, ADDON_NAME, ADDON_PATH
 
 SKIP_STRINGS = [
     "resumo",

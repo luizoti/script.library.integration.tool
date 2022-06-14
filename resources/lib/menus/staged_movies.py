@@ -3,15 +3,11 @@
 """Defines the StagedMoviesMenu class."""
 
 import xbmcgui
-
 from resources import ADDON_NAME
+from resources.lib.misc import get_string, notification
 
 
-from resources.lib.misc import get_string
-from resources.lib.misc import notification
-
-
-class StagedMoviesMenu():
+class StagedMoviesMenu:
     """Provide windows for displaying staged movies, and tools for managing the items."""
 
     # TODO: don't commit sql changes for "... all" until end
@@ -27,14 +23,9 @@ class StagedMoviesMenu():
         """Add all staged movies to library."""
         STR_ADDING_ALL_MOVIES = get_string(32042)
         STR_ALL_MOVIES_ADDED = get_string(32043)
-        self.progressdialog.create_progressdialog(
-            msg=STR_ADDING_ALL_MOVIES
-        )
+        self.progressdialog.create_progressdialog(msg=STR_ADDING_ALL_MOVIES)
         for index, item in enumerate(items):
-            self.progressdialog.update_progressdialog(
-                index / len(items),
-                item.title()
-            )
+            self.progressdialog.update_progressdialog(index / len(items), item.title())
             item.add_to_library()
         self.progressdialog.close_progressdialog()
         notification(STR_ALL_MOVIES_ADDED)
@@ -60,7 +51,7 @@ class StagedMoviesMenu():
             STR_REMOVE,
             STR_REMOVE_AND_BLOCK,
             # STR_RENAME,
-            STR_BACK
+            STR_BACK,
         ]
         ret = xbmcgui.Dialog().select(
             f"{ADDON_NAME} - {STR_STAGED_MOVIE_OPTIONS} - {item.title}", lines
@@ -68,36 +59,31 @@ class StagedMoviesMenu():
         if ret >= 0:
             if lines[ret] == STR_ADD:
                 item.add_to_library()
-                self.view_all()
             elif lines[ret] == STR_REMOVE:
                 item.delete()
-                self.view_all()
             elif lines[ret] == STR_REMOVE_AND_BLOCK:
                 item.remove_and_block()
-                self.view_all()
             elif lines[ret] == STR_RENAME:
                 self.rename_dialog(item)
                 self.options(item)
+                return
             elif lines[ret] == STR_BACK:
                 return
-
-        else:
-            self.view_all()
+            self.show_all()
+        self.show_all()
 
     def remove_all(self):
         """Remove all staged movies."""
         STR_REMOVING_ALL_MOVIES = get_string(32013)
         STR_ALL_MOVIES_REMOVED = get_string(32014)
-        self.progressdialog.create_progressdialog(
-            msg=STR_REMOVING_ALL_MOVIES
-        )
+        self.progressdialog.create_progressdialog(msg=STR_REMOVING_ALL_MOVIES)
         self.database.delete_item_from_table_with_status_or_showtitle(
             _type="movie", status="staged"
         )
         self.progressdialog.close_progressdialog()
         notification(STR_ALL_MOVIES_REMOVED)
 
-    def view_all(self):
+    def show_all(self):
         """
         Display all staged movies, which are selectable and lead to options.
 
@@ -115,15 +101,8 @@ class StagedMoviesMenu():
             xbmcgui.Dialog().ok(ADDON_NAME, STR_NO_STAGED_MOVIES)
             return
         lines = [str(x) for x in staged_movies]
-        lines += [
-            STR_ADD_ALL_MOVIES,
-            STR_REMOVE_ALL_MOVIES,
-            STR_BACK
-        ]
-        ret = xbmcgui.Dialog().select(
-            f"{ADDON_NAME} - {STR_STAGED_MOVIES}",
-            lines
-        )
+        lines += [STR_ADD_ALL_MOVIES, STR_REMOVE_ALL_MOVIES, STR_BACK]
+        ret = xbmcgui.Dialog().select(f"{ADDON_NAME} - {STR_STAGED_MOVIES}", lines)
         if ret >= 0:
             if ret < len(staged_movies):  # staged item
                 for i, item in enumerate(staged_movies):
