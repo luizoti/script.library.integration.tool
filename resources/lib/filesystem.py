@@ -44,6 +44,7 @@ class CreateNfo:
                     "\t<year>{year}</year>\n",
                 ]
             ).format(**self.jsondata)
+        return None
 
     def episodedetails(self):
         """
@@ -63,6 +64,7 @@ class CreateNfo:
                     "\t<original_filename>{file}</original_filename>\n",
                 ]
             ).format(**self.jsondata)
+        return None
 
     def movie(self):
         """
@@ -79,16 +81,16 @@ class CreateNfo:
                     "\t<original_filename>{file}</original_filename>\n",
                 ]
             ).format(**self.jsondata)
-
+        return None
 
     def create(self):
         """
-            Create the nfo file.
+        Create the nfo file.
 
-            element root: movie, tvshow or episodedetails
-            tvshow            title, showtitle
-            movie             title
-            episodedetails    title, showtitle.
+        element root: movie, tvshow or episodedetails
+        tvshow            title, showtitle
+        movie             title
+        episodedetails    title, showtitle.
         """
         body = self.tvshow() or self.episodedetails() or self.movie()
         self.root = self.root % body
@@ -101,6 +103,8 @@ class CreateNfo:
                 return None
             finally:
                 nfofile.close()
+        return True
+
 
 def create_stream_file(plugin_path, filepath):
     """Create stream file with plugin_path at filepath."""
