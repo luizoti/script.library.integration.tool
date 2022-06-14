@@ -101,7 +101,7 @@ class Database:
             LOG.exception("Database.__del__ Disconnection error:")
 
     def check_if_is_blocked(self, value, _type=None):
-        """Check if value exist in blocked and return True else None """
+        """Check if value exist in blocked and return True else None"""
         self.cur.execute(
             " ".join(
                 [
