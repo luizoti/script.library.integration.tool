@@ -3,6 +3,7 @@
 
 """Defines class for testing utils module."""
 
+import logging
 import os
 
 from os.path import dirname
@@ -14,16 +15,11 @@ import xbmcaddon
 
 from resources.lib import log
 from resources.lib.filesystem import delete_strm, isdir, join, removedirs
-
-from resources.lib.version import Version
 from resources.lib.manipulator import Cleaner
-
-from resources import ADDON_NAME
-from resources import ADDON_VERSION
-
-from resources.lib.database import Database
-from resources.lib.log import log_msg, logged_function
 from resources.lib.misc import notification, re_search
+from resources.lib.version import Version
+
+LOG = logging.getLogger(basename(__file__))
 
 WORK_DIR = dirname(__file__)
 
@@ -142,8 +138,8 @@ class TestUtils(unittest.TestCase):
         """test xbmcvfs."""
         VALID_FILE_PATH = join([WORK_DIR, "valid_file_path.txt"], True)
         VALID_DIR_PATH = join([WORK_DIR, "teste_dir"])
-        log_msg(f"VALID_FILE_PATH {VALID_FILE_PATH}")
-        log_msg(f"VALID_DIR_PATH {VALID_DIR_PATH}")
+        LOG.info("VALID_FILE_PATH %s", VALID_FILE_PATH)
+        LOG.info("VALID_DIR_PATH %s", VALID_DIR_PATH)
 
         # Teste if not exist file
         self.assertEqual(os.path.exists(VALID_FILE_PATH), False)
@@ -152,11 +148,11 @@ class TestUtils(unittest.TestCase):
         # Teste if not exist dir
         # self.assertEqual(os.path.exists(VALID_DIR_PATH), False)
         self.assertEqual(xbmcvfs.exists(VALID_DIR_PATH), False)
-        log_msg(f"VALID_FILE_PATH not exist: {VALID_FILE_PATH}")
+        LOG.info("VALID_FILE_PATH not exist: %s", VALID_FILE_PATH)
 
         with open(VALID_FILE_PATH, "w", encoding="utf-8") as valid_file_path:
             valid_file_path.write('teste')
-            log_msg(f"VALID_FILE_PATH created: {VALID_FILE_PATH}")
+            LOG.info("VALID_FILE_PATH created: %s", VALID_FILE_PATH)
             valid_file_path.close()
 
         # Teste if exist

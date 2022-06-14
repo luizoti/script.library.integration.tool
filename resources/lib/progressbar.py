@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 """Custon xbmcgui.DialogProgress."""
 
+import logging
 import sys
 
 import xbmc
 import xbmcgui
-
 from resources import ADDON_NAME
-from resources.lib.log import log_msg
 from resources.lib.misc import notification
+
+LOG = logging.getLogger(__name__)
 
 
 class ProgressBar(xbmcgui.DialogProgress):
@@ -17,7 +18,7 @@ class ProgressBar(xbmcgui.DialogProgress):
     def __init__(self):
         """ProgressBar __init__."""
         super(__class__, self).__init__()
-        log_msg("""ProgressBar __init__.""")
+        LOG.debug("""ProgressBar __init__.""")
 
     def create_progressdialog(self, head=ADDON_NAME, msg=''):
         """Method to create ProgressBar window"""
@@ -48,7 +49,7 @@ class BGProgressBar(xbmcgui.DialogProgressBG):
     def __init__(self):
         """BGProgressBar __init__."""
         super(__class__, self).__init__()
-        log_msg("""BGProgressBar __init__.""")
+        LOG.debug("""BGProgressBar __init__.""")
 
     def create_progress_bar(self, head=ADDON_NAME, msg=''):
         """Method to create BGProgressBar window"""

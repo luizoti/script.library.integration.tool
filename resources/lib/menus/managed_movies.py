@@ -35,7 +35,6 @@ class ManagedMoviesMenu():
         self.database = database
         self.progressdialog = progressdialog
 
-    @logged_function
     def move_all_to_staged(self, items):
         """Remove all managed movies from library, and add them to staged."""
         STR_MOVING_ALL_MOVIES_BACK_TO_STAGED = get_string(32015)
@@ -52,7 +51,6 @@ class ManagedMoviesMenu():
         self.progressdialog.close_progressdialog()
         notification(STR_MOVING_ALL_MOVIES_BACK_TO_STAGED)
 
-    @logged_function
     def remove_all(self, items):
         """Remove all managed movies from library."""
         STR_REMOVING_ALL_MOVIES = get_string(32013)
@@ -71,7 +69,6 @@ class ManagedMoviesMenu():
         notification(STR_ALL_MOVIES_REMOVED)
 
     @staticmethod
-    @logged_function
     def clean_up_all_managed_metadata(_=None):
         """Delete all metada (.nfo only) for all movies."""
         STR_MOVIE_METADATA_CLEANED = get_string(32136)
@@ -85,7 +82,6 @@ class ManagedMoviesMenu():
                 raise error
         notification(STR_MOVIE_METADATA_CLEANED)
 
-    @logged_function
     def generate_all_managed_metadata(self, items):
         """Generate metadata items for all managed movies."""
         STR_GENERATING_ALL_MOVIE_METADATA = get_string(32046)
@@ -102,7 +98,6 @@ class ManagedMoviesMenu():
         self.progressdialog.close_progressdialog()
         notification(STR_ALL_MOVIE_METADTA_CREATED)
 
-    @logged_function
     def options(self, item):
         """Provide options for a single managed movie in a dialog window."""
         # TODO: add rename option

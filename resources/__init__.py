@@ -25,6 +25,3 @@ RECURSION_LIMIT = int(ADDON.getSetting('recursion_limit'))
 USING_CUSTOM_MANAGED_FOLDER = ADDON.getSetting('custom_managed_folder') == 'true'
 CUSTOM_MANAGED_FOLDER = ADDON.getSetting("managed_folder")
 ADDON_SPECIAL_DIR = f"special://userdata/addon_data/{ADDON_ID}/"
-
-# Define other constants
-DEFAULT_LOG_LEVEL = xbmc.LOGINFO if IN_DEVELOPMENT else xbmc.LOGDEBUG

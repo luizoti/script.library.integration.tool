@@ -4,6 +4,7 @@
 """Defines the SyncedMenu class."""
 
 # TODO: Different notifications depending on whether items were staged vs. automatically added
+import logging
 import sys
 
 import xbmc
@@ -23,7 +24,7 @@ from resources.lib.misc import title_with_color
 
 from resources.lib.utils import load_directory_items
 
-from resources.lib.progressbar import BGProgressBar
+LOG = logging.getLogger(basename(__file__))
 
 
 class SyncedMenu():
@@ -253,8 +254,8 @@ class SyncedMenu():
                 self.database.add_content_item(contentitem)
                 items_to_stage += 1
                 xbmc.sleep(300)
-            except Exception as error:
-                log_msg(f"SyncedMenu.add_single_tvshow: {error}")
+            except Exception: # pylint: disable=broad-except
+                LOG.error("SyncedMenu.add_single_tvshow error")
 
         if num_already_staged > 0 or num_already_managed > 0:
             notification(

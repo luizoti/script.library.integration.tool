@@ -3,15 +3,13 @@
 
 """Defines the MovieItem class."""
 
-from os.path import join
-
-from resources.lib.log import log_msg
-from resources.lib.log import logged_function
+import logging
+from os.path import basename, join
 
 from resources.lib.manipulator import Cleaner
-
 from resources.lib.utils import MANAGED_FOLDER
 
+LOG = logging.getLogger(basename(__file__))
 
 class MovieItem():
     """Class to build information aboult movies."""
@@ -41,7 +39,6 @@ class MovieItem():
             MANAGED_FOLDER, 'movies', self.title()
         )
 
-    @logged_function
     def returasjson(self):
         """Return the json with information from content."""
         try:
@@ -52,6 +49,6 @@ class MovieItem():
                 'year': self.year(),
                 'type': 'movie'
             }
-        except Exception as error:
-            log_msg(f"MovieItem.returasjson: {error}")
+        except Exception:
+            LOG.exception("MovieItem.returasjson error")
         return None

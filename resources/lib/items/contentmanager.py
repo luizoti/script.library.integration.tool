@@ -2,6 +2,7 @@
 
 """Defines the ContentManagerShow class."""
 
+import logging
 from os.path import splitext
 from resources import AUTO_CREATE_NFO_SHOWS
 from resources import AUTO_CREATE_NFO_MOVIES
@@ -9,11 +10,7 @@ from resources import AUTO_CREATE_NFO_MOVIES
 # from resources import USE_SHOW_ARTWORK_SHOW
 from resources.lib.log import log_msg, logged_function
 
-from resources.lib.filesystem import join, mkdir, removedirs
-from resources.lib.filesystem import CreateNfo
-from resources.lib.filesystem import removedir
-from resources.lib.filesystem import create_stream_file
-from resources.lib.filesystem import delete_with_wildcard
+LOG = logging.getLogger(__name__)
 
 
 class ContentManagerShow():
@@ -90,7 +87,6 @@ class ContentManagerShow():
         """Return managed_episode_nfo_path."""
         return f'{self.managed_episode_path}.nfo'
 
-    @logged_function
     def add_to_library(self):
         """Add item to library."""
         # Create show_dir (tv show folder) in managed/tvshow/ diretory
@@ -110,7 +106,6 @@ class ContentManagerShow():
         )
         return True
 
-    @logged_function
     def create_metadata_item(self):
         """Create metadata."""
         # Create show_dir (tv show folder) in managed/tvshow/ diretory
@@ -134,7 +129,6 @@ class ContentManagerShow():
             title=self.jsondata['title']
         )
 
-    @logged_function
     def remove_and_block(self):
         """Remove item from library and block."""
         # TODO: Need to remove nfo for all other items that match blocked
@@ -151,7 +145,6 @@ class ContentManagerShow():
             _type='tvshow'
         )
 
-    @logged_function
     def remove_from_library(self):
         """Delete the show_dir directory and all its contents"""
         removedirs(self.show_dir())
@@ -159,7 +152,6 @@ class ContentManagerShow():
     # TODO: in future, rename can be usefull to rename showtitle and title (episode_title),
     # store a table with file, original_title and newtitle can be a more easily way to performe this
 
-    # @logged_function
     # def rename(self, name):
     #     # Rename files if they exist
     #     # TODO: I supose this function is working, but not change the name,
@@ -208,7 +200,7 @@ class ContentManagerMovie():
             [self.managed_movie_dir(), f'{self.title()}.strm'],
             True
         )
-        log_msg(f'self.managed_strm_path {self.managed_strm_path}')
+        LOG.debug("managed_strm_path %s", self.managed_strm_path)
 
     def __str__(self):
         """Return str title formated with file path."""
@@ -238,7 +230,6 @@ class ContentManagerMovie():
         """Return movie_nfo."""
         return join([self.managed_movie_dir(), f"{self.title()}.nfo"], True)
 
-    @logged_function
     def add_to_library(self):
         """Add item to library."""
         # Create movie_dir (movie folder) in managed/movies/ diretory
@@ -255,7 +246,6 @@ class ContentManagerMovie():
             status='managed'
         )
 
-    @logged_function
     def create_metadata_item(self):
         """Create metadata movie item."""
         # Create movie_dir (movie folder) in managed/movies/ diretory
@@ -272,7 +262,6 @@ class ContentManagerMovie():
             title=self.jsondata['title']
         )
 
-    @logged_function
     def remove_and_block(self):
         """Remove item and block."""
         # Add title to blocked
@@ -288,7 +277,6 @@ class ContentManagerMovie():
             _type='movie'
         )
 
-    @logged_function
     def remove_from_library(self):
         """Remove from library."""
         removedirs(self.managed_movie_dir())

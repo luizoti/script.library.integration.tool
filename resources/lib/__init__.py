@@ -8,11 +8,7 @@ from resources.lib.log import logged_function
 from resources.lib.items.movie import MovieItem
 from resources.lib.items.episode import EpisodeItem
 
-from resources.lib.items.contentmanager import ContentManagerShow
-from resources.lib.items.contentmanager import ContentManagerMovie
 
-
-@logged_function
 def build_json_item(item):
     """Shortcut to convert a database item into a json."""
     formated_json = dict()
@@ -35,7 +31,6 @@ def build_json_item(item):
     return formated_json
 
 
-@logged_function
 def build_contentitem(jsonitem):
     """Shortcut to return a MovieItem or EpisodeItem json."""
     command = {
@@ -45,7 +40,6 @@ def build_contentitem(jsonitem):
     return command[jsonitem['type']](jsonitem).returasjson()
 
 
-@logged_function
 def build_contentmanager(database, jsonitem):
     """Shortcut to create a ContentManager object."""
     command = {

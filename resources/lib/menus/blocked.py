@@ -54,7 +54,6 @@ class BlockedMenu():
             elif lines[ret] == STR_BACK:
                 return
 
-    @logged_function
     def options(self, item):
         """Provide options for a single blocked item in a dialog window."""
         STR_REMOVE = getstring(32017)

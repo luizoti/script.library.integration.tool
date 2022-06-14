@@ -35,7 +35,6 @@ class StagedTVMenu():
     #     if input_ret:
     #         item.rename(input_ret)
 
-    # @logged_function
     # def rename_episodes_using_metadata(self, items):
     #     """Rename all episodes in show using nfo files."""
     #     STR_RENAMING_x_EPISODES_USING_METADATA = getstring(32075)
@@ -52,7 +51,6 @@ class StagedTVMenu():
     #     self.progressdialog.close_progressdialog()
     #     notification(STR_x_EPISODES_RENAMED_USING_METADATA % showtitle)
 
-    @logged_function
     def add_all_staged_episodes_to_library(self, episodes):
         """Add all episodes from specified show to library."""
         STR_ADDING_ALL_x_EPISODES = get_string(32071)
@@ -75,7 +73,6 @@ class StagedTVMenu():
             )
         )
 
-    @logged_function
     def add_all_staged_seasons_to_library(self, showtitle):
         """Add all episodes from specified show to library."""
         # TODO: add to strings.po >
@@ -105,7 +102,6 @@ class StagedTVMenu():
             )
         )
 
-    @logged_function
     def add_all_staged_shows_to_library(self):
         """Add all tvshow items to library."""
         STR_ADDING_ALL_TV_SHOWS = get_string(32059)
@@ -128,7 +124,6 @@ class StagedTVMenu():
         self.progressdialog.close_progressdialog()
         notification(STR_ALL_TV_SHOWS_ADDED)
 
-    @logged_function
     def remove_all_shows(self):
         """Remove all staged tvshow items."""
         STR_REMOVING_ALL_TV_SHOWS = get_string(32024)
@@ -143,7 +138,6 @@ class StagedTVMenu():
         self.progressdialog.close_progressdialog()
         notification(STR_ALL_TV_SHOW_REMOVED)
 
-    @logged_function
     def remove_all_seasons(self, showtitle):
         """Remove all seasons from the specified show."""
         STR_REMOVING_ALL_x_SEASONS = get_string(32032) % showtitle
@@ -159,7 +153,6 @@ class StagedTVMenu():
         self.progressdialog.close_progressdialog()
         notification(STR_ALL_x_SEASONS_REMOVED)
 
-    @logged_function
     def remove_all_episodes(self, showtitle):
         """Remove all episodes from the specified show."""
         formed_title = color(bold(showtitle), 'skyblue')
@@ -177,7 +170,7 @@ class StagedTVMenu():
         notification(STR_ALL_x_EPISODES_REMOVED)
 
     # TODO: CONTINUE HERE
-    @logged_function
+
     def remove_and_block_show(self, showtitle, season, episode):
         """Remove all itens from staged and add to blocked list."""
         raise NotImplementedError("Fix in future")
@@ -190,7 +183,7 @@ class StagedTVMenu():
         # )
 
     # TODO: this method need update to follow dict style
-    @logged_function
+
     def episode_options(self, item, season):
         """Provide options for a single staged episode in a dialog window."""
         # TODO: rename associated metadata when renaming
@@ -235,7 +228,6 @@ class StagedTVMenu():
         else:
             self.view_episodes(item.showtitle(), season)
 
-    @logged_function
     def view_episodes(self, showtitle, season):
         STR_NO_STAGED_x_EPISODES = get_string(32065)
         STR_STAGED_x_EPISODES = get_string(32070)
@@ -280,7 +272,6 @@ class StagedTVMenu():
                 command[0](command[1])
             self.view_shows()
 
-    @logged_function
     def view_seasons(self, showtitle):
         STR_STAGED_x_SEASONS = get_string(32176)
         STR_NO_STAGED_x_SEASONS = get_string(32170)
@@ -329,7 +320,6 @@ class StagedTVMenu():
                 command = OPTIONS[list(OPTIONS.keys())[selection['index1']]]
                 command(showtitle)
 
-    @logged_function
     def view_shows(self):
         """Display all managed tvshows, which are selectable and lead to options."""
         STR_NO_STAGED_TV_SHOWS = get_string(32054)

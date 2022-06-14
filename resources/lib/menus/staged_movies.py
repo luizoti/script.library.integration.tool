@@ -6,7 +6,6 @@ import xbmcgui
 
 from resources import ADDON_NAME
 
-from resources.lib.log import logged_function
 
 from resources.lib.misc import get_string
 from resources.lib.misc import notification
@@ -24,7 +23,6 @@ class StagedMoviesMenu():
         self.database = database
         self.progressdialog = progressdialog
 
-    @logged_function
     def add_all(self, items):
         """Add all staged movies to library."""
         STR_ADDING_ALL_MOVIES = get_string(32042)
@@ -52,7 +50,6 @@ class StagedMoviesMenu():
         if input_ret:
             item.rename(input_ret)
 
-    @logged_function
     def options(self, item):
         """Provide options for a single staged movie in a dialog window."""
         STR_ADD = get_string(32048)
@@ -91,7 +88,6 @@ class StagedMoviesMenu():
         else:
             self.view_all()
 
-    @logged_function
     def remove_all(self):
         """Remove all staged movies."""
         STR_REMOVING_ALL_MOVIES = get_string(32013)
@@ -106,7 +102,6 @@ class StagedMoviesMenu():
         self.progressdialog.close_progressdialog()
         notification(STR_ALL_MOVIES_REMOVED)
 
-    @logged_function
     def view_all(self):
         """
         Display all staged movies, which are selectable and lead to options.

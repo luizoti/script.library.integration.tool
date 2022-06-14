@@ -5,8 +5,8 @@
 
 import re
 import json
-
-from os.path import join
+import logging
+from os.path import basename, join
 
 import xbmc
 import xbmcgui
@@ -26,8 +26,7 @@ from resources import ADDON_SPECIAL_DIR
 
 from resources.lib.log import log_msg
 from resources.lib.filesystem import isdir, mkdir
-from resources.lib.dialog_select import Select
-from resources.lib.version import check_version_file
+LOG = logging.getLogger(basename(__file__))
 
 NETWORK_PATHS = [
     r"smb://",
@@ -50,14 +49,15 @@ if USING_CUSTOM_MANAGED_FOLDER:
             join(ADDON_SPECIAL_DIR, "managed.db")
         )
 
-log_msg(f"DATABASE PATH {DATABASE_PATH}")
+LOG.info("DATABASE PATH %s", DATABASE_PATH)
+
 
 def check_managed_folder():
     """Check if the managed folder is configured."""
     if not xbmcvfs.exists(MANAGED_FOLDER):
         STR_CHOOSE_FOLDER = f'Created managed folder "{MANAGED_FOLDER}"'
         mkdir(MANAGED_FOLDER)
-        log_msg(STR_CHOOSE_FOLDER, xbmc.LOGERROR)
+        LOG.error(STR_CHOOSE_FOLDER)
 
 
 def create_content_dirs():
@@ -72,8 +72,8 @@ def create_content_dirs():
     for folder in folders:
         dest_dir = join(MANAGED_FOLDER, folder)
         if not isdir(dest_dir):
-            # log_msg(f"Created diretory {dest_dir}", loglevel=xbmc.LOGINFO)
-            notification(f'Created diretory {dest_dir}')
+            # LOG.info(f"Created diretory {dest_dir}", loglevel=xbmc.LOGINFO)
+            notification(f"Created diretory {dest_dir}")
             mkdir(dest_dir)
             created_folders = True
 
@@ -146,7 +146,7 @@ def jsonrpc_getdirectory(_path):
             )
         )['result']['files']
     except KeyError:
-        log_msg('KeyError in return of JSONRPC.')
+        LOG.exception("KeyError in return of JSONRPC.")
 
 
 def list_reorder(contents_json, showtitle, sync_type=False):
@@ -497,7 +497,7 @@ def crunchyroll_language_menu(results):
             elif not is_language_episode:
                 yield item
     except Exception as error:
-        log_msg(f"crunchyroll_language_menu error: {error}")
+        LOG.exception("crunchyroll_language_menu error: %s", error)
     if crunchyroll_language_selected:
         for lang_dir in results:
             if not '(' in crunchyroll_language_selected:
@@ -536,7 +536,7 @@ def load_directory_items(progressdialog, _path, recursive=False,
         )
     except (KeyError, TypeError) as error:
         results = []
-        log_msg(f"INFO ERROR -> {error} -> {results}")
+        LOG.exception("INFO ERROR -> %s -> %s", error, results)
     if not allow_directories:
         for item in results:
             if item and item['filetype'] == 'file':

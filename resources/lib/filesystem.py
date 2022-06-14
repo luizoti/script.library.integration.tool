@@ -3,14 +3,14 @@
 
 """Filesystem utils for Windows/Linux."""
 
+import logging
 import os
+from os.path import basename, dirname
 
 import xbmcvfs
 
-from os.path import dirname
-from os.path import basename
+LOG = logging.getLogger(basename(__file__))
 
-from resources.lib.log import log_msg
 
 
 class CreateNfo():
@@ -96,9 +96,10 @@ class CreateNfo():
         with xbmcvfs.File(self.filepath, "w+") as nfofile:
             try:
                 nfofile.write(self.root)
-                log_msg(f"Created NFO file {self.root}")
+                LOG.debug("Created NFO file %s", self.root)
             except Exception as error:
-                raise f"CreateNfo.create: {error}"
+                LOG.error("CreateNfo.create: %s", str(error))
+                return None
             finally:
                 nfofile.close()
 
@@ -107,9 +108,10 @@ def create_stream_file(plugin_path, filepath):
     with xbmcvfs.File(filepath, "w+") as strm:
         try:
             strm.write(plugin_path)
-            log_msg(f"Created STRM file {plugin_path}")
+            LOG.debug("Created STRM file %s", plugin_path)
         except Exception as error:
-            raise f"filesystem.create_stream_file: {error}"
+            LOG.error("filesystem.create_stream_file: %s", str(error))
+            return None
         finally:
             strm.close()
     return True

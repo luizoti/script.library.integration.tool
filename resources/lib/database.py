@@ -2,7 +2,9 @@
 
 """Defines the DatabaseHandler class."""
 
+import logging
 import sqlite3
+from os.path import basename
 
 from resources import AUTO_ADD_MOVIES
 from resources import AUTO_ADD_TVSHOWS
@@ -18,6 +20,7 @@ from resources.lib.items.blocked import BlockedItem
 from resources.lib.items.synced import SyncedItem
 from resources.lib.utils import DATABASE_PATH
 
+LOG = logging.getLogger(basename(__file__))
 
 class Database():
     """Database class with all database methods."""
@@ -27,6 +30,7 @@ class Database():
     def __init__(self):
         """__init__ database."""
         # Connect to database
+        LOG.info("Database path: %s", DATABASE_PATH)
         self.conn = sqlite3.connect(DATABASE_PATH)
         self.conn.text_factory = str
         self.cur = self.conn.cursor()
@@ -98,7 +102,10 @@ class Database():
 
     def __del__(self):
         """Close database connection."""
-        self.conn.close()
+        try:
+            self.conn.close()
+        except AttributeError:
+            LOG.exception("Database.__del__ Disconnection error:")
 
     @logged_function
     def check_if_is_blocked(self, value, _type=None):
@@ -114,7 +121,6 @@ class Database():
         )
         return True if self.cur.fetchone() else None
 
-    @logged_function
     def load_item(self, file):
         """Query a single item and return as a json."""
         self.cur.execute(
@@ -161,7 +167,6 @@ class Database():
         else:
             return None
 
-    @logged_function
     def add_blocked_item(self, value, _type):
         """Add an item to blocked with the specified values."""
         # Ignore if already in table
@@ -170,7 +175,6 @@ class Database():
                 "INSERT INTO blocked (value, type) VALUES (?, ?)", (value, _type))
             self.conn.commit()
 
-    @logged_function
     def add_content_item(self, jsondata):
         """Add content to library."""
         _type = jsondata['type']
@@ -211,7 +215,6 @@ class Database():
                 'Not implemented yet'
             )
 
-    @logged_function
     def add_item_to_synced(self, label, path, _type):
         """Create an entry in synced with specified values."""
         self.cur.execute(
@@ -229,7 +232,6 @@ class Database():
         )
         self.conn.commit()
 
-    @logged_function
     def get_all_blocked_itens(self):
         """Return all items in blocked as a list of BlockedItem objects."""
         self.cur.execute(
@@ -242,7 +244,6 @@ class Database():
         )
         return [BlockedItem(*x) for x in self.cur.fetchall()]
 
-    @logged_function
     def get_all_shows(self, status):
         """
             Query Content table for all (not null) distinct showtitles.
@@ -274,7 +275,6 @@ class Database():
         for item in self.cur.fetchall():
             yield item[0]
 
-    @logged_function
     def get_content_items(self, status, _type):
         """
         Query Content table for sorted items with given constaints.
@@ -300,7 +300,6 @@ class Database():
             json_item = build_json_item(content)
             yield build_contentmanager(self, build_contentitem(json_item))
 
-    @logged_function
     def get_season_items(self, status, showtitle):
         """Get seasons of a show and return as ContentManager object."""
         self.cur.execute('''
@@ -323,7 +322,6 @@ class Database():
             json_item = build_json_item(content)
             yield build_contentmanager(self, build_contentitem(json_item))
 
-    @logged_function
     def get_episode_items(self, status, showtitle, season):
         """Get episodes of a show and return as a ContentManager object."""
         sql_comm = '''
@@ -353,7 +351,6 @@ class Database():
             json_item = build_json_item(content)
             yield build_contentmanager(self, build_contentitem(json_item))
 
-    @logged_function
     def get_synced_dirs(self, synced_type=None):
         """Get all itens in synced or itens by type."""
         orderby_str = '''ORDER BY
@@ -379,7 +376,6 @@ class Database():
         )
         return [SyncedItem(*x) for x in self.cur.fetchall()]
 
-    @logged_function
     def delete_item_from_table(self, _type, file):
         """Delete an entry in the table using the 'file' key, regardless of status."""
         self.cur.execute(
@@ -418,7 +414,6 @@ class Database():
         )
         self.conn.commit()
 
-    @logged_function
     def delete_item_from_table_with_season(self, _type, showtitle, season):
         """Delete an entry in the table using the 'showtitle' and 'season' key."""
         self.cur.execute(
@@ -435,7 +430,6 @@ class Database():
         )
         self.conn.commit()
 
-    @logged_function
     def delete_entrie_from_blocked(self, value, _type):
         """Delete one entrie from blocked."""
         self.cur.execute(
@@ -449,13 +443,11 @@ class Database():
         )
         self.conn.commit()
 
-    @logged_function
     def delete_all_from_synced(self):
         """Remove all dirs from synced."""
         self.cur.execute('DELETE FROM synced')
         self.conn.commit()
 
-    @logged_function
     def delete_dir_from_synced(self, file):
         """Remove one dir from synced."""
         self.cur.execute(
@@ -464,7 +456,6 @@ class Database():
         )
         self.conn.commit()
 
-    @logged_function
     def update_title_in_database(self, file, _type, title):
         """Update a title for a single entrie in database."""
         self.cur.execute(
@@ -477,7 +468,6 @@ class Database():
         )
         self.conn.commit()
 
-    @logged_function
     def update_showtitle_in_database(self, file, _type, showtitle):
         """Update a showtitle for a single entrie in database."""
         self.cur.execute(
@@ -490,7 +480,6 @@ class Database():
         )
         self.conn.commit()
 
-    @logged_function
     def update_status_in_database(self, file, _type, status):
         """Update a status for a single entrie in database."""
         self.cur.execute(

@@ -25,7 +25,6 @@ class ManagedTVMenu():
         self.database = database
         self.progressdialog = progressdialog
 
-    @logged_function
     def move_all_episodes_to_staged(self, items):
         """Remove staged spisodes from library and move to staged."""
         showtitle = bold(items[0].showtitle)
@@ -45,7 +44,6 @@ class ManagedTVMenu():
         self.progressdialog.close_progressdialog()
         notification(STR_ALL_x_EPISODES_MOVED_TO_STAGED)
 
-    @logged_function
     def move_all_seasons_to_staged(self, showtitle):
         """Remove staged seasons from library and move to staged."""
         _showtitle = bold(showtitle)
@@ -70,7 +68,6 @@ class ManagedTVMenu():
         self.progressdialog.close_progressdialog()
         notification(STR_ALL_x_SEASONS_MOVED_TO_STAGED)
 
-    @logged_function
     def move_all_tvshows_to_staged(self):
         """Remove all managed tvshow from library, move to staged."""
         STR_MOVING_ALL_TV_SHOWS_TO_STAGED = get_string(32026)
@@ -94,7 +91,6 @@ class ManagedTVMenu():
         self.progressdialog.close_progressdialog()
         notification(STR_ALL_TV_SHOWS_MOVED_TO_STAGED)
 
-    @logged_function
     def generate_all_managed_episodes_metadata(self, episodes):
         """Create metadata for all managed episodes."""
         STR_GENERATING_ALL_TV_EPISODES_METADATA = get_string(32181)
@@ -116,7 +112,6 @@ class ManagedTVMenu():
         self.progressdialog.close_progressdialog()
         notification(STR_ALL_TV_EPISODES_METADATA_CREATED)
 
-    @logged_function
     def generate_all_managed_seasons_metadata(self, showtitle):
         """Create metadata for all managed seasons."""
         STR_GENERATING_ALL_TV_SEASONS_METADATA = get_string(32181)
@@ -144,7 +139,6 @@ class ManagedTVMenu():
         self.progressdialog.close_progressdialog()
         notification(STR_ALL_TV_SEASONS_METADATA_CREATED)
 
-    @logged_function
     def generate_all_managed_tvshows_metadata(self):
         """Create metadata for all managed tvshows."""
         STR_GENERATING_ALL_TV_SHOWS_METADATA = get_string(32063)
@@ -173,7 +167,6 @@ class ManagedTVMenu():
         self.progressdialog.close_progressdialog()
         notification(STR_ALL_TV_SHOWS_METADATA_CREATED)
 
-    @logged_function
     def episode_options(self, item, season):
         """Provide options for a single managed episode in a dialog window."""
         STR_GENERATE_EPISODE_METADATA = get_string(32017)
@@ -205,7 +198,6 @@ class ManagedTVMenu():
                 self.view_episodes(item.showtitle(), season)
         self.view_episodes(item.showtitle(), season)
 
-    @logged_function
     def view_episodes(self, showtitle, season):
         STR_NO_MANAGED_x_EPISODES = get_string(32028)
         STR_MANAGED_x_EPISODES = get_string(32031)
@@ -249,7 +241,6 @@ class ManagedTVMenu():
         else:
             self.view_seasons(showtitle)
 
-    @logged_function
     def view_seasons(self, showtitle):
         STR_NO_MANAGED_X_SEASONS = get_string(32170)
         STR_MANAGED_X_SEASONS = get_string(32175)

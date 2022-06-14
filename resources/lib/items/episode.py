@@ -3,7 +3,8 @@
 
 """Defines the EpisodeItem class."""
 
-from os.path import join
+import logging
+from os.path import basename, join
 
 from resources.lib.log import log_msg
 from resources.lib.log import logged_function
@@ -11,6 +12,7 @@ from resources.lib.log import logged_function
 from resources.lib.utils import MANAGED_FOLDER
 from resources.lib.manipulator import Cleaner
 
+LOG = logging.getLogger(basename(__file__))
 
 class EpisodeItem():
     """Class to build information aboult shows."""
@@ -95,6 +97,6 @@ class EpisodeItem():
                 'year': self.year(),
                 'type': 'tvshow'
             }
-        except Exception as error:
-            log_msg(f'EpisodeItem.returasjson: {error}')
+        except Exception:  # pylint: disable=broad-except
+            LOG.exception("EpisodeItem.returasjson error")
         return None
