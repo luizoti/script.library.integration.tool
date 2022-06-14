@@ -3,11 +3,11 @@
 
 """LIT initial module whith base variables used in all project."""
 
-import xbmc
+
 import xbmcaddon
 
 # Get settings
-ADDON = xbmcaddon.Addon()
+ADDON_ID = "script.library.integration.tool"
 ADDON = xbmcaddon.Addon(ADDON_ID)
 ADDON_NAME = ADDON.getAddonInfo("name")
 ADDON_PATH = ADDON.getAddonInfo("path")
