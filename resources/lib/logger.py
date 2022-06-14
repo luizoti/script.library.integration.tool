@@ -21,7 +21,7 @@ class KodiLogHandler(logging.StreamHandler):
         logging.StreamHandler.__init__(self)
 
         formatter = logging.Formatter(
-            "[{}] [v{}] [%(name)s] --> %(message)s".format(ADDON_NAME, ADDON_VERSION)
+            "[{}][v{}][%(name)s] --> %(message)s".format(ADDON_NAME, ADDON_VERSION)
         )
         self.setFormatter(formatter)
 
