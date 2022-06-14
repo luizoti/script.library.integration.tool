@@ -72,11 +72,11 @@ class ManagedMoviesMenu():
     def clean_up_all_managed_metadata(_=None):
         """Delete all metada (.nfo only) for all movies."""
         STR_MOVIE_METADATA_CLEANED = get_string(32136)
-        managed_movies_dir = join(MANAGED_FOLDER, 'movies')
+        managed_movies_dir = join(MANAGED_FOLDER, "movies")
         for full_path_movie_dir in listdir(managed_movies_dir, True):
             try:
                 for filepath in listdir(full_path_movie_dir, True):
-                    if '.nfo' in filepath:
+                    if ".nfo" in filepath:
                         xbmcvfs.delete(filepath)
             except Exception as error:
                 raise error
@@ -114,14 +114,8 @@ class ManagedMoviesMenu():
             STR_BACK
         ]
         ret = xbmcgui.Dialog().select(
-            " - ".join(
-                [
-                    ADDON_NAME,
-                    STR_MANAGED_MOVIE_OPTIONS,
-                    bold(color(item.title(), colorname='skyblue')),
-                ]
-            ),
-            lines
+            f"{ADDON_NAME} - {STR_MANAGED_MOVIE_OPTIONS} - {bold(color(item.title(), colorname="skyblue"))}",
+            lines,
         )
         if ret >= 0:
             if lines[ret] == STR_REMOVE:
@@ -154,10 +148,7 @@ class ManagedMoviesMenu():
             32174: self.clean_up_all_managed_metadata,
         }
         managed_movies = list(
-            self.database.get_content_items(
-                status='managed',
-                _type='movie'
-            )
+            self.database.get_content_items(status="managed", _type="movie")
         )
         sel = Select(
             heading=f'{ADDON_NAME} - {STR_MANAGED_MOVIES}'
@@ -177,8 +168,8 @@ class ManagedMoviesMenu():
             back_value=get_string(32011)
         )
         if selection:
-            if selection['type'] == 'item':
-                self.options(managed_movies[selection['index1']])
-            elif selection['type'] == 'opt':
-                command = OPTIONS[list(OPTIONS.keys())[selection['index1']]]
+            if selection["type"] == "item":
+                self.options(managed_movies[selection["index1"]])
+            elif selection["type"] == "opt":
+                command = OPTIONS[list(OPTIONS.keys())[selection["index1"]]]
                 command(managed_movies)

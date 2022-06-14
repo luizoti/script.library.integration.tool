@@ -28,21 +28,21 @@ class CreateNfo():
         self.filepath = filepath
         self.jsondata = jsondata
         ROOT_TYPES = {
-            'tvshow': '<tvshow>\n%s</tvshow>',
-            'episodedetails': '<episodedetails>\n%s</episodedetails>',
-            'movie': '<movie>\n%s</movie>',
+            "tvshow": "<tvshow>\n%s</tvshow>",
+            "episodedetails": "<episodedetails>\n%s</episodedetails>",
+            "movie": "<movie>\n%s</movie>",
         }
         self.root = f'<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n{ROOT_TYPES[self.type]}'
         self.create()
 
     def tvshow(self):
         """Create tvshow nfo file."""
-        if self.type == 'tvshow':
-            return ''.join(
+        if self.type == "tvshow":
+            return "".join(
                 [
-                    '\t<title>{showtitle}</title>\n',
-                    '\t<showtitle>{showtitle}</showtitle>\n',
-                    '\t<year>{year}</year>\n',
+                    "\t<title>{showtitle}</title>\n",
+                    "\t<showtitle>{showtitle}</showtitle>\n",
+                    "\t<year>{year}</year>\n",
                 ]
             ).format(**self.jsondata)
 
@@ -53,15 +53,15 @@ class CreateNfo():
         Future possible new keys:
             id, uniqueid default="true" type="tvdb", runtime, thumb.
         """
-        if self.type == 'episodedetails':
-            return ''.join(
+        if self.type == "episodedetails":
+            return "".join(
                 [
-                    '\t<title>{title}</title>\n',
-                    '\t<showtitle>{showtitle}</showtitle>\n',
-                    '\t<season>{season}</season>\n',
-                    '\t<episode>{episode}</episode_number>\n',
-                    '\t<year>{year}</year>\n',
-                    '\t<original_filename>{file}</original_filename>\n'
+                    "\t<title>{title}</title>\n",
+                    "\t<showtitle>{showtitle}</showtitle>\n",
+                    "\t<season>{season}</season>\n",
+                    "\t<episode>{episode}</episode_number>\n",
+                    "\t<year>{year}</year>\n",
+                    "\t<original_filename>{file}</original_filename>\n",
                 ]
             ).format(**self.jsondata)
 
@@ -72,12 +72,12 @@ class CreateNfo():
         future possible new keys:
             runtime, thumb aspect="poster", fanart, thumb, id, tmdbid.
         """
-        if self.type == 'movie':
-            return ''.join(
+        if self.type == "movie":
+            return "".join(
                 [
-                    '\t<title>{title}</title>\n',
-                    '\t<year>{year}</year>\n',
-                    '\t<original_filename>{file}</original_filename>\n'
+                    "\t<title>{title}</title>\n",
+                    "\t<year>{year}</year>\n",
+                    "\t<original_filename>{file}</original_filename>\n",
                 ]
             ).format(**self.jsondata)
 
@@ -116,15 +116,18 @@ def create_stream_file(plugin_path, filepath):
             strm.close()
     return True
 
+
 def mkdir(dir_path):
     """Create a directory."""
     if xbmcvfs.exists(dir_path):
         return False
     return xbmcvfs.mkdirs(dir_path)
 
+
 # def mv_with_type(title_path, filetype, title_dst):
 #     """Move files with wildcard between title_path & filetype to title_dst."""
 #     os.system(f'mv "{title_path}"*{filetype} "{title_dst}{filetype}"')
+
 
 def listdir(dir_path_to_list, full_path=False):
     """Function to list files in dir."""
@@ -141,6 +144,7 @@ def listdir(dir_path_to_list, full_path=False):
                 itens.append(content)
     return itens
 
+
 def delete_strm(path_to_remove):
     """Remove one or more strm files."""
     try:
@@ -149,6 +153,7 @@ def delete_strm(path_to_remove):
             xbmcvfs.delete(file)
     except Exception:
         xbmcvfs.delete(path_to_remove)
+
 
 def delete_with_wildcard(title_path):
     """Remove all files starting with title_path using wildcard."""
@@ -164,12 +169,14 @@ def delete_with_wildcard(title_path):
     except Exception as err:
         raise err
 
+
 def isdir(path):
     """Check if folder path is a real folder (like a os.path.isdir but with xbmcvfs)."""
     is_dir_file = os.path.join(path, "is_path.txt")
-    test_path_file = xbmcvfs.File(is_dir_file, 'w').write("success")
+    test_path_file = xbmcvfs.File(is_dir_file, "w").write("success")
     xbmcvfs.delete(is_dir_file)
     return test_path_file
+
 
 def join(array_with_paths_parts, file=False):
     """Join like os.path.join but add \\ or / if necessary."""
@@ -177,6 +184,7 @@ def join(array_with_paths_parts, file=False):
     if file:
         return joined_path
     return "".join([joined_path, "\\" if os.name == "nt" else "/"])
+
 
 def removedirs(base_path):
     """Complete delete a diretory and all files and subdirs."""
@@ -194,9 +202,10 @@ def removedirs(base_path):
         removedir(diretory)
     removedir(base_path)
 
+
 def removedir(dir_path):
     """Remove directory at dir_path."""
-    if os.name == 'nt':
+    if os.name == "nt":
         if not dir_path.endswith("\\"):
             dir_path = dir_path + "\\"
     else:

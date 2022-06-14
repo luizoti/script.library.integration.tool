@@ -5,16 +5,14 @@
 
 import logging
 import os
-
-from os.path import dirname
-
 import unittest
+from os.path import basename, dirname
 
-import xbmcvfs
 import xbmcaddon
-
-from resources.lib import log
-from resources.lib.filesystem import delete_strm, isdir, join, removedirs
+import xbmcvfs
+from resources import ADDON_NAME, ADDON_VERSION
+from resources.lib.database import Database
+from resources.lib.filesystem import delete_strm, isdir, join
 from resources.lib.manipulator import Cleaner
 from resources.lib.misc import notification, re_search
 from resources.lib.version import Version
@@ -24,7 +22,7 @@ LOG = logging.getLogger(basename(__file__))
 WORK_DIR = dirname(__file__)
 
 
-TESTE_MOVIE_QUERY = '''
+TESTE_MOVIE_QUERY = """
                         INSERT OR IGNORE INTO
                             "movie"
                             ("file", "title", "type", "status", "year")
@@ -36,9 +34,9 @@ TESTE_MOVIE_QUERY = '''
                                 'staged',
                                 '2020'
                             )
-                    '''
+                    """
 
-TESTE_SHOW_QUERY = '''
+TESTE_SHOW_QUERY = """
                         INSERT OR IGNORE INTO
                             "tvshow"
                             (
@@ -55,8 +53,8 @@ TESTE_SHOW_QUERY = '''
                                 '1',
                                 '1'
                             );
-                    '''
-TESTE_BLOCKED_QUERY = '''
+                    """
+TESTE_BLOCKED_QUERY = """
                         INSERT OR IGNORE INTO
                             "main"."blocked"
                             ("value", "type")
@@ -64,76 +62,66 @@ TESTE_BLOCKED_QUERY = '''
                             (
                                 'I exist and need to be finded', 'tvshow'
                             );
-                    '''
+                    """
 
 
 class TestUtils(unittest.TestCase):
     """Test cases for utils module."""
 
-    @logged_function
     def test_isdir(self):
         """Teste isdir function."""
         TEST_DIRS = {
-            'full': join([WORK_DIR, "full", "imaginary tvshow", "Season 1"]),
-            'empty': join([WORK_DIR, "empty"]),
-            'file': join([WORK_DIR, "test_isdir.txt"], True),
+            "full": join([WORK_DIR, "full", "imaginary tvshow", "Season 1"]),
+            "empty": join([WORK_DIR, "empty"]),
+            "file": join([WORK_DIR, "test_isdir.txt"], True),
         }
-        full_created_dir = xbmcvfs.mkdirs(TEST_DIRS['full'])
-        empty_created_dir = xbmcvfs.mkdirs(TEST_DIRS['empty'])
-        test_isdir_txt = open(TEST_DIRS['file'], 'w', encoding='utf-8')
+        full_created_dir = xbmcvfs.mkdirs(TEST_DIRS["full"])
+        empty_created_dir = xbmcvfs.mkdirs(TEST_DIRS["empty"])
+        with open(TEST_DIRS["file"], "w", encoding="utf-8") as file:
+            try:
+                test_isdir_txt = file.write("")
+                if test_isdir_txt:
+                    self.assertEqual(isdir(TEST_DIRS["file"]), False)
+                    notification(f"empty_created_dir: {isdir(TEST_DIRS['file'])}")
+            except Exception:  # pylint: disable=broad-except
+                pass
+            finally:
+                file.close()
 
         self.assertEqual(full_created_dir, True)
         self.assertEqual(empty_created_dir, True)
 
         if full_created_dir:
-            self.assertEqual(isdir(TEST_DIRS['full']), True)
+            self.assertEqual(isdir(TEST_DIRS["full"]), True)
             notification(
-                f"full_created_dir: {isdir(dirname(dirname(TEST_DIRS['full'])))}")
-
-        if empty_created_dir:
-            self.assertEqual(isdir(TEST_DIRS['empty']), True)
-            notification(f"empty_created_dir: {isdir(TEST_DIRS['empty'])}")
-
-        if test_isdir_txt:
-            self.assertEqual(isdir(TEST_DIRS['file']), False)
-            notification(
-                f"empty_created_dir: {isdir(TEST_DIRS['file'])}"
+                f"full_created_dir: {isdir(dirname(dirname(TEST_DIRS['full'])))}"
             )
 
-        file_test0 = join([TEST_DIRS['full'], "teste0.txt"], True)
+        if empty_created_dir:
+            self.assertEqual(isdir(TEST_DIRS["empty"]), True)
+            notification(f"empty_created_dir: {isdir(TEST_DIRS['empty'])}")
+
+        file_test0 = join([TEST_DIRS["full"], "teste0.txt"], True)
         with open(file_test0, "w", encoding="utf-8") as test0:
-            test0.read()
+            test0.write("")
             test0.close()
-        file_test1 = join(
-            [dirname(dirname(TEST_DIRS['full'])), "teste1.txt"], True
-        )
+        file_test1 = join([dirname(dirname(TEST_DIRS["full"])), "teste1.txt"], True)
         with open(file_test1, "w", encoding="utf-8") as test1:
-            test1.read()
+            test1.write("")
             test1.close()
 
-        fullpath_base_dir = dirname(dirname(dirname(TEST_DIRS['full'])))
+        fullpath_base_dir = dirname(dirname(dirname(TEST_DIRS["full"])))
 
-        self.assertEqual(
-            xbmcvfs.rmdir(
-                TEST_DIRS['empty']
-            ),
-            True
-        )
-        self.assertEqual(
-            xbmcvfs.delete(
-                TEST_DIRS['file']
-            ),
-            True
-        )
+        self.assertEqual(xbmcvfs.rmdir(TEST_DIRS["empty"]), True)
+        self.assertEqual(xbmcvfs.delete(TEST_DIRS["file"]), True)
 
         for item in "abcdefgh":
             strm_path = f"{join([fullpath_base_dir, item], True)}.strm"
-            xbmcvfs.File(strm_path, "w+").write('teste')
+            xbmcvfs.File(strm_path, "w+").write("teste")
         delete_strm(fullpath_base_dir)
         # removedirs(fullpath_base_dir)
         # self.assertEqual(xbmcvfs.existis(fullpath_base_dir), False)
 
-    @logged_function
     def test_xbmcvfs(self):
         """test xbmcvfs."""
         VALID_FILE_PATH = join([WORK_DIR, "valid_file_path.txt"], True)
@@ -151,7 +139,7 @@ class TestUtils(unittest.TestCase):
         LOG.info("VALID_FILE_PATH not exist: %s", VALID_FILE_PATH)
 
         with open(VALID_FILE_PATH, "w", encoding="utf-8") as valid_file_path:
-            valid_file_path.write('teste')
+            valid_file_path.write("teste")
             LOG.info("VALID_FILE_PATH created: %s", VALID_FILE_PATH)
             valid_file_path.close()
 
@@ -168,7 +156,6 @@ class TestUtils(unittest.TestCase):
         os.remove(VALID_FILE_PATH)
         os.removedirs(VALID_DIR_PATH)
 
-    @logged_function
     def test_title_cleaner(self):
         """Test cleaner function."""
 
@@ -177,22 +164,17 @@ class TestUtils(unittest.TestCase):
         # db.cur.execute(TITLE_CLEAR_TEST)
         # db.conn.commit()
         TITLES = {
-            'good_title': 'A Última Pessoa',
-            'bad_title': 'To Your Eternity (Portuguese Dub) #1 - A Última Pessoa',
-            'good_showtitle': 'To Your Eternity',
-            'bad_showtitle': 'To Your Eternity (Portuguese Dub)',
+            "good_title": "A Última Pessoa",
+            "bad_title": "To Your Eternity (Portuguese Dub) #1 - A Última Pessoa",
+            "good_showtitle": "To Your Eternity",
+            "bad_showtitle": "To Your Eternity (Portuguese Dub)",
         }
         self.assertEqual(
-            cleaner.title(
-                TITLES['bad_title'],
-                TITLES['bad_showtitle']),
-            TITLES['good_title']
+            cleaner.title(TITLES["bad_title"], TITLES["bad_showtitle"]),
+            TITLES["good_title"],
         )
         self.assertEqual(
-            cleaner.showtitle(
-                TITLES['bad_showtitle']
-            ),
-            TITLES['good_showtitle']
+            cleaner.showtitle(TITLES["bad_showtitle"]), TITLES["good_showtitle"]
         )
         # # # # # # # # # # # # # # # # # # # # # # #
         # test_names = {
@@ -214,7 +196,6 @@ class TestUtils(unittest.TestCase):
         # for key, value in test_names.items():
         #     self.assertEqual(clean_name(key), value)
 
-    @logged_function
     def test_db_if_is_blocked(self):
         """Teste if item if blocked."""
 
@@ -222,22 +203,13 @@ class TestUtils(unittest.TestCase):
         db.cur.execute(TESTE_BLOCKED_QUERY)
         db.conn.commit()
         FAKE_BLOCK_TESTE = {
-            'exist': 'I exist and need to be finded',
-            'notexit': 'I dont exit and need be ignored',
+            "exist": "I exist and need to be finded",
+            "notexit": "I dont exit and need be ignored",
         }
-        self.assertEqual(db.check_if_is_blocked(
-            FAKE_BLOCK_TESTE['exist']
-        ),
-            True
-        )
-        self.assertEqual(db.check_if_is_blocked(
-            FAKE_BLOCK_TESTE['notexit']
-        ),
-            None
-        )
-        db.delete_entrie_from_blocked(FAKE_BLOCK_TESTE['exist'], 'tvshow')
+        self.assertEqual(db.check_if_is_blocked(FAKE_BLOCK_TESTE["exist"]), True)
+        self.assertEqual(db.check_if_is_blocked(FAKE_BLOCK_TESTE["notexit"]), None)
+        db.delete_entrie_from_blocked(FAKE_BLOCK_TESTE["exist"], "tvshow")
 
-    @logged_function
     def test_db_path_exists(self):
         """Teste if path exist in db."""
 
@@ -248,27 +220,24 @@ class TestUtils(unittest.TestCase):
 
         # ['movie', 'tvshow']
         FAKE_FILE_TESTE = {
-            'movie': 'plugin://plugin.video.amazon-test/?mode=PlayVideo&name=123_movie',
-            'tvshow': 'plugin://plugin.video.amazon-test/?mode=PlayVideo&name=xyz_tvshow',
-            'notexit': 'plugin://plugin.video.amazon-test/?mode=PlayVideo&name=klx_not_exit',
+            "movie": "plugin://plugin.video.amazon-test/?mode=PlayVideo&name=123_movie",
+            "tvshow": "plugin://plugin.video.amazon-test/?mode=PlayVideo&name=xyz_tvshow",
+            "notexit": "plugin://plugin.video.amazon-test/?mode=PlayVideo&name=klx_not_exit",
         }
-        self.assertEqual(db.path_exists(
-            FAKE_FILE_TESTE['movie']), ['movie', 'staged'])
-        self.assertEqual(db.path_exists(
-            FAKE_FILE_TESTE['tvshow']), ['tvshow', 'staged'])
-        self.assertEqual(db.path_exists(
-            FAKE_FILE_TESTE['notexit']), None)
-        db.delete_item_from_table('movie', FAKE_FILE_TESTE['movie'])
-        db.delete_item_from_table('tvshow', FAKE_FILE_TESTE['tvshow'])
+        self.assertEqual(db.path_exists(FAKE_FILE_TESTE["movie"]), ["movie", "staged"])
+        self.assertEqual(
+            db.path_exists(FAKE_FILE_TESTE["tvshow"]), ["tvshow", "staged"]
+        )
+        self.assertEqual(db.path_exists(FAKE_FILE_TESTE["notexit"]), None)
+        db.delete_item_from_table("movie", FAKE_FILE_TESTE["movie"])
+        db.delete_item_from_table("tvshow", FAKE_FILE_TESTE["tvshow"])
 
-    @logged_function
     def test_re_search(self):
         """Teste re_search function."""
 
         item = {
             "type": "unknown",
             "label": "Karakuri Circus Season 1",
-
         }
         item2 = {
             "type": "tvshow",
@@ -278,58 +247,45 @@ class TestUtils(unittest.TestCase):
             "type": "tvshow",
             "label": "Karakuri Circus S01",
         }
+        self.assertEqual(re_search(item["type"], ["unknown"]), True)
+        self.assertEqual(re_search(item2["type"], ["tvshow"]), True)
+        self.assertEqual(re_search(item["type"], ["unknown", "tvshow"]), True)
         self.assertEqual(
-            re_search(
-                item['type'],
-                ['unknown']
-            ),
-            True
+            re_search(item["label"], ["season", "temporada", r"S\d{1,4}"]), True
         )
         self.assertEqual(
-            re_search(item2['type'], ['tvshow']), True)
-        self.assertEqual(
-            re_search(item['type'], ['unknown', 'tvshow']), True)
-        self.assertEqual(
-            re_search(item['label'], ['season', 'temporada', r'S\d{1,4}']), True)
-        self.assertEqual(re_search(item3['label'], [
-                         'season', 'temporada', r'S\d{1,4}']), True)
+            re_search(item3["label"], ["season", "temporada", r"S\d{1,4}"]), True
+        )
 
-        self.assertNotEqual(re_search(item['type'], ['Xunknown']), True)
-        self.assertNotEqual(re_search(item2['type'], ['Xtvshow']), True)
-        self.assertNotEqual(
-            re_search(item['type'], ['Xunknown', 'Xtvshow']), True)
+        self.assertNotEqual(re_search(item["type"], ["Xunknown"]), True)
+        self.assertNotEqual(re_search(item2["type"], ["Xtvshow"]), True)
+        self.assertNotEqual(re_search(item["type"], ["Xunknown", "Xtvshow"]), True)
 
         self.assertNotEqual(
-            re_search(item2['label'], ['season', 'temporada', r'S\d{1,4}']), True)
+            re_search(item2["label"], ["season", "temporada", r"S\d{1,4}"]), True
+        )
 
-    @logged_function
     def test_constants(self):
         """Check values returned by constants in utils."""
-        addon = xbmcaddon.Addon(id='script.library.integration.tool')
-        self.assertEqual(
-            ADDON_NAME,
-            addon.getAddonInfo('name')
-        )
-        self.assertEqual(
-            ADDON_VERSION,
-            addon.getAddonInfo('version')
-        )
+        addon = xbmcaddon.Addon(id="script.library.integration.tool")
+        self.assertEqual(ADDON_NAME, addon.getAddonInfo("name"))
+        self.assertEqual(ADDON_VERSION, addon.getAddonInfo("version"))
         # TODO: test all contants, including type
 
-    @logged_function
     def test_version_comparison(self):
         """Test the comparison operators for the Version class."""
-        reference = Version('1.2.3')
-        self.assertEqual(reference, '1.2.3')
-        self.assertNotEqual(reference, '3.2.1')
-        self.assertGreater(reference, '0.10.0')
-        self.assertLess(reference, '1.10.0')
-        self.assertGreaterEqual(reference, '1.2.3')
-        self.assertGreaterEqual(reference, '1.2.2')
-        self.assertLessEqual(reference, '1.2.3')
-        self.assertLessEqual(reference, '1.2.4')
+        reference = Version("1.2.3")
+        self.assertEqual(reference, "1.2.3")
+        self.assertNotEqual(reference, "3.2.1")
+        self.assertGreater(reference, "0.10.0")
+        self.assertLess(reference, "1.10.0")
+        self.assertGreaterEqual(reference, "1.2.3")
+        self.assertGreaterEqual(reference, "1.2.2")
+        self.assertLessEqual(reference, "1.2.3")
+        self.assertLessEqual(reference, "1.2.4")
 
 
 def run_tests():
+    """Run test method."""
     suite = unittest.defaultTestLoader.loadTestsFromTestCase(TestUtils)
     unittest.TextTestRunner().run(suite)

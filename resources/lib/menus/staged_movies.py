@@ -43,10 +43,7 @@ class StagedMoviesMenu():
     def rename_dialog(item):
         """Prompt input for new name, and rename if non-empty string."""
         # TODO: move to utils or parent class so it's not duplicated
-        input_ret = xbmcgui.Dialog().input(
-            "Title",
-            defaultt=item.title()
-        )
+        input_ret = xbmcgui.Dialog().input("Title", defaultt=item.title())
         if input_ret:
             item.rename(input_ret)
 
@@ -66,8 +63,7 @@ class StagedMoviesMenu():
             STR_BACK
         ]
         ret = xbmcgui.Dialog().select(
-            f"{ADDON_NAME} - {STR_STAGED_MOVIE_OPTIONS} - {item.title}",
-            lines
+            f"{ADDON_NAME} - {STR_STAGED_MOVIE_OPTIONS} - {item.title}", lines
         )
         if ret >= 0:
             if lines[ret] == STR_ADD:
@@ -96,8 +92,7 @@ class StagedMoviesMenu():
             msg=STR_REMOVING_ALL_MOVIES
         )
         self.database.delete_item_from_table_with_status_or_showtitle(
-            _type='movie',
-            status='staged'
+            _type="movie", status="staged"
         )
         self.progressdialog.close_progressdialog()
         notification(STR_ALL_MOVIES_REMOVED)
@@ -114,10 +109,7 @@ class StagedMoviesMenu():
         STR_BACK = get_string(32011)
         STR_STAGED_MOVIES = get_string(32004)
         staged_movies = list(
-            self.database.get_content_items(
-                status='staged',
-                _type='movie'
-            )
+            self.database.get_content_items(status="staged", _type="movie")
         )
         if not staged_movies:
             xbmcgui.Dialog().ok(ADDON_NAME, STR_NO_STAGED_MOVIES)

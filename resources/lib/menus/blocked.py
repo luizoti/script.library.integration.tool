@@ -66,11 +66,7 @@ class BlockedMenu():
         )
         if ret >= 0:
             if lines[ret] == STR_REMOVE:
-                self.database.delete_entrie_from_blocked(
-                    item['value'],
-                    item['type']
-                )
-                return self.view()
+                self.database.delete_entrie_from_blocked(item["value"], item["type"])
             elif lines[ret] == STR_BACK:
                 return self.view()
         return self.view()

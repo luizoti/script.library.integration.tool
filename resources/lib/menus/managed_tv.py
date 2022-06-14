@@ -29,15 +29,16 @@ class ManagedTVMenu():
         """Remove staged spisodes from library and move to staged."""
         showtitle = bold(items[0].showtitle)
         STR_MOVING_ALL_x_EPISODES_TO_STAGED = get_string(32034)
-        STR_ALL_x_EPISODES_MOVED_TO_STAGED = get_string(
-            32035) % color(showtitle, 'skyblue')
+        STR_ALL_x_EPISODES_MOVED_TO_STAGED = get_string(32035) % color(
+            showtitle, "skyblue"
+        )
         self.progressdialog.create_progressdialog(
             msg=STR_MOVING_ALL_x_EPISODES_TO_STAGED % color(showtitle)
         )
         for index, item in enumerate(items):
             self.progressdialog.update_progressdialog(
                 index / len(items),
-                msg=f'{color(bold(item.showtitle()))}\n{item.episode_title_with_id()}'
+                msg=f"{color(bold(item.showtitle()))}\n{item.episode_title_with_id()}",
             )
             item.remove_from_library()
             item.set_as_staged()
@@ -48,20 +49,17 @@ class ManagedTVMenu():
         """Remove staged seasons from library and move to staged."""
         _showtitle = bold(showtitle)
         STR_MOVING_ALL_x_SEASONS_TO_STAGED = get_string(32026)
-        STR_ALL_x_SEASONS_MOVED_TO_STAGED = get_string(32173) % color(_showtitle, 'skyblue')
+        STR_ALL_x_SEASONS_MOVED_TO_STAGED = get_string(32173) % color(
+            _showtitle, "skyblue"
+        )
         self.progressdialog.create_progressdialog(
             msg=STR_MOVING_ALL_x_SEASONS_TO_STAGED % color(_showtitle)
         )
-        items = list(
-            self.database.get_content_items(
-                status='managed',
-                _type='tvshow'
-            )
-        )
+        items = list(self.database.get_content_items(status="managed", _type="tvshow"))
         for index, item in enumerate(items):
             self.progressdialog.update_progressdialog(
                 index / len(items),
-                msg=f'{color(bold(item.showtitle()))}\n{item.episode_title_with_id()}'
+                msg=f"{color(bold(item.showtitle()))}\n{item.episode_title_with_id()}",
             )
             item.remove_from_library()
             item.set_as_staged()
@@ -76,15 +74,12 @@ class ManagedTVMenu():
             msg=STR_MOVING_ALL_TV_SHOWS_TO_STAGED
         )
         managed_tv_items = list(
-            self.database.get_content_items(
-                status='managed',
-                _type='tvshow'
-            )
+            self.database.get_content_items(status="managed", _type="tvshow")
         )
         for index, item in enumerate(managed_tv_items):
             self.progressdialog.update_progressdialog(
                 index / len(managed_tv_items),
-                msg=f'{color(bold(item.showtitle()))}\n{item.episode_title_with_id()}'
+                msg=f"{color(bold(item.showtitle()))}\n{item.episode_title_with_id()}",
             )
             item.remove_from_library()
             item.set_as_staged()
@@ -101,12 +96,12 @@ class ManagedTVMenu():
         for index, item in enumerate(episodes):
             self.progressdialog.update_progressdialog(
                 index / len(episodes),
-                '\n'.join(
+                "\n".join(
                     [
                         f"Criando metadados para: {color(bold(item.showtitle()))}",
-                        f"Episode: {item.episode_title_with_id()}"
+                        f"Episode: {item.episode_title_with_id()}",
                     ]
-                )
+                ),
             )
             item.create_metadata_item()
         self.progressdialog.close_progressdialog()
@@ -120,20 +115,17 @@ class ManagedTVMenu():
             msg=STR_GENERATING_ALL_TV_SEASONS_METADATA
         )
         managed_seasons = list(
-            self.database.get_season_items(
-                status='managed',
-                showtitle=showtitle
-            )
+            self.database.get_season_items(status="managed", showtitle=showtitle)
         )
         for index, item in enumerate(managed_seasons):
             self.progressdialog.update_progressdialog(
                 index / len(managed_seasons),
-                '\n'.join(
+                "\n".join(
                     [
                         f"Criando metadados para: {color(bold(item.showtitle()))}",
-                        f"Seasons {item.season()}"
+                        f"Seasons {item.season()}",
                     ]
-                )
+                ),
             )
             item.create_metadata_item()
         self.progressdialog.close_progressdialog()
@@ -147,21 +139,18 @@ class ManagedTVMenu():
             msg=STR_GENERATING_ALL_TV_SHOWS_METADATA
         )
         managed_tvshows = list(
-            self.database.get_content_items(
-                status='managed',
-                _type='tvshow'
-            )
+            self.database.get_content_items(status="managed", _type="tvshow")
         )
         for index, item in enumerate(managed_tvshows):
             self.progressdialog.update_progressdialog(
                 index / len(managed_tvshows),
-                '\n'.join(
+                "\n".join(
                     [
-                        # TODO: add new string
+                        # TODO: add string to strings.po
                         f"Criando metadados para: {color(bold(item.showtitle()))}",
-                        item.episode_title_with_id()
+                        item.episode_title_with_id(),
                     ]
-                )
+                ),
             )
             item.create_metadata_item()
         self.progressdialog.close_progressdialog()
@@ -179,13 +168,14 @@ class ManagedTVMenu():
             STR_BACK
         ]
         ret = xbmcgui.Dialog().select(
-            ' - '.join(
+            " - ".join(
                 [
                     STR_MANAGED_EPISODE_OPTIONS,
-                    color(bold(item.showtitle()), 'skyblue'),
-                    color(bold(item.episode_id()), 'green'),
+                    color(bold(item.showtitle()), "skyblue"),
+                    color(bold(item.episode_id()), "green"),
                 ]
-            ), lines
+            ),
+            lines,
         )
         if ret >= 0:
             if lines[ret] == STR_GENERATE_EPISODE_METADATA:
@@ -203,42 +193,28 @@ class ManagedTVMenu():
         STR_MANAGED_x_EPISODES = get_string(32031)
         managed_episodes = list(
             self.database.get_episode_items(
-                status='managed',
-                showtitle=showtitle,
-                season=season
+                status="managed", showtitle=showtitle, season=season
             )
         )
         if not managed_episodes:
             xbmcgui.Dialog().ok(
                 ADDON_NAME,
-                STR_NO_MANAGED_x_EPISODES % color(bold(showtitle), 'skyblue')
+                STR_NO_MANAGED_x_EPISODES % color(bold(showtitle), "skyblue"),
             )
-            self.view_shows()
+            self.show_all()
             return
-        lines = [str(x) for x in managed_episodes]
-        lines += [
-            STR_GENERATING_ALL_TV_EPISODES_METADATA,
-            STR_MOVE_ALL_EPISODES_BACK_TO_STAGED,
-            STR_BACK
-        ]
-        ret = xbmcgui.Dialog().select(
-            f"{ADDON_NAME} - {STR_MANAGED_x_EPISODES % color(bold(showtitle), 'skyblue')}",
-            lines
+        sel = Select(
+            f"{ADDON_NAME} - {STR_MANAGED_x_EPISODES % color(bold(showtitle), 'skyblue')}"
         )
-        if ret >= 0:
-            if ret < len(managed_episodes):  # managed item
-                for i, item in enumerate(managed_episodes):
-                    if ret == i:
-                        self.episode_options(item, season)
-            elif lines[ret] == STR_GENERATING_ALL_TV_EPISODES_METADATA:
-                self.generate_all_managed_episodes_metadata(managed_episodes)
-                self.view_shows()
-            elif lines[ret] == STR_MOVE_ALL_EPISODES_BACK_TO_STAGED:
-                self.move_all_episodes_to_staged(managed_episodes)
-                self.view_shows()
-            elif lines[ret] == STR_BACK:
-                self.view_seasons(showtitle)
-        else:
+        sel.options([str(x) for x in managed_episodes])
+        sel.extra_options([get_string(x) for x in OPTIONS])
+        selection = sel.show(useDetails=False, preselect=False, back_option=True)
+        if selection:
+            if selection["type"] == "item":
+                self.episode_options(managed_episodes[selection["index1"]], season)
+            elif selection["type"] == "opt":
+                command = OPTIONS[list(OPTIONS.keys())[selection["index1"]]]
+                command[0](command[1])
             self.view_seasons(showtitle)
 
     def view_seasons(self, showtitle):

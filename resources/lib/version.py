@@ -38,7 +38,7 @@ class Version():
             other_version = other.version_number
         else:
             other_version = other
-        for this, that in zip(self.version_number.split('.'), other_version.split('.')):
+        for this, that in zip(self.version_number.split("."), other_version.split(".")):
             if int(this) < int(that):
                 return True
             elif int(this) > int(that):
@@ -65,9 +65,7 @@ class Version():
 def check_version_file():
     """Check the version file and runs version-specific update actions."""
     # Check version file
-    version_file_path = xbmcvfs.translatePath(
-        f"special://userdata/addon_data/{ADDON_ID}/.version"
-    )
+    version_file_path = xbmcvfs.translatePath(join(ADDON_SPECIAL_DIR, ".version"))
     if isfile(version_file_path):
         with open(version_file_path, "r", encoding="utf8") as version_file:
             version = Version(version_file.read())
@@ -76,12 +74,12 @@ def check_version_file():
         # with open(version_file_path, 'w') as version_file:
         #     version_file.write(ADDON_VERSION)
         # version = Version(ADDON_VERSION)
-        version = Version('0.3.2')
+        version = Version("0.3.2")
     if version != ADDON_VERSION:
         STR_UPDATING = get_string(32133)
         STR_UPDATED = get_string(32134)
         notification(message=STR_UPDATING, time=5000)
-        if version < '0.4.0':
+        if version < "0.4.0":
             # Maintain previous settings if managed folder is already set
             if ADDON.getSetting('managed_folder'):
                 ADDON.setSetting('custom_managed_folder', 'true')

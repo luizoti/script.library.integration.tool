@@ -14,14 +14,9 @@ import xbmc
 import xbmcgui
 
 from resources.lib.database import Database
-from resources.lib.progressbar import ProgressBar
 from resources.lib.menus.synced import SyncedMenu
-
-from resources.lib.misc import re_search
-from resources.lib.misc import get_string
-from resources.lib.misc import notification
-from resources.lib.misc import title_with_color
-
+from resources.lib.misc import get_string, notification, re_search, title_with_color
+from resources.lib.progressbar import ProgressBar
 from resources.lib.utils import entrypoint
 
 STR_IS_A_MOVIE = get_string(32155)
@@ -31,66 +26,50 @@ STR_NOT_SELECTED = get_string(32163)
 STR_CHOOSE_CONTENT_TYPE = get_string(32159)
 
 # possible values ​​that content can have
-LIST_TYPE_SERIES = ['series',
-                    'directory',
-                    'show',
-                    'browse',
-                    'root',
-                    'mode=102',
-                    'mode=ondemand',
-                    'mode=series']
-LIST_TYPE_MOVIES = ['movie',
-                    'PlayVideo',
-                    'play&_play',
-                    'mode=103',
-                    'type=movies']
+LIST_TYPE_SERIES = [
+    "series",
+    "directory",
+    "show",
+    "browse",
+    "root",
+    "mode=102",
+    "mode=ondemand",
+    "mode=series",
+]
+LIST_TYPE_MOVIES = ["movie", "PlayVideo", "play&_play", "mode=103", "type=movies"]
 
 
 @entrypoint
 def main():
     """Main entrypoint for context menu item."""
     title = sys.listitem.getLabel()
-    year = xbmc.getInfoLabel('ListItem.Year')
+    year = xbmc.getInfoLabel("ListItem.Year")
     year = int(year) if year else False
     file = sys.listitem.getPath()
-    STR_FORMED_TYPE_OF_CONTENT = f"{title_with_color(label=title, year=year)} - {STR_CHOOSE_CONTENT_TYPE}"
-    lines = [
-        STR_IS_A_MOVIE,
-        STR_IS_A_SHOW,
-        STR_CANCEL_RED
-    ]
-    selection = xbmcgui.Dialog().select(
-        STR_FORMED_TYPE_OF_CONTENT,
-        lines
+    STR_FORMED_TYPE_OF_CONTENT = (
+        f"{title_with_color(label=title, year=year)} - {STR_CHOOSE_CONTENT_TYPE}"
     )
+    lines = [STR_IS_A_MOVIE, STR_IS_A_SHOW, STR_CANCEL_RED]
+    selection = xbmcgui.Dialog().select(STR_FORMED_TYPE_OF_CONTENT, lines)
     selection = lines[selection]
     if selection:
-        syncedmenu = SyncedMenu(
-            database=Database(),
-            progressdialog=ProgressBar()
-        )
+        syncedmenu = SyncedMenu(database=Database(), progressdialog=ProgressBar())
         # Call corresponding method
         if selection == STR_IS_A_MOVIE:
             if re_search(file, LIST_TYPE_MOVIES):
-                syncedmenu.add_single_movie(
-                    title=title,
-                    year=year,
-                    file=file
-                )
+                syncedmenu.add_single_movie(title=title, year=year, file=file)
         elif selection == STR_IS_A_SHOW:
             if re_search(file, LIST_TYPE_SERIES):
-                syncedmenu.add_single_tvshow(
-                    title=title,
-                    year=year,
-                    file=file
-                )
+                syncedmenu.add_single_tvshow(title=title, year=year, file=file)
         elif selection == STR_CANCEL_RED:
             xbmc.sleep(300)
             notification(get_string(32158))
         else:
             xbmc.sleep(300)
-            notification(f"{title_with_color(label=title, year=year)} {STR_NOT_SELECTED}")
+            notification(
+                f"{title_with_color(label=title, year=year)} {STR_NOT_SELECTED}"
+            )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

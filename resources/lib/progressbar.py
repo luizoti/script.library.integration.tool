@@ -20,7 +20,7 @@ class ProgressBar(xbmcgui.DialogProgress):
         super(__class__, self).__init__()
         LOG.debug("""ProgressBar __init__.""")
 
-    def create_progressdialog(self, head=ADDON_NAME, msg=''):
+    def create_progressdialog(self, head=ADDON_NAME, msg=""):
         """Method to create ProgressBar window"""
         self.create(head, msg)
 
@@ -34,7 +34,7 @@ class ProgressBar(xbmcgui.DialogProgress):
     def _iscanceled_close(self):
         """Close method to close progress by cancel button."""
         self.close()
-        notification('Desfazendo ultumas ações!', 3000)
+        notification("Desfazendo ultumas ações!", 3000)
         # Exec operations
         sys.exit()
 
@@ -51,7 +51,7 @@ class BGProgressBar(xbmcgui.DialogProgressBG):
         super(__class__, self).__init__()
         LOG.debug("""BGProgressBar __init__.""")
 
-    def create_progress_bar(self, head=ADDON_NAME, msg=''):
+    def create_progress_bar(self, head=ADDON_NAME, msg=""):
         """Method to create BGProgressBar window"""
         self.create(head, msg)
 
@@ -65,7 +65,7 @@ class BGProgressBar(xbmcgui.DialogProgressBG):
     def _isfinished_close(self):
         """Close method to close progress by cancel button."""
         self.close()
-        notification('Background Desfazendo ultumas ações!', 3000)
+        notification("Background Desfazendo ultumas ações!", 3000)
         # Exec operations
         sys.exit()
 

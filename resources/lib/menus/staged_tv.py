@@ -66,24 +66,16 @@ class StagedTVMenu():
             )
             item.add_to_library()
         self.progressdialog.close_progressdialog()
-        notification(
-            STR_ALL_x_EPISODES_ADDED % color(
-                bold(showtitle),
-                'skyblue'
-            )
-        )
+        notification(STR_ALL_x_EPISODES_ADDED % color(bold(showtitle), "skyblue"))
 
     def add_all_staged_seasons_to_library(self, showtitle):
         """Add all episodes from specified show to library."""
         # TODO: add to strings.po >
-        STR_ADDING_ALL_x_SEASONS = 'Adding all %s seasons...'
-        STR_ALL_x_SEASONS_ADDED = 'All %s seasons added'
+        STR_ADDING_ALL_x_SEASONS = "Adding all %s seasons..."
+        STR_ALL_x_SEASONS_ADDED = "All %s seasons added"
         # <
         staged_seasons = list(
-            self.database.get_season_items(
-                status='staged',
-                showtitle=showtitle
-            )
+            self.database.get_season_items(status="staged", showtitle=showtitle)
         )
         self.progressdialog.create_progressdialog(
             msg=STR_ADDING_ALL_x_SEASONS % showtitle
@@ -95,25 +87,15 @@ class StagedTVMenu():
             )
             item.add_to_library()
         self.progressdialog.close_progressdialog()
-        notification(
-            STR_ALL_x_SEASONS_ADDED % color(
-                bold(showtitle),
-                'skyblue'
-            )
-        )
+        notification(STR_ALL_x_SEASONS_ADDED % color(bold(showtitle), "skyblue"))
 
     def add_all_staged_shows_to_library(self):
         """Add all tvshow items to library."""
         STR_ADDING_ALL_TV_SHOWS = get_string(32059)
         STR_ALL_TV_SHOWS_ADDED = get_string(32060)
-        self.progressdialog.create_progressdialog(
-            msg=STR_ADDING_ALL_TV_SHOWS
-        )
+        self.progressdialog.create_progressdialog(msg=STR_ADDING_ALL_TV_SHOWS)
         staged_tv_items = list(
-            self.database.get_content_items(
-                status='staged',
-                _type='tvshow'
-            )
+            self.database.get_content_items(status="staged", _type="tvshow")
         )
         for index, item in enumerate(staged_tv_items):
             self.progressdialog.update_progressdialog(
@@ -128,12 +110,9 @@ class StagedTVMenu():
         """Remove all staged tvshow items."""
         STR_REMOVING_ALL_TV_SHOWS = get_string(32024)
         STR_ALL_TV_SHOW_REMOVED = get_string(32025)
-        self.progressdialog.create_progressdialog(
-            msg=STR_REMOVING_ALL_TV_SHOWS
-        )
+        self.progressdialog.create_progressdialog(msg=STR_REMOVING_ALL_TV_SHOWS)
         self.database.delete_item_from_table_with_status_or_showtitle(
-            _type='tvshow',
-            status='staged'
+            _type="tvshow", status="staged"
         )
         self.progressdialog.close_progressdialog()
         notification(STR_ALL_TV_SHOW_REMOVED)
@@ -142,29 +121,21 @@ class StagedTVMenu():
         """Remove all seasons from the specified show."""
         STR_REMOVING_ALL_x_SEASONS = get_string(32032) % showtitle
         STR_ALL_x_SEASONS_REMOVED = get_string(32033) % showtitle
-        self.progressdialog.create_progressdialog(
-            msg=STR_REMOVING_ALL_x_SEASONS
-        )
+        self.progressdialog.create_progressdialog(msg=STR_REMOVING_ALL_x_SEASONS)
         self.database.delete_item_from_table_with_status_or_showtitle(
-            _type='tvshow',
-            status='staged',
-            showtitle=showtitle
+            _type="tvshow", status="staged", showtitle=showtitle
         )
         self.progressdialog.close_progressdialog()
         notification(STR_ALL_x_SEASONS_REMOVED)
 
     def remove_all_episodes(self, showtitle):
         """Remove all episodes from the specified show."""
-        formed_title = color(bold(showtitle), 'skyblue')
+        formed_title = color(bold(showtitle), "skyblue")
         STR_REMOVING_ALL_x_EPISODES = get_string(32032) % formed_title
         STR_ALL_x_EPISODES_REMOVED = get_string(32033) % formed_title
-        self.progressdialog.create_progressdialog(
-            msg=STR_REMOVING_ALL_x_EPISODES
-        )
+        self.progressdialog.create_progressdialog(msg=STR_REMOVING_ALL_x_EPISODES)
         self.database.delete_item_from_table_with_status_or_showtitle(
-            _type='tvshow',
-            status='staged',
-            showtitle=showtitle
+            _type="tvshow", status="staged", showtitle=showtitle
         )
         self.progressdialog.close_progressdialog()
         notification(STR_ALL_x_EPISODES_REMOVED)
@@ -197,14 +168,15 @@ class StagedTVMenu():
         STR_BACK = get_string(32011)
         STR_STAGED_EPISODE_OPTIONS = get_string(32080)
         lines = [
-            STR_ADD, STR_REMOVE,
+            STR_ADD,
+            STR_REMOVE,
             # STR_RENAME,
             STR_GENERATE_METADATA_ITEM,
-            STR_BACK
+            STR_BACK,
         ]
         ret = xbmcgui.Dialog().select(
             f"{STR_STAGED_EPISODE_OPTIONS} - {color(bold(item.showtitle()), 'skyblue')} - {color(bold(item.episode_id()), 'green')}",
-            lines
+            lines,
         )
         if ret >= 0:
             if lines[ret] == STR_ADD:
@@ -216,7 +188,7 @@ class StagedTVMenu():
             elif lines[ret] == STR_REMOVE_AND_BLOCK_EPISODE:
                 item.remove_and_block()
                 self.view_episodes(item.showtitle(), season)
-            # elif lines[ret] == STR_RENAME:
+                # elif lines[ret] == STR_RENAME:
                 # self.rename_dialog(item)
                 self.episode_options(item, season)
             elif lines[ret] == STR_GENERATE_METADATA_ITEM:
@@ -225,17 +197,15 @@ class StagedTVMenu():
             elif lines[ret] == STR_BACK:
                 self.view_episodes(item.showtitle(), season)
                 return
-        else:
-            self.view_episodes(item.showtitle(), season)
+            # self.view_episodes(item.showtitle(), season)
 
     def view_episodes(self, showtitle, season):
+        """Display all staged episodes in the specified show, which are selectable and lead to options."""
         STR_NO_STAGED_x_EPISODES = get_string(32065)
         STR_STAGED_x_EPISODES = get_string(32070)
         staged_episodes = list(
             self.database.get_episode_items(
-                status='staged',
-                showtitle=showtitle,
-                season=season
+                status="staged", showtitle=showtitle, season=season
             )
         )
         OPTIONS = {
@@ -246,33 +216,27 @@ class StagedTVMenu():
         }
         if not staged_episodes:
             xbmcgui.Dialog().ok(
-                ADDON_NAME,
-                STR_NO_STAGED_x_EPISODES % color(bold(showtitle), 'skyblue')
+                ADDON_NAME, STR_NO_STAGED_x_EPISODES % color(bold(showtitle), "skyblue")
             )
-            self.view_shows()
+            self.show_all()
             return
         sel = Select(
-            f"{ADDON_NAME} - {STR_STAGED_x_EPISODES % color(bold(showtitle), 'skyblue')}"
+            f"{ADDON_NAME} - {STR_STAGED_x_EPISODES % color(bold(showtitle), 'skyblue')}",
+            back_option=True,
         )
-        sel.items([str(x) for x in staged_episodes])
-        sel.extra_options([get_string(x) for x in OPTIONS])
-        selection = sel.show(
-            useDetails=False,
-            preselect=False,
-            back=True,
-        )
+        sel.options([str(x) for x in staged_episodes])
+        sel.extra_options(OPTIONS)
+        selection = sel.show(useDetails=False, preselect=False)
         if selection:
-            if selection['type'] == 'item':
-                self.episode_options(
-                    staged_episodes[selection['index1']],
-                    season
-                )
-            elif selection['type'] == 'opt':
-                command = OPTIONS[list(OPTIONS.keys())[selection['index1']]]
+            if selection["type"] == "item":
+                self.episode_options(staged_episodes[selection["index1"]], season)
+            elif selection["type"] == "opt":
+                command = OPTIONS[list(OPTIONS.keys())[selection["index1"]]]
                 command[0](command[1])
-            self.view_shows()
+            self.view_seasons(showtitle)
 
     def view_seasons(self, showtitle):
+        """Display all staged seasons in the specified show, which are selectable and lead to options."""
         STR_STAGED_x_SEASONS = get_string(32176)
         STR_NO_STAGED_x_SEASONS = get_string(32170)
         OPTIONS = {
@@ -281,46 +245,32 @@ class StagedTVMenu():
             32068: self.remove_and_block_show,
         }
         staged_seasons = list(
-            self.database.get_season_items(
-                status='staged',
-                showtitle=showtitle
-            )
+            self.database.get_season_items(status="staged", showtitle=showtitle)
         )
         sel = Select(
-            heading=f"{ADDON_NAME} - {STR_STAGED_x_SEASONS % color(bold(showtitle), 'skyblue')}"
+            heading=f"{ADDON_NAME} - {STR_STAGED_x_SEASONS % color(bold(showtitle), 'skyblue')}",
+            back_option=True,
         )
-        sel.items(
-            [f'Season {x}' for x in {x.season() for x in staged_seasons}]
-        )
+        sel.options([f"Season {x}" for x in {x.season() for x in staged_seasons}])
         sel.extra_options(list(map(get_string, OPTIONS)))
         if not staged_seasons:
             xbmcgui.Dialog().ok(
-                ADDON_NAME,
-                STR_NO_STAGED_x_SEASONS % color(
-                    bold(showtitle),
-                    'skyblue'
-                )
+                ADDON_NAME, STR_NO_STAGED_x_SEASONS % color(bold(showtitle), "skyblue")
             )
-            self.view_shows()
+            self.show_all()
             return
-        selection = sel.show(
-            useDetails=False,
-            preselect=False,
-            back=True,
-        )
+        selection = sel.show(useDetails=False, preselect=False)
         if selection:
-            if selection['type'] == 'item':
+            if selection["type"] == "item":
                 self.view_episodes(
-                    showtitle,
-                    season=''.join(
-                        filter(str.isdigit, selection['str'])
-                    )
+                    showtitle, season="".join(filter(str.isdigit, selection["str"]))
                 )
-            elif selection['type'] == 'opt':
-                command = OPTIONS[list(OPTIONS.keys())[selection['index1']]]
+            elif selection["type"] == "opt":
+                command = OPTIONS[list(OPTIONS.keys())[selection["index1"]]]
                 command(showtitle)
+        self.show_all()
 
-    def view_shows(self):
+    def show_all(self):
         """Display all managed tvshows, which are selectable and lead to options."""
         STR_NO_STAGED_TV_SHOWS = get_string(32054)
         STR_STAGED_TV_SHOWS = get_string(32005)
@@ -328,28 +278,20 @@ class StagedTVMenu():
             32055: self.add_all_staged_shows_to_library,
             32057: self.remove_all_shows,
         }
-        staged_tvshows = list(
-            self.database.get_all_shows('staged')
-        )
+        staged_tvshows = list(self.database.get_all_shows("staged"))
         sel = Select(
-            heading=f"{ADDON_NAME} - {color(bold(STR_STAGED_TV_SHOWS), 'lightblue')}"
+            heading=f"{ADDON_NAME} - {color(bold(STR_STAGED_TV_SHOWS), 'lightblue')}",
+            back_option=True,
         )
-        sel.items([str(x) for x in staged_tvshows])
+        sel.options([str(x) for x in staged_tvshows])
         sel.extra_options([get_string(x) for x in OPTIONS])
         if not staged_tvshows:
-            xbmcgui.Dialog().ok(
-                ADDON_NAME,
-                STR_NO_STAGED_TV_SHOWS
-            )
+            xbmcgui.Dialog().ok(ADDON_NAME, STR_NO_STAGED_TV_SHOWS)
             return
-        selection = sel.show(
-            useDetails=False,
-            preselect=False,
-            back=True,
-        )
+        selection = sel.show(useDetails=False, preselect=False)
         if selection:
-            if selection['type'] == 'item':
-                self.view_seasons(selection['str'])
-            elif selection['type'] == 'opt':
-                command = OPTIONS[list(OPTIONS.keys())[selection['index1']]]
+            if selection["type"] == "item":
+                self.view_seasons(selection["str"])
+            if selection["type"] == "opt":
+                command = OPTIONS[list(OPTIONS.keys())[selection["index1"]]]
                 command()
