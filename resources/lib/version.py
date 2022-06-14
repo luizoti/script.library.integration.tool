@@ -72,8 +72,8 @@ def check_version_file():
         notification(message=STR_UPDATING, time=5000)
         if version < "0.4.0":
             # Maintain previous settings if managed folder is already set
-            if ADDON.getSetting('managed_folder'):
-                ADDON.setSetting('custom_managed_folder', 'true')
+            if ADDON.getSetting("managed_folder") == "true":
+                ADDON.setSetting("custom_managed_folder", "true")
         # Create addons dir if not exist
         mkdir(dirname(version_file_path))
         # Update version file
