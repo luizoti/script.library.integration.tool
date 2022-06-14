@@ -100,7 +100,6 @@ class Database:
         except AttributeError:
             LOG.exception("Database.__del__ Disconnection error:")
 
-    @logged_function
     def check_if_is_blocked(self, value, _type=None):
         """Check if value exist in blocked and return True else None """
         self.cur.execute(
