@@ -147,8 +147,7 @@ class Database:
                 status = result[0]
         if table and status:
             return [table, status]
-        else:
-            return None
+        return None
 
     def add_blocked_item(self, value, _type):
         """Add an item to blocked with the specified values."""
