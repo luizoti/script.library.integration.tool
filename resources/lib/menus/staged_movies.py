@@ -16,8 +16,9 @@ class StagedMoviesMenu:
 
     def __init__(self, database, progressdialog):
         """__init__ StagedMoviesMenu."""
-        self.database = database
-        self.progressdialog = progressdialog
+        # Only realy connect to database when open the content menu.
+        self.database = database()
+        self.progressdialog = progressdialog()
 
     def add_all(self, items):
         """Add all staged movies to library."""

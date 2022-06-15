@@ -30,8 +30,8 @@ class SyncedMenu:
 
     def __init__(self, database, progressdialog):
         """SyncedMenu class."""
-        self.database = database
-        self.progressdialog = progressdialog
+        self.database = database()
+        self.progressdialog = progressdialog()
         self.bgprogressbar = BGProgressBar()
 
     def filter_blocked_items(self, items, _type):

@@ -8,15 +8,15 @@ import xbmc
 from resources import ADDON_ID, ADDON_NAME
 from resources.lib.database import Database
 from resources.lib.dialog_select import Select
-
-# from resources.lib.menus.synced import SyncedMenu
-from resources.lib.menus.blocked import BlockedMenu
 from resources.lib.menus.managed_movies import ManagedMoviesMenu
 from resources.lib.menus.managed_tv import ManagedTVMenu
 from resources.lib.menus.staged_movies import StagedMoviesMenu
 from resources.lib.menus.staged_tv import StagedTVMenu
 from resources.lib.misc import bold, color, videolibrary
 from resources.lib.progressbar import ProgressBar
+
+# from resources.lib.menus.synced import SyncedMenu
+# from resources.lib.menus.blocked import BlockedMenu
 
 # TODO: automatically clean & update when adding/removing based in type and path
 # TODO: rebuild library option
@@ -31,8 +31,8 @@ class MainMenu:
 
     def __init__(self):
         """__init__ MainMenu."""
-        self.database = Database()
-        self.progressbar = ProgressBar()
+        self.database = Database
+        self.progressbar = ProgressBar
         # An impossible value seems to force
         # the parent to choose none, in list
         self.lastchoice = 99999
@@ -69,12 +69,12 @@ class MainMenu:
         select_menu = Select(heading=ADDON_NAME, turnbold=True, back_option=False)
         select_menu.options(
             {
-                32002: ManagedMoviesMenu(self.database, self.progressbar).show_all,
-                32004: StagedMoviesMenu(self.database, self.progressbar).show_all,
-                32003: ManagedTVMenu(self.database, self.progressbar).show_all,
-                32005: StagedTVMenu(self.database, self.progressbar).show_all,
-                # 32006: SyncedMenu(self.database, self.progressbar).view,
-                32007: BlockedMenu(self.database, self.progressbar).show_all,
+                32002: ManagedMoviesMenu,
+                32004: StagedMoviesMenu,
+                32003: ManagedTVMenu,
+                32005: StagedTVMenu,
+                # 32006: SyncedMenu,
+                # 32007: BlockedMenu,
             }
         )
         select_menu.extra_options(
@@ -93,5 +93,5 @@ class MainMenu:
             if selected_option == "back":
                 self.show()
             else:
-                selected_value()
+                selected_value(self.database, self.progressbar).show_all()
         sys.exit()

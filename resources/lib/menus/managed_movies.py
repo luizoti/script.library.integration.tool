@@ -24,8 +24,8 @@ class ManagedMoviesMenu:
     # TODO: synced watched status with plugin item
     def __init__(self, database, progressdialog):
         """__init__ ManagedMoviesMenu."""
-        self.database = database
-        self.progressdialog = progressdialog
+        self.database = database()
+        self.progressdialog = progressdialog()
 
     def move_all_to_staged(self, items):
         """Remove all managed movies from library, and add them to staged."""

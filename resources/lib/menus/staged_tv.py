@@ -13,8 +13,8 @@ class StagedTVMenu:
 
     def __init__(self, database, progressdialog):
         """__init__ StagedTVMenu."""
-        self.database = database
-        self.progressdialog = progressdialog
+        self.database = database()
+        self.progressdialog = progressdialog()
 
     # @staticmethod
     # def rename_dialog(item):

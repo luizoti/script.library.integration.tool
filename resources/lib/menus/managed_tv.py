@@ -19,8 +19,8 @@ class ManagedTVMenu:
 
     def __init__(self, database, progressdialog):
         """__init__ ManagedTVMenu."""
-        self.database = database
-        self.progressdialog = progressdialog
+        self.database = database()
+        self.progressdialog = progressdialog()
 
     def move_all_episodes_to_staged(self, items):
         """Move all episodes to staged."""
