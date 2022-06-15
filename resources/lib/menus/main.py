@@ -52,17 +52,13 @@ class MainMenu:
         )
         selected_option = select_menu.show(useDetails=True, preselect=self.lastchoice)
 
-        if selected_option:
-            selected_index, _, selected_value = selected_option
-            self.lastchoice = selected_index
-
-            if selected_value == "back":
-                self.show()
-            else:
-                videolibrary(selected_value)
-                xbmc.sleep(1500)
-                self.library_options()
-            return
+        if not selected_option or "back" in selected_option:
+            self.show()
+        selected_index, _, selected_value = selected_option
+        self.lastchoice = selected_index
+        videolibrary(selected_value)
+        xbmc.sleep(1500)
+        self.library_options()
 
     def show(self):
         """Display main menu which leads to other menus."""
@@ -84,14 +80,16 @@ class MainMenu:
             }
         )
         selected_option: tuple = select_menu.show(useDetails=True)
-        if selected_option:
-            _, selected_key, selected_value = selected_option
-            if selected_key == 32179:
-                # # Open addon settings, the second argument turn a blocking task
-                selected_value(f"Addon.OpenSettings({ADDON_ID})", True)
-                self.show()
-            if selected_option == "back":
-                self.show()
-            else:
-                selected_value(self.database, self.progressbar).show_all()
+
+        if not selected_option or "back" in selected_option:
+            return
+        _, selected_key, selected_value = selected_option
+        if selected_key == 32180:
+            selected_value()
+        elif selected_key == 32179:
+            # # Open addon settings, the second argument turn a blocking task
+            selected_value(f"Addon.OpenSettings({ADDON_ID})", True)
+            self.show()
+        else:
+            selected_value(self.database, self.progressbar, self).show()
         sys.exit()
