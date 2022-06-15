@@ -14,7 +14,7 @@ class StagedMoviesMenu:
     # TODO: decorator for "...all" commands
     # TODO: load staged movies on init, use as instance variable, refresh as needed
 
-    def __init__(self, database, progressdialog):
+    def __init__(self, database, progressdialog, parent_menu):
         """__init__ StagedMoviesMenu."""
         # Only realy connect to database when open the content menu.
         self.database = database()
