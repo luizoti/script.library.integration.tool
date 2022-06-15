@@ -23,7 +23,7 @@ class Database:
     def __init__(self):
         """__init__ database."""
         # Connect to database
-        LOG.info("Database path: %s", DATABASE_PATH)
+        LOG.info("DATABASE PATH: %s", DATABASE_PATH)
         self.conn = sqlite3.connect(DATABASE_PATH)
         self.conn.text_factory = str
         self.cur = self.conn.cursor()
