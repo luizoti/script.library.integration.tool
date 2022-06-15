@@ -19,10 +19,9 @@ class KodiLogHandler(logging.StreamHandler):
 
     def __init__(self):
         logging.StreamHandler.__init__(self)
-
-        formatter = logging.Formatter(
-            "[{}][%(name)s] -> %(message)s".format(ADDON_NAME)
-        )
+        name = "%(name)s"
+        message = "%(message)s"
+        formatter = logging.Formatter(f"[{ADDON_NAME}][{name}] -> {message}")
         self.setFormatter(formatter)
 
     def emit(self, record):
