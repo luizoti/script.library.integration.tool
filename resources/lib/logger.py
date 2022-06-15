@@ -52,3 +52,4 @@ def logging_setup():
     logger = logging.getLogger()
     logger.addHandler(KodiLogHandler())
     logger.setLevel(logging.DEBUG)
+    logger.info("v%s", ADDON_VERSION)
