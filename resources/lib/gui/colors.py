@@ -2,10 +2,35 @@
 
 """Color enum module."""
 
-from enum import Enum
+import enum
 
 
-class Colors(Enum):
+# An implementation of Enum, but for strings, available in python 3.10, as follows:
+# https://discuss.python.org/t/built-in-strenum/4192
+class StrEnum(str, enum.Enum):
+    """String Enum like Enum, but for strings."""
+
+    def __new__(cls, *args):
+        # print(*args)
+        for arg in args:
+            if not isinstance(arg, (str, enum.auto)):
+                raise TypeError(
+                    f"Values of StrEnums must be strings: {repr(arg)} is a {type(arg)}"
+                )
+        return super().__new__(cls, *args)
+
+    def __str__(self):
+        return self.value
+
+    # The first argument to this function is documented to be the name of the
+    # enum member, not `self`:
+    # https://docs.python.org/3.6/library/enum.html#using-automatic-values
+    @staticmethod
+    def _generate_next_value_(name, *_):
+        return name
+
+
+class Colors(StrEnum):
     """
     Enum representation of Kodi Colors.
     COLORS: https://github.com/xbmc/xbmc/blob/master/system/colors.xml
