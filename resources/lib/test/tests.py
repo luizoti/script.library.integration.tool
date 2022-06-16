@@ -10,12 +10,14 @@ from os.path import basename, dirname
 
 import xbmcaddon
 import xbmcvfs
-from resources import ADDON_NAME, ADDON_VERSION
+from resources.lib import ADDON_NAME, ADDON_VERSION
 from resources.lib.database import Database
 from resources.lib.filesystem import delete_strm, isdir, join
+from resources.lib.gui.gui_utils import notification
 from resources.lib.manipulator import Cleaner
-from resources.lib.misc import notification, re_search
-from resources.lib.version import Version
+from resources.lib.misc import re_search
+
+# from resources.lib.version import Version
 
 LOG = logging.getLogger(basename(__file__))
 
@@ -67,6 +69,14 @@ TESTE_BLOCKED_QUERY = """
 
 class TestUtils(unittest.TestCase):
     """Test cases for utils module."""
+
+    def test_db_dict_factory(self):
+        """Dict Factory."""
+        db = Database()
+        db.cur.execute(TESTE_BLOCKED_QUERY)
+
+        staged_movies = db.get_content_items(status="staged", _type="movie")
+        LOG.debug(staged_movies)
 
     def test_isdir(self):
         """Teste isdir function."""
@@ -272,17 +282,17 @@ class TestUtils(unittest.TestCase):
         self.assertEqual(ADDON_VERSION, addon.getAddonInfo("version"))
         # TODO: test all contants, including type
 
-    def test_version_comparison(self):
-        """Test the comparison operators for the Version class."""
-        reference = Version("1.2.3")
-        self.assertEqual(reference, "1.2.3")
-        self.assertNotEqual(reference, "3.2.1")
-        self.assertGreater(reference, "0.10.0")
-        self.assertLess(reference, "1.10.0")
-        self.assertGreaterEqual(reference, "1.2.3")
-        self.assertGreaterEqual(reference, "1.2.2")
-        self.assertLessEqual(reference, "1.2.3")
-        self.assertLessEqual(reference, "1.2.4")
+    # def test_version_comparison(self):
+    #     """Test the comparison operators for the Version class."""
+    #     reference = Version("1.2.3")
+    #     self.assertEqual(reference, "1.2.3")
+    #     self.assertNotEqual(reference, "3.2.1")
+    #     self.assertGreater(reference, "0.10.0")
+    #     self.assertLess(reference, "1.10.0")
+    #     self.assertGreaterEqual(reference, "1.2.3")
+    #     self.assertGreaterEqual(reference, "1.2.2")
+    #     self.assertLessEqual(reference, "1.2.3")
+    #     self.assertLessEqual(reference, "1.2.4")
 
 
 def run_tests():
