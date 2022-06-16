@@ -5,9 +5,7 @@
 import sys
 
 import xbmc
-from resources import ADDON_ID, ADDON_NAME
-from resources.lib.database import Database
-from resources.lib.dialog_select import Select
+from resources.lib.gui.select import Select
 from resources.lib.menus.managed_movies import ManagedMoviesMenu
 from resources.lib.menus.managed_tv import ManagedTVMenu
 from resources.lib.menus.staged_movies import StagedMoviesMenu

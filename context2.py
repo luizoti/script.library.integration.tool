@@ -8,7 +8,8 @@ The purpose is to stage all movies/tvshows in the current directory, and update 
 import xbmc
 
 from resources.lib.database import Database
-from resources.lib.dialog_select import Select
+from resources.lib.gui.progressbar import ProgressBar
+from resources.lib.gui.select import Select
 from resources.lib.menus.synced import SyncedMenu
 from resources.lib.misc import get_string, notification
 from resources.lib.progressbar import ProgressBar

@@ -3,8 +3,9 @@
 """Defines the StagedMoviesMenu class."""
 
 import xbmcgui
-from resources import ADDON_NAME
-from resources.lib.misc import get_string, notification
+from resources.lib.gui.progressbar import ProgressBar
+from resources.lib.gui.select import Select
+from resources.lib.gui.gui_utils import bold, get_string, notification
 
 
 class StagedMoviesMenu:

@@ -9,8 +9,8 @@ import xbmcvfs
 from resources import ADDON_NAME
 from resources.lib.dialog_select import Select
 from resources.lib.filesystem import listdir
-from resources.lib.misc import bold, color, get_string, notification
-from resources.lib.utils import MANAGED_FOLDER
+from resources.lib.gui.select import Select
+from resources.lib.misc import Colors, bold, color, get_string, notification
 
 
 class ManagedMoviesMenu:

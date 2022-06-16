@@ -3,8 +3,8 @@
 """Defines the StagedTVMenu class."""
 
 import xbmcgui
-from resources import ADDON_NAME
-from resources.lib.dialog_select import Select
+from resources.lib import ADDON_NAME
+from resources.lib.gui.select import Select
 from resources.lib.misc import bold, color, get_string, notification
 
 

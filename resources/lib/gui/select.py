@@ -3,8 +3,8 @@
 """Custon xbmcgui.Dialog.select."""
 
 import xbmc
+import xbmcaddon
 import xbmcgui
-from resources import ADDON, ADDON_NAME
 
 
 class Select(xbmcgui.Dialog):
@@ -18,12 +18,15 @@ class Select(xbmcgui.Dialog):
 
     def __init__(
         self,
-        heading=ADDON_NAME,
+        heading=None,
         turnbold=False,
         back_option=32011,
     ) -> None:
         """CustonDialogSelect __init__."""
         super(__class__, self).__init__()
+        if not heading:
+            xbmc.log("Select() heading argument cannot be None", xbmc.LOGDEBUG)
+            return
         self.back_option: int = back_option
         self.options_dict: dict = {}
         self.options_strings: list = []
@@ -40,7 +43,7 @@ class Select(xbmcgui.Dialog):
         xbmc_string = xbmc.getLocalizedString(string_id).title()
         if xbmc_string:
             return xbmc_string
-        return ADDON.getLocalizedString(string_id)
+        return xbmcaddon.Addon().getLocalizedString(string_id)
 
     def _parse_options(self, options: dict, turnbold=False):
         """Convert a dict key to string."""

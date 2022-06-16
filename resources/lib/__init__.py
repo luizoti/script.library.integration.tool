@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-"""Group of Shortcut functions to manipulate and create all type of content."""
+from resources.lib.gui.progressbar import BGProgressBar, ProgressBar
 
 from resources.lib.items.contentmanager import ContentManagerMovie, ContentManagerShow
 from resources.lib.items.episode import EpisodeItem

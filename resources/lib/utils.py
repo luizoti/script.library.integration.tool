@@ -11,9 +11,7 @@ from os.path import basename, join
 import xbmc
 import xbmcgui
 import xbmcvfs
-from resources import (ADDON_SPECIAL_DIR, CUSTOM_MANAGED_FOLDER,
-                       RECURSION_LIMIT, USING_CUSTOM_MANAGED_FOLDER)
-from resources.lib.dialog_select import Select
+from resources.lib.gui.select import Select
 from resources.lib.filesystem import isdir, mkdir
 from resources.lib.misc import (SKIP_STRINGS, get_string, is_season,
                                 notification, re_search, skip_filter)
