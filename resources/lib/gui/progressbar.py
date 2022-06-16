@@ -15,10 +15,13 @@ LOG = logging.getLogger(__name__)
 class ProgressBar(xbmcgui.DialogProgress):
     """Module to provide a Constom xbmcgui.DialogProgress."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         """ProgressBar __init__."""
         super(__class__, self).__init__()
-        LOG.debug("""ProgressBar __init__.""")
+        LOG.debug("""ProgressBar started.""")
+
+    def __del__(self) -> None:
+        LOG.debug("""ProgressBar closed.""")
 
     def create_progressdialog(self, head=None, msg=""):
         """Method to create ProgressBar window"""
