@@ -6,8 +6,7 @@
 import logging
 
 import xbmc
-import xbmcaddon
-from resources import ADDON_NAME, ADDON_VERSION
+from resources.lib import ADDON_NAME, ADDON_VERSION
 
 
 class KodiLogHandler(logging.StreamHandler):
