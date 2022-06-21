@@ -37,7 +37,7 @@ class Movie(Content):
 
 
 @dataclass
-class MovieFileCreator(Movie):
+class MovieFileManager(Movie):
     """Create files related with content item Movie."""
 
     def nfo_body_string(self) -> str:

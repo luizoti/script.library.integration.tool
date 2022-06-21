@@ -8,8 +8,7 @@ from resources.lib.database.database import DBCommon
 
 
 @dataclass
-class StagedMovie(MovieFileCreator):
-    """Docstring for StagedMovie."""
+class StagedMovie(MovieFileManager):
 
     database: InitVar[DBCommon]
 
