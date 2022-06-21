@@ -6,7 +6,6 @@
 
 [![](https://i.ibb.co/4RL50J2/paypal.png)](https://www.paypal.com/donate/?hosted_button_id=JM5MHUEW4W5AC)
 
-
 </br>
 
 Library Integration Tool is a Kodi addon that lets you integrate content from
@@ -21,14 +20,14 @@ Forum Thread:
 
 - **Kodi 19+**
 
-## Working addons:
+## Working addons
 
 - [x] Netflix
 - [x] Amazon VOD
 - [x] Crunchyroll
 - [x] Disney+
 
-## NOT working addons:
+## NOT working addons
 
 Pirate addons will not be supported, more information can be read here: [read](https://forum.kodi.tv/showthread.php?tid=327514&pid=3043067#pid3043067)
 
@@ -55,7 +54,7 @@ Music addons may be added in the future, the LIT structure itself supports it, b
 - [ ] WABC Programs
 - [ ] WNBC Programs
 - [ ] BBC iPlayer
-
+- [ ] Youtube
 
 ## Installation Matrix
 
@@ -88,7 +87,7 @@ will automatically use your custom metadata.
 
 LIT works with two base stages, 'staged' (database) and 'managed' (library).
 
-When user add content from a streaming addon, this item is added to staged, 
+When user add content from a streaming addon, this item is added to staged,
 when user add content to managed, the .strm and .nfo (metadata) will be created.
 
 Current, LIT will create .strm and .nfo following this pattern:
@@ -101,16 +100,16 @@ The files will be created inside a folder with show title and season:
 
 `/Invincible (2021)/Season 1/Invincible (2021) - S01E01 - JÁ ESTAVA NA HORA.strm`
 
-The pattern above is based on the pattern used by kodi: https://kodi.wiki/view/Naming_video_files/TV_shows
+The pattern above is based on the pattern used by kodi: <https://kodi.wiki/view/Naming_video_files/TV_shows>
 
 You can use `tinyMediaManager` to rename files and any other operations, but for now LIT will no longer recognize items that have been renamed.
 
 ### Settings options
 
- - Options to change library path
- - Options to auto add itens to library
- - Options to disable .nfo creation
- - Dev options
+- Options to change library path
+- Options to auto add itens to library
+- Options to disable .nfo creation
+- Dev options
 
 <!--  -->
 
@@ -145,10 +144,9 @@ From "View Staged Movies", select the movie you already have. Choose the option
 mind that any metadata files you've generated for items you block will be
 deleted from the Metadata folder.
 
-
 If you change your mind later, you can select any blocked item from the list and
 choose "Remove".
-<!-- 
+<!--
 ### Other Addons
 
 **Skin Helper Service Widgets BETA** by marcelveldt - *The latest versions
@@ -175,17 +173,16 @@ For all known bugs and planned feature development, refer to inline TODO tags.
 And thank you for considering improving this project! Full credit for your
 contributions will be given in the release notes and here in the README.
 
-### If you are a Streaming Addon developer:
+### If you are a Streaming Addon developer
 
-LIT uses jsonrpc to collect the data that will be used to create the strms and 
-nfos, jsonrpc returns a daaaa json, containing the keys below, some are 
-mandatory as file and others are very important, such as type, showtitle, 
-episode, season year , in fact, by and large they are all essential, so when 
-creating the list of items fill in all of these items, by and large this will 
+LIT uses jsonrpc to collect the data that will be used to create the strms and
+nfos, jsonrpc returns a daaaa json, containing the keys below, some are
+mandatory as file and others are very important, such as type, showtitle,
+episode, season year , in fact, by and large they are all essential, so when
+creating the list of items fill in all of these items, by and large this will
 just be part of the process you are already doing, but for LIT to make it easier.
 
-
-xbmcgui.ListItem: https://codedocs.xyz/AlwinEsch/kodi/group__python__xbmcgui__listitem.html#details
+xbmcgui.ListItem: <https://codedocs.xyz/AlwinEsch/kodi/group__python__xbmcgui__listitem.html#details>
 
 - art
 - fanart
@@ -196,6 +193,5 @@ xbmcgui.ListItem: https://codedocs.xyz/AlwinEsch/kodi/group__python__xbmcgui__li
 - showtitle
 - year
 - episode
-
 
 Thanks.
