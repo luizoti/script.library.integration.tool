@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from dataclasses import InitVar, dataclass
-from os import mkdir
 
-from resources.lib.content.movie.movie import MovieFileCreator
+from resources.lib.content.movie.movie import MovieFileManager
 from resources.lib.database.database import DBCommon
 
 
@@ -27,20 +26,15 @@ class StagedMovie(MovieFileManager):
             file=self.file, _type="movie", status="managed"
         )
 
-    def remove_and_block(self):
-        """Remove item and block."""
-        # Add title to blocked
-        self.add_blocked_item(self.title(), "movie")
-        # Delete metadata items
-        removedir(self.managed_movie_dir())
-        # Remove from db
-        self.delete_item_from_table(file=self.file, _type="movie")
+    def delete_from_staged(self):
+        """Remove the item from (staged) database with optional block."""
+        self.database.delete_item(file=self.file, _type="movie")
 
-    def remove_from_library(self):
-        """Remove from library."""
-        removedirs(self.managed_movie_dir())
+    def delete_from_staged_and_block(self):
+        """Remove the item from (staged) database with optional block."""
+        self.delete_from_staged()
+        self.database.block_item(value=self.title, _type="movie")
 
-    # # don't touch here
     # def rename(self, name):
     #     """Rename item."""
     #     # TODO: Implement
@@ -51,11 +45,3 @@ class StagedMovie(MovieFileManager):
     #     # TODO: Implement
     #     raise NotImplementedError("contentitem.rename(name) not implemented!")
     # # don't touch here
-
-    def delete(self):
-        """Remove the item from the database."""
-        self.delete_item_from_table(file=self.file, _type="movie")
-
-    def set_as_staged(self):
-        """Set the item status as staged in database."""
-        self.update_item_status(file=self.file, _type="movie", status="staged")
