@@ -9,6 +9,10 @@ from resources.lib.database.database import DBCommon
 
 @dataclass
 class StagedMovie(MovieFileManager):
+    """Docstring for StagedMovie.
+
+    Staged only create files, delete file methods is not necessary.
+    """
 
     database: InitVar[DBCommon]
 
@@ -16,13 +20,7 @@ class StagedMovie(MovieFileManager):
         self.database = database
 
     def add_to_managed(self):
-        """Add item to library."""
-        # 1. Create movie_dir (movie folder) in managed/movies/ diretory
-        # 2. Create nfo file
-        # 3. Create the strm file
-        # 4. Update status in db to managed
-
-        # Create stream_file in managed/movies/movie_dir
+        """Create nfo, strm and add item to library (managed database)."""
         self.create_nfo()
         self.create_strm()
         self.database.update_item_status(
