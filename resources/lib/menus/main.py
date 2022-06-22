@@ -2,16 +2,22 @@
 
 """Defines the MainMenu class, which gets called from the main executable."""
 
+import logging
 import sys
+from os.path import basename
 
 import xbmc
+from resources.lib import ADDON_ID, ADDON_NAME
+from resources.lib.gui.colors import Colors
+from resources.lib.gui.gui_utils import bold, colorize
+
+# from resources.lib.gui.progressbar import ProgressBar
 from resources.lib.gui.select import Select
-from resources.lib.menus.managed_movies import ManagedMoviesMenu
-from resources.lib.menus.managed_tv import ManagedTVMenu
-from resources.lib.menus.staged_movies import StagedMoviesMenu
-from resources.lib.menus.staged_tv import StagedTVMenu
-from resources.lib.misc import bold, color, videolibrary
-from resources.lib.progressbar import ProgressBar
+from resources.lib.menus.movie.managed import ManagedMoviesMenu
+from resources.lib.menus.movie.staged import StagedMoviesMenu
+from resources.lib.menus.show.managed import ManagedTVMenu
+from resources.lib.menus.show.staged import StagedTVMenu
+from resources.lib.misc import videolibrary
 
 # from resources.lib.menus.synced import SyncedMenu
 # from resources.lib.menus.blocked import BlockedMenu
@@ -23,22 +29,23 @@ from resources.lib.progressbar import ProgressBar
 #   3. delete all managed itens
 #   4. re-add all FLAGGED itens
 
+LOG = logging.getLogger(basename(__file__))
+
 
 class MainMenu:
     """Perform basic initialization of folder structure."""
 
     def __init__(self):
         """__init__ MainMenu."""
-        self.database = Database
-        self.progressbar = ProgressBar
         # An impossible value seems to force
         # the parent to choose none, in list
         self.lastchoice = 99999
+        LOG.debug("MainMenu Started")
 
     def library_options(self):
         """Display dedicated menu to Library functions."""
         select_menu = Select(
-            heading=bold(f"{ADDON_NAME} - {color('Library options')}"),
+            heading=bold(f"{colorize('Library options')}"),
             turnbold=True,
         )
         select_menu.options(
@@ -52,6 +59,7 @@ class MainMenu:
 
         if not selected_option or "back" in selected_option:
             self.show()
+            return
         selected_index, _, selected_value = selected_option
         self.lastchoice = selected_index
         videolibrary(selected_value)
@@ -60,7 +68,12 @@ class MainMenu:
 
     def show(self):
         """Display main menu which leads to other menus."""
-        select_menu = Select(heading=ADDON_NAME, turnbold=True, back_option=False)
+        select_menu = Select(
+            # TODO: .replace("[\B]", "") because it seems not possible to close a tag [B] when using a tag color
+            # fix this in future
+            heading=colorize(bold(ADDON_NAME), Colors.SKYBLUE).replace(r"[/B]", ""),
+            back_option=False,
+        )
         select_menu.options(
             {
                 32002: ManagedMoviesMenu,
@@ -89,5 +102,5 @@ class MainMenu:
             selected_value(f"Addon.OpenSettings({ADDON_ID})", True)
             self.show()
         else:
-            selected_value(self.database, self.progressbar, self).show()
+            selected_value(self).show()
         sys.exit()
