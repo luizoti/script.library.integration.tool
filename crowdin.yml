@@ -1,3 +1,0 @@
-files:
-  - source: resources/language/resource.*/strings.po
-    translation: '%original_path%/%file_name%'
