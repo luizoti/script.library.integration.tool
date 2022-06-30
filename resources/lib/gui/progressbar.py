@@ -33,11 +33,11 @@ class ProgressBar(xbmcgui.DialogProgress):
     def update_progressdialog(self, perc, msg):
         """Method to update ProgressBar window."""
         if self.iscanceled():
-            self._iscanceled_close()
+            self.close_progressdialog()
         self.update(int(100 * perc), msg)
         xbmc.sleep(200)
 
-    def _iscanceled_close(self):
+    def close_progressdialog(self, exit=None):
         """Close method to close progress by cancel button."""
         self.close()
         # notification("Desfazendo ultumas ações!", 3000)
@@ -57,7 +57,7 @@ class BGProgressBar(xbmcgui.DialogProgressBG):
         super(__class__, self).__init__()
         LOG.debug("""BGProgressBar __init__.""")
 
-    def create_progress_bar(self, head=None, msg=""):
+    def create_progressbar(self, head=None, msg=""):
         """Method to create BGProgressBar window"""
         if not head:
             xbmc.log("Select() head argument cannot be None", xbmc.LOGDEBUG)
@@ -68,10 +68,10 @@ class BGProgressBar(xbmcgui.DialogProgressBG):
         """Method to update BGProgressBar window."""
         if self.isFinished():
             xbmc.sleep(100)
-            self._isFinished_close()
+            self.close_progressbar()
         self.update(int(perc), msg)
 
-    def _isfinished_close(self):
+    def close_progressbar(self, exit=None):
         """Close method to close progress by cancel button."""
         self.close()
         # notification("Background Desfazendo ultumas ações!", 3000)
