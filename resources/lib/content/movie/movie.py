@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
 
+"""
+The Movie module brings together classes that separately
+control everything needed to manage movies.
+"""
+
 import logging
 from dataclasses import asdict, dataclass
 from os.path import basename
@@ -18,10 +23,10 @@ class Movie(Content):
 
     @property
     def managed_movie_diretory(self):
-        """Create and return managed_movie_dir.
+        """Create and return managed_movie_diretory.
 
         Returns:
-            str: managed_movie_dir id MANAGED_FOLDER/movies/movie (year).
+            str: managed_movie_diretory id MANAGED_FOLDER/movies/movie (year).
         """
         return join(MANAGED_FOLDER, "movies", self.formed_title)
 
