@@ -106,18 +106,6 @@ class CreateNfo:
         return True
 
 
-def create_stream_file(plugin_path, filepath):
-    """Create stream file with plugin_path at filepath."""
-    with xbmcvfs.File(filepath, "w+") as strm:
-        try:
-            strm.write(plugin_path)
-            LOG.debug("Created STRM file %s", plugin_path)
-        except Exception as error:
-            LOG.error("filesystem.create_stream_file: %s", str(error))
-            return None
-        finally:
-            strm.close()
-    return True
 
 
 def mkdir(dir_path):
