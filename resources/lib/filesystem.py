@@ -156,8 +156,11 @@ def delete_file(file_path: str):
     """Delete a file."""
     return xbmcvfs.delete(file_path)
 
-    except Exception:
-        xbmcvfs.delete(path_to_remove)
+
+def delete_files_in_diretory(diretory_path: str):
+    """Delete multple files."""
+    for file in [join([diretory_path, file]) for file in listdir(diretory_path)]:
+        xbmcvfs.delete(file)
 
 
 def delete_with_wildcard(title_path):
