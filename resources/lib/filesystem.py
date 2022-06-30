@@ -152,12 +152,10 @@ def listdir(dir_path_to_list, full_path=False):
     return itens
 
 
-def delete_strm(path_to_remove):
-    """Remove one or more strm files."""
-    try:
-        rm_files = [file for file in listdir(path_to_remove) if ".strm" in file]
-        for file in rm_files:
-            xbmcvfs.delete(file)
+def delete_file(file_path: str):
+    """Delete a file."""
+    return xbmcvfs.delete(file_path)
+
     except Exception:
         xbmcvfs.delete(path_to_remove)
 
