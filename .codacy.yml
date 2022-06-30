@@ -1,0 +1,12 @@
+engines:
+  bandit:
+    python_version: 3
+  pylint:
+    python_version: 3
+languages:
+  python:
+    extensions:
+      - ".py"
+  markdown:
+    extensions:
+      - ".md"
