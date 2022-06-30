@@ -2,7 +2,7 @@
 
 import logging
 from dataclasses import asdict, dataclass
-from posixpath import basename
+from os.path import basename
 
 import xbmcvfs
 from resources.lib import MANAGED_FOLDER
