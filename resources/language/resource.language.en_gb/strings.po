@@ -25,19 +25,19 @@ msgid "Sync directory to library"
 msgstr ""
 
 msgctxt "#32002"
-msgid "[COLOR darkgreen]Managed Movies[/COLOR]"
+msgid "Managed Movies"
 msgstr ""
 
 msgctxt "#32003"
-msgid "[COLOR darkgreen]Managed TV Shows[/COLOR]"
+msgid "Managed TV Shows"
 msgstr ""
 
 msgctxt "#32004"
-msgid "[COLOR darkslateblue]Staged Movies[/COLOR]"
+msgid "Staged Movies"
 msgstr ""
 
 msgctxt "#32005"
-msgid "[COLOR darkslateblue]Staged TV Shows[/COLOR]"
+msgid "Staged TV Shows"
 msgstr ""
 
 msgctxt "#32006"
@@ -53,11 +53,11 @@ msgid "No managed movies"
 msgstr ""
 
 msgctxt "#32009"
-msgid "Remove all movies"
+msgid "Delete all"
 msgstr ""
 
 msgctxt "#32010"
-msgid "Move all movies to staged"
+msgid "Move all to staged"
 msgstr ""
 
 msgctxt "#32011"
@@ -65,26 +65,19 @@ msgid "Back..."
 msgstr ""
 
 msgctxt "#32013"
-msgid "Removing all movies..."
-msgstr ""
-
-msgctxt "#32014"
-msgid "All movies removed"
+msgid "Removing all items..."
 msgstr ""
 
 msgctxt "#32015"
-msgid "Moving all movies to staged..."
+msgid "Moving all items to staged..."
 msgstr ""
+
 msgctxt "#32017"
-msgid "Remove"
+msgid "Delete"
 msgstr ""
 
 msgctxt "#32018"
-msgid "Move back to staged"
-msgstr ""
-
-msgctxt "#32019"
-msgid "Managed Movie Options"
+msgid "Move to staged"
 msgstr ""
 
 msgctxt "#32020"
@@ -148,11 +141,11 @@ msgid "Managed Episode Options"
 msgstr ""
 
 msgctxt "#32037"
-msgid "No staged movies"
+msgid "Nothing found"
 msgstr ""
 
 msgctxt "#32038"
-msgid "Add all movies"
+msgid "Add all"
 msgstr ""
 
 msgctxt "#32039"
@@ -160,7 +153,7 @@ msgid "Add all movies with metadata"
 msgstr ""
 
 msgctxt "#32040"
-msgid "Create metadata for all itens"
+msgid "Create nfo for all"
 msgstr ""
 
 msgctxt "#32042"
@@ -168,19 +161,15 @@ msgid "Adding all movies..."
 msgstr ""
 
 msgctxt "#32043"
-msgid "All movies added"
+msgid "Finished"
 msgstr ""
 
 msgctxt "#32044"
 msgid "Adding all movies with metadata..."
 msgstr ""
 
-msgctxt "#32045"
-msgid "All movies with metadata added"
-msgstr ""
-
 msgctxt "#32046"
-msgid "Generating all movie metadata..."
+msgid "Creating nfo files..."
 msgstr ""
 
 msgctxt "#32047"
@@ -199,12 +188,16 @@ msgctxt "#32050"
 msgid "Rename"
 msgstr ""
 
-msgctxt "#32052"
-msgid "Create metadata item"
+msgctxt "#32051"
+msgid "Delete nfo"
+msgstr ""
+
+msgstr ""msgctxt "#32052"
+msgid "Create nfo"
 msgstr ""
 
 msgctxt "#32053"
-msgid "Staged Movie Options"
+msgid "Movie options"
 msgstr ""
 
 msgctxt "#32055"
@@ -313,7 +306,7 @@ msgstr ""
 
 msgctxt "#32082"
 msgid "Remove all"
-msgstr ""
+msgstr "Remover tudo"
 
 msgctxt "#32083"
 msgid "Synced Directories"
@@ -369,10 +362,6 @@ msgstr ""
 
 msgctxt "#32097"
 msgid "Add keyword"
-msgstr ""
-
-msgctxt "#32098"
-msgid "Blocked Items"
 msgstr ""
 
 msgctxt "#32099"
@@ -535,6 +524,10 @@ msgctxt "#32139"
 msgid "Max recursion when finding videos (0 for unlimited)"
 msgstr ""
 
+msgctxt "#32136"
+msgid "Deleting nfo files..."
+msgstr ""
+
 msgctxt "#32140"
 msgid "Use custom managed folder"
 msgstr ""
@@ -584,7 +577,7 @@ msgid "Choose the type of this content:"
 msgstr ""
 
 msgctxt "#32160"
-msgid "All Items"
+msgid "All items"
 msgstr ""
 
 msgctxt "#32161"
@@ -615,48 +608,8 @@ msgctxt "#32167"
 msgid "Filter items"
 msgstr ""
 
-msgctxt "#32168"
-msgid "Removing seasons from: %s"
-msgstr ""
-
-msgctxt "#32169"
-msgid "All seasons of %s have been removed."
-msgstr ""
-
-msgctxt "#32170"
-msgid "No managed %s seasons"
-msgstr ""
-
-msgctxt "#32171"
-msgid "Remove all seasons"
-msgstr ""
-
-msgctxt "#32172"
-msgid "Move all seasons to staged"
-msgstr ""
-
-msgctxt "#32173"
-msgid "All seasons of %s moved to staged"
-msgstr ""
-
 msgctxt "#32174"
-msgid "Clean up metadata for all itens"
-msgstr ""
-
-msgctxt "#32175"
-msgid "Managed seasons of %s"
-msgstr ""
-
-msgctxt "#32176"
-msgid "Staged seasons of %s"
-msgstr ""
-
-msgctxt "#32177"
-msgid "Add all seasons"
-msgstr ""
-
-msgctxt "#32178"
-msgid "Add all seasons with metadata"
+msgid "Delete nfo for all"
 msgstr ""
 
 msgctxt "#32179"
