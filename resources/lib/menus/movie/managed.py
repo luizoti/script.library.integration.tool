@@ -3,13 +3,13 @@
 """Defines the ManagedMoviesMenu class."""
 
 import logging
-from os.path import basename, join
-from resources.lib.database.database import DBCommon
+from os.path import basename
 
+import xbmc
 import xbmcgui
-import xbmcvfs
-from resources.lib import ADDON_NAME, MANAGED_FOLDER
-from resources.lib.filesystem import listdir
+from resources.lib import ADDON_NAME
+from resources.lib.content.movie.managed import ManagedMovie
+from resources.lib.database.database import DBCommon
 from resources.lib.gui.colors import Colors
 from resources.lib.gui.gui_utils import bold, colorize, get_string, notification
 from resources.lib.gui.progressbar import ProgressBar
@@ -25,140 +25,152 @@ class ManagedMoviesMenu:
     Provive tools for manipulating the objects and managed file.
     """
 
-    # TODO: context menu for managed items in library
-    # TODO: synced watched status with plugin item
     def __init__(self, parent_menu):
         """__init__ ManagedMoviesMenu."""
         self.database = DBCommon()
         self.progressdialog = ProgressBar()
         self.parent_menu = parent_menu
         self.lastchoice = 99999
-        self.movies = self.database.get_content_items(status="managed", _type="movie")
 
-    def move_all_to_staged(self, items):
-        """Remove all managed movies from library, and add them to staged."""
-        STR_MOVING_ALL_MOVIES_BACK_TO_STAGED = get_string(32015)
-        self.progressdialog.create_progressdialog(
-            msg=STR_MOVING_ALL_MOVIES_BACK_TO_STAGED
+        self.finished_string = get_string(32043)
+        self.managed_movies = self.database.get_content_items(
+            status="managed", _type="movie"
         )
-        for index, item in enumerate(items):
-            self.progressdialog.update_progressdialog(index / len(items), item.title())
-            item.remove_from_library()
-            item.set_as_staged()
+
+    # TODO: Remove the two strings and make them one
+    # maybe -> Processing items
+    # 32013
+    # 32015
+    # 32136
+    # 32046
+    def delete_all(self):
+        """Delete all managed movies from library."""
+        self.progressdialog.create_progressdialog(head=get_string(32013))
+        title: str
+        info: dict
+        for index, movie_dict_info in enumerate(self.managed_movies.items()):
+            title, info = movie_dict_info
+            movie = ManagedMovie(**info, database=self.database)
+            movie.remove_completely()
+            self.progressdialog.update_progressdialog(
+                index / len(self.managed_movies), title
+            )
         self.progressdialog.close_progressdialog()
-        notification(STR_MOVING_ALL_MOVIES_BACK_TO_STAGED)
+        notification(self.finished_string)
 
-    def remove_all(self, items):
-        """Remove all managed movies from library."""
-        STR_REMOVING_ALL_MOVIES = get_string(32013)
-        STR_ALL_MOVIES_REMOVED = get_string(32014)
-        self.progressdialog.create_progressdialog(msg=STR_REMOVING_ALL_MOVIES)
-        for index, item in enumerate(items):
-            self.progressdialog.update_progressdialog(index / len(items), item.title())
-            item.remove_from_library()
-            item.delete()
+    def move_all_to_staged(self):
+        """Move all managed movies to staged."""
+        self.progressdialog.create_progressdialog(head=get_string(32015))
+        title: str
+        info: dict
+        for index, movie_dict_info in enumerate(self.managed_movies.items()):
+            title, info = movie_dict_info
+            movie = ManagedMovie(**info, database=self.database)
+            movie.move_to_staged()
+            self.progressdialog.update_progressdialog(
+                index / len(self.managed_movies), title
+            )
         self.progressdialog.close_progressdialog()
-        notification(STR_ALL_MOVIES_REMOVED)
+        notification(self.finished_string)
 
-    @staticmethod
-    def clean_up_all_managed_metadata(_=None):
-        """Delete all metada (.nfo only) for all movies."""
-        STR_MOVIE_METADATA_CLEANED = get_string(32136)
-        managed_movies_dir = join(MANAGED_FOLDER, "movies")
-        for full_path_movie_dir in listdir(managed_movies_dir, True):
-            try:
-                for filepath in listdir(full_path_movie_dir, True):
-                    if ".nfo" in filepath:
-                        xbmcvfs.delete(filepath)
-            except Exception as error:
-                raise error
-        notification(STR_MOVIE_METADATA_CLEANED)
-
-    def generate_all_managed_metadata(self, items):
-        """Generate metadata items for all managed movies."""
-        STR_GENERATING_ALL_MOVIE_METADATA = get_string(32046)
-        STR_ALL_MOVIE_METADTA_CREATED = get_string(32047)
-        self.progressdialog.create_progressdialog(msg=STR_GENERATING_ALL_MOVIE_METADATA)
-        for index, item in enumerate(items):
-            self.progressdialog.update_progressdialog(index / len(items), item.title())
-            item.create_metadata_item()
+    def delete_all_nfo_files(self):
+        """Delete all metadata (.nfo only) for all movies."""
+        self.progressdialog.create_progressdialog(head=get_string(32136))
+        title: str
+        info: dict
+        for index, movie_dict_info in enumerate(self.managed_movies.items()):
+            title, info = movie_dict_info
+            movie = ManagedMovie(**info, database=self.database)
+            movie.delete_nfo()
+            self.progressdialog.update_progressdialog(
+                index / len(self.managed_movies), title
+            )
         self.progressdialog.close_progressdialog()
-        notification(STR_ALL_MOVIE_METADTA_CREATED)
+        notification(self.finished_string)
 
-    def options(self, item):
+    def create_all_nfo_files(self):
+        """Create all metadata (.nfo only) for all movies."""
+        self.progressdialog.create_progressdialog(head=get_string(32046))
+        title: str
+        info: dict
+        for index, movie_dict_info in enumerate(self.managed_movies.items()):
+            title, info = movie_dict_info
+            movie = ManagedMovie(**info, database=self.database)
+            movie.create_nfo()
+            self.progressdialog.update_progressdialog(
+                index / len(self.managed_movies), title
+            )
+        self.progressdialog.close_progressdialog()
+        notification(self.finished_string)
+
+    def movie_options(self, movie_dict_info):
         """Provide options for a single managed movie in a dialog window."""
-        # TODO: add rename option
-        # TODO: add reload metadata option
-        STR_REMOVE = get_string(32017)
-        STR_MOVE_BACK_TO_STAGED = get_string(32018)
-        STR_GENERATE_METADATA_ITEM = get_string(32052)
-        STR_BACK = get_string(32011)
-        STR_MANAGED_MOVIE_OPTIONS = get_string(32053)
-        lines = [
-            STR_REMOVE,
-            STR_MOVE_BACK_TO_STAGED,
-            STR_GENERATE_METADATA_ITEM,
-            STR_BACK,
-        ]
-        ret = xbmcgui.Dialog().select(
-            f"{ADDON_NAME} - {STR_MANAGED_MOVIE_OPTIONS} - {bold(colorize(item.title(), colorname=Colors.SKYBLUE))}",
-            lines,
+        movie = ManagedMovie(**movie_dict_info, database=self.database)
+        select_menu = Select(
+            heading=bold(
+                f"{get_string(32053)} - {colorize(movie.title)} {colorize(movie.formed_year, colorname=Colors.LIGHTSALMON)}"
+            ),
+            turnbold=True,
         )
-        if ret >= 0:
-            if lines[ret] == STR_REMOVE:
-                item.remove_from_library()
-                item.delete()
-            elif lines[ret] == STR_MOVE_BACK_TO_STAGED:
-                item.remove_from_library()
-                item.set_as_staged()
-            elif lines[ret] == STR_GENERATE_METADATA_ITEM:
-                item.create_metadata_item()
-                self.options(item)
-            elif lines[ret] == STR_BACK:
-                return self.show_all()
-        return self.show_all()
+        select_menu.options(
+            {
+                32017: movie.remove_completely,
+                32018: movie.move_to_staged,
+                32052: movie.create_nfo,
+                32051: movie.delete_nfo,
+            },
+            turnbold=True,
+        )
+        selected_option = select_menu.show(useDetails=True, preselect=999999)
+        if not selected_option or "back" in selected_option:
+            self.parent_menu.show()
+            return
+        selected_index, selected_key, selected_value = selected_option
+        self.lastchoice = selected_index
 
-    def show_all(self):
+        if selected_key in [32017, 32018]:
+            selected_value()
+            self.managed_movies.pop(movie_dict_info["title"])
+            xbmc.sleep(400)
+            if self.managed_movies:
+                self.show()
+            else:
+                self.parent_menu.show()
+        selected_value()
+
+    def show(self):
         """
         Display all managed movies, which are selectable and lead to options.
-
-        Also provides additional options at bottom of menu.
         """
-        return
-        managed_movies = list(
-            self.database.get_content_items(status="managed", _type="movie")
+        if not self.managed_movies:
+            xbmcgui.Dialog().ok(ADDON_NAME, get_string(32037))
+            return
+        select_menu = Select(
+            heading=bold(
+                f"{colorize(get_string(32002), colorname=Colors.DEEPSKYBLUE)}"
+            ),
+            turnbold=True,
         )
-        sel = Select(
-            heading=f"{ADDON_NAME} - {get_string(32002)}",
+        select_menu.options(
+            options=self.managed_movies,
+            turnbold=True,
         )
-        sel.options([str(x) for x in managed_movies])
-        sel.extra_options(
+        select_menu.extra_options(
             {
-                32009: self.remove_all,
+                32009: self.delete_all,
                 32010: self.move_all_to_staged,
-                32040: self.generate_all_managed_metadata,
-                32174: self.clean_up_all_managed_metadata,
+                32040: self.create_all_nfo_files,
+                32174: self.delete_all_nfo_files,
             }
         )
-        if not managed_movies:
-            xbmcgui.Dialog().ok(ADDON_NAME, get_string(32008))
+        selected_option = select_menu.show(useDetails=True, preselect=self.lastchoice)
+        if not selected_option or "back" in selected_option:
+            self.parent_menu.show()
             return
-        selected = sel.show(useDetails=False, preselect=False)
-        if selected:
-            if selected["type"] == "item":
-                self.options(managed_movies[selected["index1"]])
-            elif selected["type"] == "opt":
-                command = OPTIONS[list(OPTIONS.keys())[selected["index1"]]]
-                command(managed_movies)
-        return
-
-        # if selected_option:
-        #     selected_index, _, selected_value = selected_option
-
-        #     if selected_value == "back":
-        #         self.show()
-        #     else:
-        #         videolibrary(selected_value)
-        #         xbmc.sleep(1500)
-        #         self.library_options()
-        #     return
+        selected_index, selected_key, selected_value = selected_option
+        self.lastchoice = selected_index
+        if selected_key in [32009, 32010]:
+            selected_value()
+            self.parent_menu.show()
+        else:
+            self.movie_options(movie_dict_info=selected_value)
