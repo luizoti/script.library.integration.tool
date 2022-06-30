@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="script.library.integration.tool" name="Library Integration Tool" version="0.8.34" provider-name="luizoti|patrick-klein">
+<addon id="script.library.integration.tool" name="Library Integration Tool" version="0.8.34" provider-name="luizoti">
   <requires>
     <import addon="xbmc.python" version="3.0.0"/>
     <import addon="xbmc.addon" version="18.9.701"/>
@@ -41,7 +41,7 @@ See the README for a full tutorial.
     <license>GPL v2.0</license>
     <forum>https://forum.kodi.tv/showthread.php?tid=327514</forum>
     <website></website>
-    <source>https://github.com/patrick-klein/script.library.integration.tool</source>
+    <source>https://github.com/luizoti/script.library.integration.tool</source>
     <assets>
       <icon>icon.png</icon>
       <fanart>fanart.jpg</fanart>

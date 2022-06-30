@@ -1,7 +1,7 @@
 # Kodi language file
 # Addon Name: Library Integration Tool
 # Addon id: script.library.integration.tool
-# Addon Provider: patrick-klein
+# Addon Provider: luizoti
 msgid ""
 msgstr ""
 "Project-Id-Version: XBMC-Addons\n"
