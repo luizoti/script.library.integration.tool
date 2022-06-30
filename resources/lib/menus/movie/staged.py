@@ -97,6 +97,7 @@ class StagedMoviesMenu:
         )
         selected_option = select_menu.show(useDetails=True, preselect=999999)
         if not selected_option or "back" in selected_option:
+            self.show()
             return
         selected_index, _, selected_value = selected_option
         self.lastchoice = selected_index
