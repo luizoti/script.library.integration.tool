@@ -186,9 +186,9 @@ def isdir(path):
     return test_path_file
 
 
-def join(array_with_paths_parts, file=False):
+def join(*args, file=False):
     """Join like os.path.join but add \\ or / if necessary."""
-    joined_path = os.path.join(*array_with_paths_parts)
+    joined_path = os.path.join(*args)
     if file:
         return joined_path
     return "".join([joined_path, "\\" if os.name == "nt" else "/"])
