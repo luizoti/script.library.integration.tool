@@ -20,6 +20,7 @@ class StagedMovie(MovieFileManager):
 
     def move_to_managed(self):
         """Create nfo, strm and add item to library (managed database)."""
+        self.build_movie_nfo_string()
         self.create_nfo()
         self.create_strm()
         self.database.update_status(file=self.file, _type="movie", status="managed")

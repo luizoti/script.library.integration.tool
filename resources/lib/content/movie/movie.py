@@ -38,40 +38,41 @@ class Movie(Content):
 
 @dataclass
 class MovieFileManager(Movie):
-    """Create files related with content item Movie."""
+    """
+    Create files related with content item Movie.
+    https://kodi.wiki/view/NFO_files/Creating
+    https://kodi.wiki/view/NFO_files/Templates
+    """
 
-    def nfo_body_string(self) -> str:
-        """Return str title formated with file path."""
-        nfo_info_body = "".join(
+    _current_nfo_string: str = None
+    _unicode_heading: str = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'
+
+    def build_movie_nfo_string(self):
+        """Method to format the .nfo body with the required attributes."""
+        self._current_nfo_string = "\n".join(
             [
-                f"\t<title>{self.title}</title>\n",
-                f"\t<year>{self.year}</year>\n",
-                f"\t<original_filename>{self.file}</original_filename>\n",
+                self._unicode_heading,
+                "<movie>",
+                f"\t<title>{self.title}</title>",
+                f"\t<year>{self.year}</year>",
+                f"\t<original_filename>{self.file}</original_filename>",
+                "</movie>\n",
             ]
         )
-        return f'<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<movie>\n{nfo_info_body}</movie>'
-
-    @property
-    def asdict(self) -> dict:
-        """Return a dict from dataclass.
-        Returns:
-            dict: dict with dataclass properties.
-        """
-        return asdict(self)
 
     def create_nfo(self) -> bool:
         """Create stream file with self.file at self.movie_strm filepath."""
         mkdir(self.managed_movie_diretory)
         with xbmcvfs.File(self.movie_nfo, "w+") as nfofile:
             try:
-                nfofile.write(self.nfo_body_string())
-                LOG.info("Created NFO file %s", self.movie_nfo)
-                # TODO: What was the reason for updating the title? Do not remember.
-                # self.update_item_title(file=self.file, _type="movie", title=self.title)
-                return True
+                if self._current_nfo_string:
+                    nfofile.write(self._current_nfo_string)
+                    LOG.info("Created NFO file %s", self.movie_nfo)
+                    return True
             except Exception:
                 LOG.exception("CreateNfo.create:")
             finally:
+                self._current_nfo_string = None
                 nfofile.close()
         return None
 
@@ -104,3 +105,11 @@ class MovieFileManager(Movie):
     def delete_strm(self) -> bool:
         """Delete movie strm file."""
         return xbmcvfs.delete(self.movie_strm)
+
+    @property
+    def asdict(self) -> dict:
+        """Return a dict from dataclass.
+        Returns:
+            dict: dict with dataclass properties.
+        """
+        return asdict(self)
