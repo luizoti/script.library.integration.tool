@@ -13,9 +13,9 @@ class StagedMovie(MovieFileManager):
     Staged only create files, delete file methods is not necessary.
     """
 
-    database: InitVar[DBCommon]
+    database: InitVar[DBCommon] = None
 
-    def __post_init__(self, database):
+    def __post_init__(self, database: DBCommon):
         self.database = database
 
     def move_to_managed(self):

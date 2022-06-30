@@ -13,7 +13,7 @@ class ManagedMovie(MovieFileManager):
     Managed create and delete files.
     """
 
-    database: InitVar[DBCommon]
+    database: InitVar[DBCommon] = None
 
     def __post_init__(self, database: DBCommon):
         self.database = database
