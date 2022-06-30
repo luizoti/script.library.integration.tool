@@ -49,7 +49,7 @@ def colorize(string, colorname=Colors.MEDIUMSLATEBLUE):
     Returns:
         str: Return a string formated in a color tag.
     """
-    return str(f"[COLOR {colorname}]{string}[/COLOR]")
+    return f"[COLOR {colorname}]{string}[/COLOR]"
 
 
 def bold(string):
@@ -61,4 +61,4 @@ def bold(string):
     Returns:
         str: Formated with bold tag.
     """
-    return str(f"[B]{string}[/B]")
+    return f"[B]{string}[/B]"
