@@ -211,13 +211,8 @@ def removedirs(base_path):
     removedir(base_path)
 
 
-def removedir(dir_path):
+def removedir(diretory_path):
     """Remove directory at dir_path."""
-    if os.name == "nt":
-        if not dir_path.endswith("\\"):
-            dir_path = dir_path + "\\"
-    else:
-        if not dir_path.endswith("/"):
-            dir_path = dir_path + "/"
-
-    xbmcvfs.rmdir(dir_path, True)
+    diretory_path = xbmcvfs.validatePath(diretory_path)
+    LOG.debug("removedir delete path: %s", diretory_path)
+    return xbmcvfs.rmdir(diretory_path, True)
