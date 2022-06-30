@@ -11,8 +11,7 @@ from resources.lib import ADDON_NAME
 from resources.lib.content.movie.staged import StagedMovie
 from resources.lib.database.database import DBCommon
 from resources.lib.gui.colors import Colors
-from resources.lib.gui.gui_utils import (bold, colorize, get_string,
-                                         notification)
+from resources.lib.gui.gui_utils import bold, colorize, get_string, notification
 from resources.lib.gui.progressbar import ProgressBar
 from resources.lib.gui.select import Select
 
