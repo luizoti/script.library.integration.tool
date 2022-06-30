@@ -121,7 +121,11 @@ def create_stream_file(plugin_path, filepath):
 
 
 def mkdir(dir_path):
-    """Create a directory."""
+    """
+    Create folder(s) - it will create all folders in the path.
+
+    Like: mkdir -p on linux.
+    """
     if xbmcvfs.exists(dir_path):
         return False
     return xbmcvfs.mkdirs(dir_path)
