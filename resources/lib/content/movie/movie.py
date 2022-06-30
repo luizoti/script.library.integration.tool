@@ -23,7 +23,7 @@ class Movie(Content):
         Returns:
             str: managed_movie_dir id MANAGED_FOLDER/movies/movie (year).
         """
-        return join([MANAGED_FOLDER, "movies", self.formed_title])
+        return join(MANAGED_FOLDER, "movies", self.formed_title)
 
     @property
     def movie_nfo(self):
