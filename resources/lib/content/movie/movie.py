@@ -7,7 +7,7 @@ from posixpath import basename
 import xbmcvfs
 from resources.lib import MANAGED_FOLDER
 from resources.lib.content.content import Content
-from resources.lib.filesystem import join, mkdir
+from resources.lib.filesystem import join, mkdir, removedir
 
 LOG = logging.getLogger(basename(__file__))
 
@@ -77,7 +77,7 @@ class MovieFileManager(Movie):
 
     def create_strm(self):
         """Create stream file with self.file at self.movie_strm filepath."""
-        mkdir(self.managed_movie_dir)
+        self.create_managed_movie_diretory()
         with xbmcvfs.File(self.movie_strm, "w+") as strm:
             try:
                 strm.write(self.file)
@@ -88,3 +88,19 @@ class MovieFileManager(Movie):
             finally:
                 strm.close()
         return None
+
+    def create_managed_movie_diretory(self) -> bool:
+        """Create the managed_movie_diretory for content."""
+        return mkdir(self.managed_movie_diretory)
+
+    def delete_managed_movie_diretory(self) -> bool:
+        """Delete movie nfo file."""
+        return removedir(self.managed_movie_diretory)
+
+    def delete_nfo(self) -> bool:
+        """Delete movie nfo file."""
+        return xbmcvfs.delete(self.movie_nfo)
+
+    def delete_strm(self) -> bool:
+        """Delete movie strm file."""
+        return xbmcvfs.delete(self.movie_strm)
