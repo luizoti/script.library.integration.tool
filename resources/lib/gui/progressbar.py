@@ -26,7 +26,7 @@ class ProgressBar(xbmcgui.DialogProgress):
     def create_progressdialog(self, head=None, msg=""):
         """Method to create ProgressBar window"""
         if not head:
-            xbmc.log("Select() head argument cannot be None", xbmc.LOGDEBUG)
+            LOG.critical("Select() head argument cannot be None")
             return
         self.create(head, msg)
 
@@ -38,15 +38,10 @@ class ProgressBar(xbmcgui.DialogProgress):
         xbmc.sleep(200)
 
     def close_progressdialog(self, exit=None):
-        """Close method to close progress by cancel button."""
-        self.close()
-        # notification("Desfazendo ultumas ações!", 3000)
-        # Exec operations
-        sys.exit()
-
-    def close_progressdialog(self):
         """Close method to close progress by normal progress finish."""
         self.close()
+        if exit:
+            sys.exit()
 
 
 class BGProgressBar(xbmcgui.DialogProgressBG):
@@ -60,7 +55,7 @@ class BGProgressBar(xbmcgui.DialogProgressBG):
     def create_progressbar(self, head=None, msg=""):
         """Method to create BGProgressBar window"""
         if not head:
-            xbmc.log("Select() head argument cannot be None", xbmc.LOGDEBUG)
+            LOG.critical("Select() head argument cannot be None")
             return
         self.create(head, msg)
 
@@ -72,12 +67,9 @@ class BGProgressBar(xbmcgui.DialogProgressBG):
         self.update(int(perc), msg)
 
     def close_progressbar(self, exit=None):
-        """Close method to close progress by cancel button."""
+        """Close method to close progress by normal progress finish."""
         self.close()
         # notification("Background Desfazendo ultumas ações!", 3000)
         # Exec operations
-        sys.exit()
-
-    def close_progress_bar(self):
-        """Close method to close progress by normal progress finish."""
-        self.close()
+        if exit:
+            sys.exit()
