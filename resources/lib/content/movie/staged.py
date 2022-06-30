@@ -18,22 +18,20 @@ class StagedMovie(MovieFileManager):
     def __post_init__(self, database):
         self.database = database
 
-    def add_to_managed(self):
+    def move_to_managed(self):
         """Create nfo, strm and add item to library (managed database)."""
         self.create_nfo()
         self.create_strm()
-        self.database.update_item_status(
-            file=self.file, _type="movie", status="managed"
-        )
+        self.database.update_status(file=self.file, _type="movie", status="managed")
 
     def delete_from_staged(self):
         """Remove the item from (staged) database with optional block."""
-        self.database.delete_item(file=self.file, _type="movie")
+        self.database.delete(file=self.file, _type="movie")
 
     def delete_from_staged_and_block(self):
         """Remove the item from (staged) database with optional block."""
         self.delete_from_staged()
-        self.database.block_item(value=self.title, _type="movie")
+        self.database.block(value=self.title, _type="movie")
 
     # def rename(self, name):
     #     """Rename item."""
