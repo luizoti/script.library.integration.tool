@@ -17,7 +17,7 @@ class Movie(Content):
     """docstring for Movie"""
 
     @property
-    def managed_movie_dir(self):
+    def managed_movie_diretory(self):
         """Create and return managed_movie_dir.
 
         Returns:
@@ -28,12 +28,12 @@ class Movie(Content):
     @property
     def movie_nfo(self):
         """Create and return the path to movie.nfo file."""
-        return f"{self.managed_movie_dir}/{self.formed_title}.nfo"
+        return f"{self.managed_movie_diretory}/{self.formed_title}.nfo"
 
     @property
     def movie_strm(self):
         """Create and return the path to movie.strm file."""
-        return f"{self.managed_movie_dir}/{self.formed_title}.strm"
+        return f"{self.managed_movie_diretory}/{self.formed_title}.strm"
 
 
 @dataclass
@@ -61,7 +61,7 @@ class MovieFileManager(Movie):
 
     def create_nfo(self) -> bool:
         """Create stream file with self.file at self.movie_strm filepath."""
-        mkdir(self.managed_movie_dir)
+        mkdir(self.managed_movie_diretory)
         with xbmcvfs.File(self.movie_nfo, "w+") as nfofile:
             try:
                 nfofile.write(self.nfo_body_string())
