@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+"""ManagedMovie module."""
+
 from dataclasses import InitVar, dataclass
 
 from resources.lib.content.movie.movie import MovieFileManager
