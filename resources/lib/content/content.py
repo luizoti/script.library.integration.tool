@@ -19,7 +19,7 @@ class Content:
 
     @property
     def formed_title(self) -> str:
-        """Return title formated with formed_year.
+        """Return title formated with formed_title.
 
         Returns:
             str: title (year)
