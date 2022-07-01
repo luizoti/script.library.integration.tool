@@ -96,6 +96,7 @@ class ManagedMoviesMenu:
         for index, movie_dict_info in enumerate(self.managed_movies.items()):
             title, info = movie_dict_info
             movie = ManagedMovie(**info, database=self.database)
+            movie.build_movie_nfo_string()
             movie.create_nfo()
             self.progressdialog.update_progressdialog(
                 index / len(self.managed_movies), title
