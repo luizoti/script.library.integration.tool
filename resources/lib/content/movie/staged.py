@@ -33,14 +33,3 @@ class StagedMovie(MovieFileManager):
         """Remove the item from (staged) database with optional block."""
         self.delete_from_staged()
         self.database.block(value=self.title, _type="movie")
-
-    # def rename(self, name):
-    #     """Rename item."""
-    #     # TODO: Implement
-    #     raise NotImplementedError("contentitem.rename(name) not implemented!")
-
-    # def rename_using_metadata(self):
-    #     """Rename item using metadata."""
-    #     # TODO: Implement
-    #     raise NotImplementedError("contentitem.rename(name) not implemented!")
-    # # don't touch here
