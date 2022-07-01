@@ -8,5 +8,7 @@
     "python.formatting.blackArgs": [
         "-t",
         "py38"
-    ]
+    ],
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true
 }
