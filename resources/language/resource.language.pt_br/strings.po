@@ -188,10 +188,6 @@ msgctxt "#32049"
 msgid "Remove and block"
 msgstr ""
 
-msgctxt "#32050"
-msgid "Rename"
-msgstr ""
-
 msgctxt "#32051"
 msgid "Delete nfo"
 msgstr "Deletar nfo"
