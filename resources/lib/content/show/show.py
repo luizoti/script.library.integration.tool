@@ -104,7 +104,7 @@ class Episode(Content):
     @property
     def tvshow_nfo(self):
         """Create and return the path to tvshow.nfo."""
-        return f"{self.managed_season_diretory}/tvshow.nfo"
+        return f"{self.managed_show_diretory}/tvshow.nfo"
 
     @property
     def episode_nfo(self):

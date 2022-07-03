@@ -65,7 +65,7 @@ msgid "Back..."
 msgstr ""
 
 msgctxt "#32013"
-msgid "Removing all items..."
+msgid "Removing items:"
 msgstr ""
 
 msgctxt "#32015"
@@ -157,7 +157,7 @@ msgid "Create nfo for all"
 msgstr ""
 
 msgctxt "#32042"
-msgid "Adding all movies..."
+msgid "Adding items:"
 msgstr ""
 
 msgctxt "#32043"
