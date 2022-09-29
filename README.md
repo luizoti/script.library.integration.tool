@@ -36,7 +36,7 @@ In many cases it is possible to add movies from addons without support, TV serie
 
 Music addons may be added in the future, the LIT structure itself supports it, but so far there is no real written code to deal with music.
 
-- [ ] Sansung TV Plus
+- [ ] Samsung TV Plus
 - [ ] Pluto TV
 - [ ] HBO Max
 - [ ] ABC Family
@@ -146,14 +146,6 @@ deleted from the Metadata folder.
 If you change your mind later, you can select any blocked item from the list and
 choose "Remove".
 <!--
-### Other Addons
-
-**Skin Helper Service Widgets BETA** by marcelveldt - *The latest versions
-include a new recommendation system that dynamically shows you personalized
-content on your homescreen. So if you decide to add every possible directory and
-end up with 4000+ new items in your library, this addon will help ensure you
-only see the most relevant titles*
-
 **WatchedList** by schapplm - *Because you'll potentially remove and re-add
 streamed content several times with Library Integration Tool, WatchedList makes
 your watched status persistent by storing it in an independent database*
