@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-"""Main exectable module."""
+"""Main executable module."""
 
 import logging
 import sys
