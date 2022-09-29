@@ -4,6 +4,7 @@
 [![GitHub last commit](https://img.shields.io/github/last-commit/luizoti/script.library.integration.tool.svg)](https://github.com/luizoti/script.library.integration.tool/commits/Matrix)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/2e2794f8e9fc49108aaa541a03c37ec4)](https://www.codacy.com/gh/luizoti/script.library.integration.tool/dashboard?utm_source=github.com\&utm_medium=referral\&utm_content=luizoti/script.library.integration.tool\&utm_campaign=Badge_Grade)
 
+Donations:  
 [![](https://i.ibb.co/4RL50J2/paypal.png)](https://www.paypal.com/donate/?hosted_button_id=JM5MHUEW4W5AC)
 
 </br>
@@ -104,7 +105,7 @@ The pattern above is based on the pattern used by kodi: <https://kodi.wiki/view/
 
 You can use `tinyMediaManager` to rename files and any other operations, but for now LIT will no longer recognize items that have been renamed.
 
-### Settings options
+### Setting options
 
 - Options to change library path
 - Options to auto add itens to library
@@ -175,8 +176,8 @@ contributions will be given in the release notes and here in the README.
 
 ### If you are a Streaming Addon developer
 
-LIT uses jsonrpc to collect the data that will be used to create the strms and
-nfos, jsonrpc returns a daaaa json, containing the keys below, some are
+LIT uses jsonrpc to collect the data that will be used to create the strm's and
+nfo's, jsonrpc returns a json, containing the keys below, some are
 mandatory as file and others are very important, such as type, showtitle,
 episode, season year , in fact, by and large they are all essential, so when
 creating the list of items fill in all of these items, by and large this will
