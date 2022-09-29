@@ -7,8 +7,6 @@
 Donations:  
 [![](https://i.ibb.co/4RL50J2/paypal.png)](https://www.paypal.com/donate/?hosted_button_id=JM5MHUEW4W5AC)
 
-</br>
-
 Library Integration Tool is a Kodi addon that lets you integrate content from
 any video plugin into your library. Provides tools for you to directly manage
 their metadata, and automatically add/remove items based on their current
