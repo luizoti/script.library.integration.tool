@@ -1,4 +1,3 @@
-# /usr/bin/python
 # -*- coding: utf-8 -*-
 
 """LIT initial module whith base variables used in all project."""

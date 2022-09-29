@@ -1,4 +1,3 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
 
 from resources.lib.gui.progressbar import BGProgressBar, ProgressBar
