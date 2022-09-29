@@ -4,6 +4,7 @@
     <import addon="xbmc.python" version="3.0.0"/>
     <import addon="xbmc.addon" version="18.9.701"/>
   </requires>
+  <extension point="xbmc.service" library="service.py" />
   <extension point="xbmc.python.script" library="default.py">
     <provides>executable</provides>
   </extension>
@@ -23,24 +24,23 @@
       </item>
     </menu>
   </extension>
-
   <extension point="xbmc.addon.metadata">
     <summary lang="en">Allows video add-on content to be integrated into your library.</summary>
     <description lang="en">
 Provides options in the context menu that lets you add any movie or TV show from video plugins into your library.  These videos will show up in your library and play just like any other local file.
 
-You can also sync all of the videos from plugins with a single click, so new videos are automatically available to your library, and old videos are removed.
+You can also sync all the videos from plugins with a single click, so new videos are automatically available to your library, and old videos are removed.
 
 This tool gives you complete control over any custom metadata you want to use for your videos added from plugins.
 
 See the README for a full tutorial.
     </description>
     <disclaimer lang="en">Must run addon after version updates</disclaimer>
-    <language></language>
+<!--    <language></language>-->
     <platform>all</platform>
     <license>GPL v2.0</license>
     <forum>https://forum.kodi.tv/showthread.php?tid=327514</forum>
-    <website></website>
+<!--    <website></website>-->
     <source>https://github.com/luizoti/script.library.integration.tool</source>
     <assets>
       <icon>icon.png</icon>
@@ -53,7 +53,7 @@ See the README for a full tutorial.
         fix: :bug: nfo creation problems
         feat: :sparkles: added HBOMAX support
         feat: :sparkles: added CRACKLE support
-        feat: :sparkles: added PARAMOUNTPLUS support
+        feat: :sparkles: added PARAMOUNT+ support
     </news>
   </extension>
 </addon>
