@@ -46,11 +46,11 @@ def main():
     year = xbmc.getInfoLabel("ListItem.Year")
     year = int(year) if year else False
     file = sys.listitem.getPath()
-    STR_FORMED_TYPE_OF_CONTENT = (
+    str_formed_type_of_content = (
         f"{title_with_color(label=title, year=year)} - {STR_CHOOSE_CONTENT_TYPE}"
     )
     lines = [STR_IS_A_MOVIE, STR_IS_A_SHOW, STR_CANCEL_RED]
-    selection = xbmcgui.Dialog().select(STR_FORMED_TYPE_OF_CONTENT, lines)
+    selection = xbmcgui.Dialog().select(str_formed_type_of_content, lines)
     selection = lines[selection]
     if selection:
         syncedmenu = SyncedMenu(database=Database(), progressdialog=ProgressBar())
