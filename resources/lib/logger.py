@@ -45,7 +45,7 @@ class KodiLogHandler(logging.StreamHandler):
 
 
 def logging_setup():
-    """Initialize and setup the log handler."""
+    """Initialize and set up the log handler."""
     logger = logging.getLogger()
     logger.addHandler(KodiLogHandler())
     logger.setLevel(logging.DEBUG)
