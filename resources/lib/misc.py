@@ -18,17 +18,17 @@ SKIP_STRINGS = [
 ]
 
 
-def re_search(string, tosearch=None):
+def re_search(string, to_search=None):
     """Function check if string exist with re."""
-    tosearch = tosearch if isinstance(tosearch, list) else [tosearch]
-    return bool(any(re.search(rgx, string, re.I) for rgx in tosearch))
+    to_search = to_search if isinstance(to_search, list) else [to_search]
+    return bool(any(re.search(rgx, string, re.I) for rgx in to_search))
 
 
-def skip_filter(contents_json, _key, toskip):
+def skip_filter(contents_json, _key, to_skip):
     """Function to iterate jsons in a list and filter by key with re."""
     try:
         for item in contents_json:
-            if not bool(any(re.search(rgx, item[_key], re.I) for rgx in toskip)):
+            if not bool(any(re.search(rgx, item[_key], re.I) for rgx in to_skip)):
                 yield item
     except TypeError:
         yield None
