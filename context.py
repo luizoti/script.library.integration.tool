@@ -19,6 +19,9 @@ from resources.lib.misc import get_string, notification, re_search, title_with_c
 from resources.lib.progressbar import ProgressBar
 from resources.lib.utils import entrypoint
 
+LOG = logging.getLogger(basename(__file__))
+logger.logging_setup()
+
 STR_IS_A_MOVIE = get_string(32155)
 STR_IS_A_SHOW = get_string(32156)
 STR_CANCEL_RED = get_string(32157)

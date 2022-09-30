@@ -15,6 +15,8 @@ from resources.lib.misc import get_string, notification
 from resources.lib.progressbar import ProgressBar
 from resources.lib.utils import entrypoint
 
+LOG = logging.getLogger(basename(__file__))
+logger.logging_setup()
 
 @entrypoint
 def main():

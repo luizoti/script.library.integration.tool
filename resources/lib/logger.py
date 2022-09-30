@@ -5,8 +5,8 @@
 import logging
 
 import xbmc
-from resources.lib import ADDON_NAME, ADDON_VERSION
 
+from resources.lib import ADDON_NAME, ADDON_VERSION
 
 class KodiLogHandler(logging.StreamHandler):
     """
@@ -23,7 +23,6 @@ class KodiLogHandler(logging.StreamHandler):
         self.setFormatter(formatter)
 
     def emit(self, record):
-        xbmc.log(self.format(record), xbmc.LOGDEBUG)
         levels = {
             logging.CRITICAL: xbmc.LOGFATAL,
             logging.ERROR: xbmc.LOGERROR,
@@ -36,8 +35,8 @@ class KodiLogHandler(logging.StreamHandler):
             xbmc.log(self.format(record), levels[record.levelno])
         except UnicodeEncodeError:
             xbmc.log(
-                self.format(record).encode("utf-8", "ignore"),
-                levels[record.levelno],
+                    self.format(record).encode("utf-8", "ignore"),
+                    levels[record.levelno],
             )
 
     def flush(self):
