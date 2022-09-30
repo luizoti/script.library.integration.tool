@@ -12,11 +12,11 @@ import xbmcvfs
 LOG = logging.getLogger(basename(__file__))
 
 
-def mkdir(dir_path):
+def mk_dir(dir_path):
     """
     Create folder(s) - it will create all folders in the path.
 
-    Like: mkdir -p on linux.
+    Like: mk_dir -p on linux.
     """
     if xbmcvfs.exists(dir_path):
         return False
@@ -27,8 +27,7 @@ def mkdir(dir_path):
 #     """Move files with wildcard between title_path & filetype to title_dst."""
 #     os.system(f'mv "{title_path}"*{filetype} "{title_dst}{filetype}"')
 
-
-def listdir(dir_path_to_list, full_path=False):
+def list_dir(dir_path_to_list, full_path=False):
     """Function to list files in dir."""
     itens = []
     for item in xbmcvfs.listdir(dir_path_to_list):
@@ -50,8 +49,8 @@ def delete_file(file_path: str):
 
 
 def delete_files_in_diretory(diretory_path: str):
-    """Delete multple files."""
-    for file in [join([diretory_path, file]) for file in listdir(diretory_path)]:
+    """Delete multiple files."""
+    for file in [join([diretory_path, file]) for file in list_dir(diretory_path)]:
         xbmcvfs.delete(file)
 
 
@@ -60,7 +59,7 @@ def delete_with_wildcard(title_path):
     wildcard = basename(title_path)
     directory = dirname(title_path)
     try:
-        for file in listdir(dirname(directory)):
+        for file in list_dir(dirname(directory)):
             if wildcard in file:
                 try:
                     xbmcvfs.delete(file)
@@ -71,7 +70,7 @@ def delete_with_wildcard(title_path):
 
 
 def isdir(path):
-    """Check if folder path is a real folder (like a os.path.isdir but with xbmcvfs)."""
+    """Check if folder path is a real folder (like an os.path.isdir but with xbmcvfs)."""
     is_dir_file = os.path.join(path, "is_path.txt")
     test_path_file = xbmcvfs.File(is_dir_file, "w").write("success")
     xbmcvfs.delete(is_dir_file)
@@ -86,25 +85,25 @@ def join(*args, file=False):
     return "".join([joined_path, "\\" if os.name == "nt" else "/"])
 
 
-def removedirs(base_path):
-    """Complete delete a diretory and all files and subdirs."""
+def remove_dirs(base_path):
+    """Complete delete a diretory and all files and sub-dirs."""
     dirs_to_delete = []
-    for path_to_delete in listdir(base_path, True):
+    for path_to_delete in list_dir(base_path, True):
         # Delete a file
         xbmcvfs.delete(path_to_delete)
 
         # Delete a dir
         dirs_to_delete.append(path_to_delete)
         if isdir(path_to_delete):
-            removedirs(path_to_delete)
+            remove_dirs(path_to_delete)
 
     for diretory in dirs_to_delete:
-        removedir(diretory)
-    removedir(base_path)
+        remove_dir(diretory)
+    remove_dir(base_path)
 
 
-def removedir(diretory_path):
+def remove_dir(diretory_path):
     """Remove directory at dir_path."""
     diretory_path = xbmcvfs.validatePath(diretory_path)
-    LOG.debug("removedir delete path: %s", diretory_path)
+    LOG.debug("remove_dir delete path: %s", diretory_path)
     return xbmcvfs.rmdir(diretory_path, True)
