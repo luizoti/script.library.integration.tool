@@ -15,7 +15,7 @@
             default="false"/>
         <setting id="auto_create_nfo_movies" label="32186" type="bool"
             default="true"/>
-        <!-- TODO: replace label 32129 whith label for movies -->
+        <!-- TODO: replace label 32129 with label for movies -->
         <!-- FUTURE: get all artworks from jsonrpc from streaming addon and insert in nfo -->
         <!-- <setting id="use_show_artwork_movie" label="32129" type="bool"
             default="false"/> -->
