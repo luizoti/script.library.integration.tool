@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+"""A sniplet peace of database with the responsibility to create database."""
+
 import logging
 from os.path import basename
 
@@ -8,12 +10,13 @@ from resources.lib.database.connection import DBConnection
 LOG = logging.getLogger(basename(__file__))
 
 
+# noinspection PyBroadException
 class DBCreateTables(DBConnection):
     """Create database and tables if not exist."""
 
     def __init__(self) -> None:
         super().__init__()
-        # Create tables if they doesn't exist
+        # Create tables if they don't exist
         table_map = {
             "movie": {
                 "file": "TEXT PRIMARY KEY",
@@ -46,7 +49,7 @@ class DBCreateTables(DBConnection):
             try:
                 self.cursor.execute(self.__convert_to_query(table_name, table_fields))
                 self.conection.commit()
-            except Exception:  # pylint: disable=broad-except
+            except:  # noqa: E261
                 LOG.exception("CreateTables Error:")
 
     @staticmethod
