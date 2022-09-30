@@ -656,3 +656,11 @@ msgstr "Criar metadado para o episódio"
 msgctxt "#32186"
 msgid "Create nfo automatically?"
 msgstr "Criar nfo de forma automatica?"
+
+msgctxt "#32187"
+msgid "Created managed folder %s"
+msgstr "Pasta gerenciada criada %s"
+
+msgctxt "#32188"
+msgid "Created diretory %s"
+msgstr "Diretorio Criado %s"
