@@ -1,83 +1,31 @@
 # -*- coding: utf-8 -*-
 # pylint: disable=broad-except
 
-"""Contains various constants and utility functions used thoughout the addon."""
+"""Contains various constants and utility functions used thought the addon."""
 
 import json
 import logging
 import re
-from os.path import basename, join
+from os.path import basename
 
 import xbmc
 import xbmcgui
-import xbmcvfs
+
+from resources.lib import RECURSION_LIMIT
 from resources.lib.gui.select import Select
-from resources.lib.filesystem import isdir, mkdir
-from resources.lib.misc import (SKIP_STRINGS, get_string, is_season,
-                                notification, re_search, skip_filter)
-from resources.lib.version import check_version_file
+from resources.lib.misc import SKIP_STRINGS, is_season, re_search, skip_filter
 
 LOG = logging.getLogger(basename(__file__))
 
-NETWORK_PATHS = [
-    r"smb://",
-    r"nfs://",
-    r"ftp://",
+# This strings will be used to ignore itens in show diretectories
+
+SKIP_STRINGS = [
+    "resumo",
+    "suggested",
+    "extras",
+    # 'trailer',
+    r"\#(?:\d{1,5}\.\d{1,5}|SP)",
 ]
-
-MANAGED_FOLDER = xbmcvfs.translatePath(ADDON_SPECIAL_DIR)
-DATABASE_PATH = xbmcvfs.translatePath(join(MANAGED_FOLDER, "managed.db"))
-
-if USING_CUSTOM_MANAGED_FOLDER:
-    MANAGED_FOLDER = xbmcvfs.validatePath(CUSTOM_MANAGED_FOLDER)
-
-    if re_search(CUSTOM_MANAGED_FOLDER, NETWORK_PATHS):
-        DATABASE_PATH = xbmcvfs.translatePath(join(ADDON_SPECIAL_DIR, "managed.db"))
-
-
-def check_managed_folder():
-    """Check if the managed folder is configured."""
-    if not xbmcvfs.exists(MANAGED_FOLDER):
-        STR_CHOOSE_FOLDER = f'Created managed folder "{MANAGED_FOLDER}"'
-        mkdir(MANAGED_FOLDER)
-        LOG.error(STR_CHOOSE_FOLDER)
-
-
-def create_content_dirs():
-    """Create subdirs in managed folder if not exist."""
-    # Create subfolders if they don't exist
-    folders = [
-        "movies",
-        "tvshows",
-    ]
-    # MANAGED_FOLDER
-    created_folders = False
-    for folder in folders:
-        dest_dir = join(MANAGED_FOLDER, folder)
-        if not isdir(dest_dir):
-            # LOG.info(f"Created diretory {dest_dir}", loglevel=xbmc.LOGINFO)
-            notification(f"Created diretory {dest_dir}")
-            mkdir(dest_dir)
-            created_folders = True
-
-    if created_folders:
-        STR_SUBFOLDERS_CREATED = get_string(32127)
-        notification(STR_SUBFOLDERS_CREATED)
-        # TODO: Add video sources here
-        xbmc.sleep(1)
-
-
-def entrypoint(func):
-    """Decorator to perform actions required for entrypoints."""
-
-    def wrapper(*args, **kwargs):
-        """function wrapper."""
-        check_version_file()
-        check_managed_folder()
-        create_content_dirs()
-        return func(*args, **kwargs)
-
-    return wrapper
 
 
 def jsonrpc_generic(method, xbmc_diretory_path):
@@ -530,8 +478,8 @@ def load_directory_items(
     directories = []
     for index, item in enumerate(results):
         if item["type"] == "movie":
-            progressdialog.update_progressdialog(
-                index / len(results), f"Processando items:\n{item['title']}"
+            progressdialog.update_progress_dialog(
+                    index / len(results), f"Processando items:\n{item['title']}"
             )
             if item:
                 yield item
@@ -544,17 +492,17 @@ def load_directory_items(
             if item["filetype"] == "directory":
                 if re_search(item["type"], ["season", "tvshow"]):
                     showtitle = item["showtitle"]
-                    progressdialog.update_progressdialog(
-                        index / len(results),
-                        f"Coletando itens no diretorio!\n{item['label']}",
+                    progressdialog.update_progress_dialog(
+                            index / len(results),
+                            f"Coletando itens no diretorio!\n{item['label']}",
                     )
                     directories.append(item)
             # if content is a episode, will be stored with yeld
             if item["type"] == "episode":
                 # change type to 'tvshow' to padronize in build_contentitem
                 item["type"] = "tvshow"
-                progressdialog.update_progressdialog(
-                    index / len(results), f"Processando items:\n{item['label']}"
+                progressdialog.update_progress_dialog(
+                        index / len(results), f"Processando items:\n{item['label']}"
                 )
                 item["showtitle"] = showtitle
                 if item:
