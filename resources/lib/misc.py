@@ -1,13 +1,8 @@
-# This strings will be used to ignore itens in show diretectories
+"""Misc function used in all project."""
 
-import json
 import re
-from enum import Enum
-from os.path import expanduser, join
 
 import xbmc
-import xbmcgui
-from resources.lib.gui.colors import Colors
 
 SKIP_STRINGS = [
     "resumo",
