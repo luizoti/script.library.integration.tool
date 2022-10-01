@@ -25,13 +25,13 @@ class StagedMovie(MovieFileManager):
         self.build_movie_nfo_string()
         self.create_nfo()
         self.create_strm()
-        self.database.update_status(file=self.file, _type="movie", status="managed")
+        self.database.update_status(file=self.file, content_type="movie", status="managed")
 
     def delete_from_staged(self):
         """Remove the item from (staged) database with optional block."""
-        self.database.delete(file=self.file, _type="movie")
+        self.database.delete(file=self.file, content_type="movie")
 
     def delete_from_staged_and_block(self):
         """Remove the item from (staged) database with optional block."""
         self.delete_from_staged()
-        self.database.block(value=self.title, _type="movie")
+        self.database.block(value=self.title, content_type="movie")
