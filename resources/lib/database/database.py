@@ -19,24 +19,24 @@ LOG = logging.getLogger(basename(__file__))
 
 
 class DBCommon(DBConnection):
-    """Class with common querys for all type of contents."""
+    """Class with common query's for all type of contents."""
 
     # def __init__(self) -> None:
     #     super(DBCommon, self).__init__()
 
-    def get_content_items(self, status: str, _type: str) -> dict:
+    def get_content_items(self, status: str, content_type: str) -> dict:
         """
         Perform database query for all items and return as dict
 
         keyword arguments:
             status: string, 'managed' or 'staged'
-            _type: string, 'movie' or 'tvshow'
+            content_type: string, 'movie' or 'tvshow'
         return:
             dict: Return a dict with content name (title or showtitle)
             and value is as dict with all other database values.
         """
         self.cursor.execute(
-            f"{self._default_querys.get('select')[_type]} WHERE status=:status",
+            f"{self._default_queries.get('select')[content_type]} WHERE status=:status",
             {"status": status},
         )
         try:
@@ -45,52 +45,46 @@ class DBCommon(DBConnection):
             pass
         return {}
 
-    def update_status(self, file, _type, status):
-        """Update a status for a single entrie in database."""
+    def update_status(self, file, content_type, status):
+        """Update a status for a single entries in database."""
         self.cursor.execute(
-            f"{self._default_querys.get('update')[_type]} SET status=:status WHERE file=:file",
+            f"{self._default_queries.get('update')[content_type]} SET status=:status WHERE file=:file",
             {"file": file, "status": status},
         )
-        self.conection.commit()
+        self.connection.commit()
 
-    def update_title(self, file, _type, title):
-        """Update a title for a single entrie in database."""
-        self.cursor.execute(
-            f"{self._default_querys.get('update')[_type]} SET title=:title WHERE file=:file",
-            {"file": file, "title": title},
-        )
-        self.conection.commit()
+    # def update_title(self, file, content_type, title):
+    #     """Update a title for a single entries in database."""
+    #     self.cursor.execute(
+    #         f"{self._default_queries.get('update')[content_type]} SET title=:title WHERE file=:file",
+    #         {"file": file, "title": title},
+    #     )
+    #     self.connection.commit()
 
-    def delete(self, file, _type):
+    def delete(self, file, content_type):
         """Delete an entry in the table using the 'file' key, regardless of status."""
         self.cursor.execute(
-            f"DELETE FROM {_type} WHERE file=:file",
+            f"DELETE FROM {content_type} WHERE file=:file",
             {"file": file},
         )
-        self.conection.commit()
+        self.connection.commit()
 
-    def block(self, value, _type):
+    def block(self, value, content_type):
         """Add an item to blocked with the specified values."""
         # TODO: block with title only? maybe is necessary use url to block.
         self.cursor.execute(
             "INSERT INTO blocked (value, type) VALUES (:value, :type)",
-            {"value": value, "type": _type},
+            {"value": value, "type": content_type},
         )
-        self.conection.commit()
+        self.connection.commit()
 
-    # def check_if_is_blocked(self, value, _type=None):
+    # def check_if_is_blocked(self, value, content_type=None):
     #     """Check if value exist in blocked and return True else None"""
-    #     self.cur.execute(
-    #         " ".join(
-    #             [
-    #                 self.SELECT_DICT_QUERY["blocked"],
-    #                 "WHERE value=:value",
-    #                 "AND type=:type" if _type else "",
-    #             ]
-    #         ),
-    #         {"value": value, "type": _type},
+    #     self.cursor.execute(
+    #             "SELECT * FROM blocked WHERE value=:value AND type=:type",
+    #         {"value": value, "type": content_type},
     #     )
-    #     return True if self.cur.fetchone() else None
+    #     return True if self.cursor.fetchone() else None
 
 
 # class Database:
@@ -137,19 +131,19 @@ class DBCommon(DBConnection):
 #         except AttributeError:
 #             LOG.exception("Database.__del__ Disconnection error:")
 
-#     def get_content_items(self, status: str, _type: str) -> dict:
+#     def get_content_items(self, status: str, content_type: str) -> dict:
 #         """
 #         Perform database query for all items and returno as dict
 
 #         keyword arguments:
 #             status: string, 'managed' or 'staged'
-#             _type: string, 'movie' or 'tvshow'
+#             content_type: string, 'movie' or 'tvshow'
 #         return:
 #             dict: Return a dict with content name (title or showtitle)
 #             and value is as dict with all other database values.
 #         """
 #         self.cur.execute(
-#             " ".join([self.SELECT_DICT_QUERY[_type], "WHERE status=:status"]),
+#             " ".join([self.SELECT_DICT_QUERY[content_type], "WHERE status=:status"]),
 #             {"status": status},
 #         )
 #         return reduce(lambda a, b: {**a, **b}, self.cur.fetchall())
@@ -196,7 +190,7 @@ class DBCommon(DBConnection):
 
 #     def add_content_item(self, jsondata):
 #         """Add content to library."""
-#         _type = jsondata["type"]
+#         content_type = jsondata["type"]
 #         query_defs = {
 #             "tvshow": (
 #                 "(file,title,type,status,year,showtitle,season,episode)",
@@ -210,7 +204,7 @@ class DBCommon(DBConnection):
 #         }
 #         # sqlite named style:
 #         self.cur.execute(
-#             f"{self.INSERT_DICT_QUERY[_type]} {query_defs[_type][0]} VALUES {query_defs[_type][1]}",
+#             f"{self.INSERT_DICT_QUERY[content_type]} {query_defs[content_type][0]} VALUES {query_defs[content_type][1]}",
 #             jsondata,
 #         )
 #         self.conn.commit()
@@ -225,7 +219,7 @@ class DBCommon(DBConnection):
 #         #     # TODO: Music params
 #         #     raise NotImplementedError("Not implemented yet")
 
-#     def add_item_to_synced(self, label, path, _type):
+#     def add_item_to_synced(self, label, path, content_type):
 #         """Create an entry in synced with specified values."""
 #         self.cur.execute(
 #             """INSERT OR REPLACE INTO
@@ -234,7 +228,7 @@ class DBCommon(DBConnection):
 #                 VALUES
 #                     (:file, :label, :type)
 #             """,
-#             {"file": path, "label": label, "type": _type},
+#             {"file": path, "label": label, "type": contentcontent_type},
 #         )
 #         self.conn.commit()
 
@@ -245,36 +239,7 @@ class DBCommon(DBConnection):
 #         )
 #         # return [BlockedItem(*x) for x in self.cur.fetchall()]
 
-#     def get_all_shows(self, status):
-#         """
-#         Query Content table for all (not null) distinct showtitles.
-#             Cast results as list of strings.
-#         """
-#         # Query database
-#         self.cur.execute(
-#             """
-#             SELECT DISTINCT
-#                 showtitle
-#             FROM
-#                 tvshow
-#             WHERE
-#                 status=:status
-#             ORDER BY
-#                 (
-#                     CASE WHEN
-#                         showtitle
-#                     LIKE
-#                         'the %'
-#                     THEN
-#                         substr(showtitle,5)
-#                     ELSE
-#                         showtitle
-#                     END
-#                 ) COLLATE NOCASE""",
-#             {"status": status},
-#         )
-#         for item in self.cur.fetchall():
-#             yield item[0]
+
 
 #     def get_season_items(self, status, showtitle):
 #         """Get seasons of a show and return as ContentManager object."""
@@ -345,12 +310,12 @@ class DBCommon(DBConnection):
 #                     orderby_str,
 #                 ]
 #             ),
-#             {"type": synced_type},
+#             {"type": syncedcontent_type},
 #         )
 #         # return [SyncedItem(*x) for x in self.cur.fetchall()]
 
 #     def delete_item_from_table_with_status_or_showtitle(
-#         self, _type, status, showtitle=None
+#         self, content_type, status, showtitle=None
 #     ):
 #         """
 #         Delete an entry in the table using the 'status' and 'showtitle', key.
@@ -363,7 +328,7 @@ class DBCommon(DBConnection):
 #         self.cur.execute(
 #             " ".join(
 #                 [
-#                     self.DELETE_DICT_QUERY[_type],
+#                     self.DELETE_DICT_QUERY[content_type],
 #                     "WHERE status=:status",
 #                     "AND showtitle=:showtitle" if showtitle else "",
 #                 ]
@@ -372,12 +337,12 @@ class DBCommon(DBConnection):
 #         )
 #         self.conn.commit()
 
-#     def delete_item_from_table_with_season(self, _type, showtitle, season):
+#     def delete_item_from_table_with_season(self, content_type, showtitle, season):
 #         """Delete an entry in the table using the 'showtitle' and 'season' key."""
 #         self.cur.execute(
 #             " ".join(
 #                 [
-#                     self.DELETE_DICT_QUERY[_type],
+#                     self.DELETE_DICT_QUERY[content_type],
 #                     "WHERE showtitle=:showtitle AND season=:season",
 #                 ]
 #             ),
@@ -385,7 +350,7 @@ class DBCommon(DBConnection):
 #         )
 #         self.conn.commit()
 
-#     def delete_entrie_from_blocked(self, value, _type):
+#     def delete_entrie_from_blocked(self, value, content_type):
 #         """Delete one entrie from blocked."""
 #         self.cur.execute(
 #             """DELETE FROM
@@ -394,7 +359,7 @@ class DBCommon(DBConnection):
 #                     value="%s"
 #                 AND
 #                     type=:type""",
-#             {"value": value, "type": _type},
+#             {"value": value, "type": contentcontent_type},
 #         )
 #         self.conn.commit()
 
@@ -409,15 +374,15 @@ class DBCommon(DBConnection):
 #         self.conn.commit()
 
 
-#     def update_showtitle_in_database(self, file, _type, showtitle):
+#     def update_showtitle_in_database(self, file, content_type, showtitle):
 #         """Update a showtitle for a single entrie in database."""
 #         self.cur.execute(
 #             " ".join(
 #                 [
-#                     self.UPDATE_DICT_QUERY[_type],
+#                     self.UPDATE_DICT_QUERY[content_type],
 #                     "SET showtitle=:showtitle WHERE file=:file",
 #                 ]
 #             ),
-#             {"file": file, "type": _type, "showtitle": showtitle},
+#             {"file": file, "type": content_type, "showtitle": showtitle},
 #         )
 #         self.conn.commit()
