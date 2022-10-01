@@ -12,7 +12,7 @@ from os.path import basename
 import xbmcvfs
 from resources.lib import MANAGED_FOLDER
 from resources.lib.content.content import Content
-from resources.lib.filesystem import join, mkdir, removedir
+from resources.lib.filesystem import join, mk_dir, remove_dir
 
 LOG = logging.getLogger(basename(__file__))
 
@@ -67,18 +67,18 @@ class MovieFileManager(Movie):
 
     def create_nfo(self) -> bool:
         """Create stream file with self.file at self.movie_strm filepath."""
-        mkdir(self.managed_movie_diretory)
-        with xbmcvfs.File(self.movie_nfo, "w+") as nfofile:
+        mk_dir(self.managed_movie_diretory)
+        with xbmcvfs.File(self.movie_nfo, "w+") as nfo_file:
             try:
                 if self._current_nfo_string:
-                    nfofile.write(self._current_nfo_string)
+                    nfo_file.write(self._current_nfo_string)
                     LOG.info("Created NFO file %s", self.movie_nfo)
                     return True
             except Exception:
                 LOG.exception("CreateNfo.create:")
             finally:
-                self._current_nfo_string = None
-                nfofile.close()
+                self._current_nfo_string = ""
+                nfo_file.close()
         return None
 
     def create_strm(self):
@@ -97,11 +97,11 @@ class MovieFileManager(Movie):
 
     def create_managed_movie_diretory(self) -> bool:
         """Create the managed_movie_diretory for content."""
-        return mkdir(self.managed_movie_diretory)
+        return mk_dir(self.managed_movie_diretory)
 
     def delete_managed_movie_diretory(self) -> bool:
         """Delete movie nfo file."""
-        return removedir(self.managed_movie_diretory)
+        return remove_dir(self.managed_movie_diretory)
 
     def delete_nfo(self) -> bool:
         """Delete movie nfo file."""

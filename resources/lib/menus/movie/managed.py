@@ -34,7 +34,7 @@ class ManagedMoviesMenu:
 
         self.finished_string = get_string(32043)
         self.managed_movies = self.database.get_content_items(
-            status="managed", _type="movie"
+            status="managed", content_type="movie"
         )
 
     # TODO: Remove the two strings and make them one

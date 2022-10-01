@@ -13,7 +13,7 @@ import xbmcvfs
 from resources.lib import MANAGED_FOLDER
 from resources.lib.content.content import Content
 from resources.lib.database.database import DBCommon
-from resources.lib.filesystem import join, mkdir, removedir
+from resources.lib.filesystem import join, mk_dir, remove_dir
 
 LOG = logging.getLogger(basename(__file__))
 
@@ -163,7 +163,7 @@ class EpisodeFileManager(Episode):
             ]
         )
 
-    def create_nfo(self) -> bool:
+    def create_nfo(self) -> Any:
         """Create stream file with self.file at nfo filepath."""
         mk_dir(self._current_nfo_diretory)
         with xbmcvfs.File(self._current_nfo_path, "w+") as nfo_file:
@@ -189,7 +189,7 @@ class EpisodeFileManager(Episode):
                 strm.write(self.file)
                 LOG.debug("Created STRM file %s", self.episode_strm)
                 return True
-            except Exception:
+            except:
                 LOG.exception("filesystem.create_stream_file:")
             finally:
                 strm.close()
@@ -197,19 +197,19 @@ class EpisodeFileManager(Episode):
 
     def create_managed_show_diretory(self) -> bool:
         """Create the managed_movie_diretory for content."""
-        return mkdir(self.managed_show_diretory)
+        return mk_dir(self.managed_show_diretory)
 
     def delete_managed_show_diretory(self) -> bool:
         """Delete managed_show_diretory nfo file."""
-        return removedir(self.managed_show_diretory)
+        return remove_dir(self.managed_show_diretory)
 
     def create_managed_season_diretory(self) -> bool:
         """Create the managed_season_diretory for content."""
-        return mkdir(self.managed_season_diretory)
+        return mk_dir(self.managed_season_diretory)
 
     def delete_managed_season_diretory(self) -> bool:
         """Delete managed_season_diretory nfo file."""
-        return removedir(self.managed_season_diretory)
+        return remove_dir(self.managed_season_diretory)
 
     def delete_tvshow_nfo(self) -> bool:
         """Delete tvshow nfo file."""

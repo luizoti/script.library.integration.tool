@@ -99,7 +99,7 @@ def cleaner(func):
                     showtitle = re.sub(key, val, showtitle)
                     item["showtitle"] = showtitle
                     LOG.debug("Cleaner.showtitle ---> %s", item)
-                # if 'type' in item and _type:
+                # if 'type' in item and content_type:
                 #     item['type'] = 'tvshow'
             if "title" in item:
                 title = item["title"]
