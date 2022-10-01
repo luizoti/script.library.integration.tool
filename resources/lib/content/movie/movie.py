@@ -8,6 +8,7 @@ control everything needed to manage movies.
 import logging
 from dataclasses import asdict, dataclass
 from os.path import basename
+from typing import TypeVar
 
 import xbmcvfs
 from resources.lib import MANAGED_FOLDER
@@ -15,6 +16,8 @@ from resources.lib.content.content import Content
 from resources.lib.filesystem import join, mk_dir, remove_dir
 
 LOG = logging.getLogger(basename(__file__))
+
+type_var = TypeVar('type_var', None, bool)
 
 
 @dataclass
@@ -65,7 +68,7 @@ class MovieFileManager(Movie):
             ]
         )
 
-    def create_nfo(self) -> bool:
+    def create_nfo(self) -> type_var:
         """Create stream file with self.file at self.movie_strm filepath."""
         mk_dir(self.managed_movie_diretory)
         with xbmcvfs.File(self.movie_nfo, "w+") as nfo_file:
