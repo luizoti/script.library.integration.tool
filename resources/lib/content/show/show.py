@@ -172,7 +172,7 @@ class EpisodeFileManager(Episode):
                     nfo_file.write(self._current_nfo_string)
                     LOG.info("Created NFO file %s", self._current_nfo_path)
                     return True
-            except:
+            except:  # noqa: E261
                 LOG.exception("CreateNfo.create:")
             finally:
                 self._current_nfo_string = ""
@@ -189,7 +189,7 @@ class EpisodeFileManager(Episode):
                 strm.write(self.file)
                 LOG.debug("Created STRM file %s", self.episode_strm)
                 return True
-            except:
+            except:  # noqa: E261
                 LOG.exception("filesystem.create_stream_file:")
             finally:
                 strm.close()

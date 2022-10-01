@@ -14,6 +14,7 @@ LOG = logging.getLogger(basename(__file__))
 logger.logging_setup()
 
 
+# noinspection PyBroadException
 def main():
     """Main entry point for addon."""
     if "test" in sys.argv:
@@ -21,7 +22,7 @@ def main():
         return
     try:
         MainMenu().show()
-    except Exception:  # pylint: disable=broad-except
+    except:  # noqa: E261  # noqa: E261
         LOG.exception("Main menu error")
 
 
