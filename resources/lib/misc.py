@@ -33,8 +33,9 @@ def is_season(string):
     """Function to check if item is a season."""
     return bool(re_search(string, ["season", "temporada", r"S\d{1,4}"]))
 
+
 # in future path arg will select the clean method
-def videolibrary(method, database="video"):
+def video_library(method, database="video"):
     """A dedicated method to performe jsonrpc VideoLibrary.Scan or VideoLibrary."""
     command = {
         "scan": f"CleanLibrary({database})",

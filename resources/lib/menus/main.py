@@ -3,21 +3,21 @@
 """Defines the MainMenu class, which gets called from the main executable."""
 
 import logging
-import sys
 from os.path import basename
 
 import xbmc
+
 from resources.lib import ADDON_ID, ADDON_NAME
 from resources.lib.gui.colors import Colors
 from resources.lib.gui.gui_utils import bold, colorize
-
-# from resources.lib.gui.progressbar import ProgressBar
 from resources.lib.gui.select import Select
+from resources.lib.menus.blocked import BlockedMenu
 from resources.lib.menus.movie.managed import ManagedMoviesMenu
 from resources.lib.menus.movie.staged import StagedMoviesMenu
-from resources.lib.menus.show.managed import ManagedTVMenu
-from resources.lib.menus.show.staged import StagedTVMenu
-from resources.lib.misc import videolibrary
+from resources.lib.menus.show.managed.managed_menu_show import ManagedShowsMenu
+from resources.lib.menus.show.staged.staged_menu_show import StagedShowsMenu
+from resources.lib.menus.synced import SyncedMenu
+from resources.lib.misc import video_library
 
 # from resources.lib.menus.synced import SyncedMenu
 # from resources.lib.menus.blocked import BlockedMenu
@@ -62,7 +62,7 @@ class MainMenu:
             return
         selected_index, _, selected_value = selected_option
         self.last_choice = selected_index
-        videolibrary(selected_value)
+        video_library(selected_value)
         xbmc.sleep(1500)
         self.library_options()
 
