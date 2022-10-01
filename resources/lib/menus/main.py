@@ -102,5 +102,5 @@ class MainMenu:
             selected_value(f"Addon.OpenSettings({ADDON_ID})", True)
             self.show()
         else:
-            selected_value(self).show()
-        sys.exit()
+            selected_value(parent_menu=self).show_all()
+        return None

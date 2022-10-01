@@ -98,7 +98,7 @@ class StagedMoviesMenu:
         )
         selected_option = select_menu.show(use_details=True, pre_select=999999)
         if not selected_option or "back" in selected_option:
-            self.show()
+            self.show_all()
             return
         selected_index, _, selected_value = selected_option
         self.last_choice = selected_index
@@ -107,14 +107,12 @@ class StagedMoviesMenu:
         self.staged_movies.pop(movie_dict_info["title"])
         xbmc.sleep(400)
         if self.staged_movies:
-            self.show()
+            self.show_all()
         else:
             self.parent_menu.show()
 
-    def show(self):
-        """
-        Display all staged movies, which are selectable and lead to options.
-        """
+    def show_all(self):
+        """Display all staged movies, which are selectable and lead to options."""
         if not self.staged_movies:
             xbmcgui.Dialog().ok(ADDON_NAME, get_string(32037))
             return
