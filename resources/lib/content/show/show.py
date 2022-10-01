@@ -8,14 +8,19 @@ control everything needed to manage show/episodes.
 import logging
 from dataclasses import InitVar, asdict, dataclass
 from os.path import basename
+from typing import TypeVar
 
 import xbmcvfs
+
 from resources.lib import MANAGED_FOLDER
 from resources.lib.content.content import Content
 from resources.lib.database.database import DBCommon
 from resources.lib.filesystem import join, mk_dir, remove_dir
 
 LOG = logging.getLogger(basename(__file__))
+
+type_var = TypeVar("type_var", None, bool)
+
 
 # TODO: use cleaner
 # showtitle: str = None
@@ -163,7 +168,7 @@ class EpisodeFileManager(Episode):
             ]
         )
 
-    def create_nfo(self) -> Any:
+    def create_nfo(self) -> type_var:
         """Create stream file with self.file at nfo filepath."""
         mk_dir(self._current_nfo_diretory)
         with xbmcvfs.File(self._current_nfo_path, "w+") as nfo_file:
