@@ -25,7 +25,7 @@ from resources.lib.misc import video_library
 # TODO: automatically clean & update when adding/removing based in type and path
 # TODO: rebuild library option
 #   1. FLAG all itens in managed
-#   2. move all all to staged
+#   2. move all to staged
 #   3. delete all managed itens
 #   4. re-add all FLAGGED itens
 
@@ -69,31 +69,35 @@ class MainMenu:
     def show(self):
         """Display main menu which leads to other menus."""
         select_menu = Select(
-            # TODO: .replace("[\B]", "") because it seems not possible to close a tag [B] when using a tag color
-            # fix this in future
-            heading=colorize(bold(ADDON_NAME), Colors.SKYBLUE).replace(r"[/B]", ""),
-            back_option=False,
+                # TODO: .replace("[\B]", "") because it seems not possible to close a tag [B] when using a tag color
+                # fix this in future
+                heading=colorize(bold(ADDON_NAME), Colors.SKYBLUE).replace(r"[/B]", ""),
+                back_option=False,
         )
         select_menu.options(
-            {
-                32002: ManagedMoviesMenu,
-                32004: StagedMoviesMenu,
-                32003: ManagedTVMenu,
-                32005: StagedTVMenu,
-                # 32006: SyncedMenu,
-                # 32007: BlockedMenu,
-            }
+                {
+                    32002: ManagedMoviesMenu,
+                    32004: StagedMoviesMenu,
+                    32003: ManagedShowsMenu,
+                    32005: StagedShowsMenu,
+                    32006: SyncedMenu,
+                    32007: BlockedMenu,
+                }
         )
         select_menu.extra_options(
-            {
-                32180: self.library_options,
-                32179: xbmc.executebuiltin,
-            }
+                {
+                    32180: self.library_options,
+                    32179: xbmc.executebuiltin,
+                }
         )
         selected_option: tuple = select_menu.show(use_details=True)
 
         if not selected_option or "back" in selected_option:
             return
+        selected_value: (
+            ManagedMoviesMenu, StagedMoviesMenu, ManagedShowsMenu, StagedShowsMenu, MainMenu.library_options,
+            SyncedMenu,
+            BlockedMenu)
         _, selected_key, selected_value = selected_option
         if selected_key == 32180:
             selected_value()

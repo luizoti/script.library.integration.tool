@@ -23,7 +23,7 @@ class ManagedMoviesMenu:
     """
     Contain window for displaying managed movies.
 
-    Provive tools for manipulating the objects and managed file.
+    Provide tools for manipulating the objects and managed file.
     """
 
     def __init__(self, parent_menu):
@@ -35,7 +35,7 @@ class ManagedMoviesMenu:
 
         self.finished_string = get_string(32043)
         self.managed_movies = self.database.get_content_items(
-            status="managed", content_type="movie"
+                status="managed", content_type="movie"
         )
 
     # TODO: Remove the two strings and make them one
@@ -54,7 +54,7 @@ class ManagedMoviesMenu:
             movie = ManagedMovie(**info, database=self.database)
             movie.remove_completely()
             self.progress_dialog.update_progress_dialog(
-                index / len(self.managed_movies), title
+                    index / len(self.managed_movies), title
             )
         self.progress_dialog.close_progress_dialog()
         notification(self.finished_string)
@@ -69,7 +69,7 @@ class ManagedMoviesMenu:
             movie = ManagedMovie(**info, database=self.database)
             movie.move_to_staged()
             self.progress_dialog.update_progress_dialog(
-                index / len(self.managed_movies), title
+                    index / len(self.managed_movies), title
             )
         self.progress_dialog.close_progress_dialog()
         notification(self.finished_string)
@@ -84,7 +84,7 @@ class ManagedMoviesMenu:
             movie = ManagedMovie(**info, database=self.database)
             movie.delete_nfo()
             self.progress_dialog.update_progress_dialog(
-                index / len(self.managed_movies), title
+                    index / len(self.managed_movies), title
             )
         self.progress_dialog.close_progress_dialog()
         notification(self.finished_string)
@@ -100,7 +100,7 @@ class ManagedMoviesMenu:
             movie.build_movie_nfo_string()
             movie.create_nfo()
             self.progress_dialog.update_progress_dialog(
-                index / len(self.managed_movies), title
+                    index / len(self.managed_movies), title
             )
         self.progress_dialog.close_progress_dialog()
         notification(self.finished_string)
@@ -158,12 +158,12 @@ class ManagedMoviesMenu:
                 turn_bold=True,
         )
         select_menu.extra_options(
-            {
-                32009: self.delete_all,
-                32010: self.move_all_to_staged,
-                32040: self.create_all_nfo_files,
-                32174: self.delete_all_nfo_files,
-            }
+                {
+                    32009: self.delete_all,
+                    32010: self.move_all_to_staged,
+                    32040: self.create_all_nfo_files,
+                    32174: self.delete_all_nfo_files,
+                }
         )
         selected_option = select_menu.show(use_details=True, pre_select=self.last_choice)
         if not selected_option or "back" in selected_option:

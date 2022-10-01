@@ -3,14 +3,15 @@
 """Defines the BlockedMenu class."""
 
 import xbmcgui
-from resources import ADDON_NAME
-from resources.lib.misc import get_string
+from resources.lib import ADDON_NAME
+from resources.lib.gui.gui_utils import get_string
+from resources.lib.gui.progressbar import ProgressBar
 
 
 class BlockedMenu:
     """Provide windows for displaying blocked items and tools for managing them."""
 
-    def __init__(self, database, progressdialog):
+    def __init__(self):
         """__init__ BlockedMenu."""
         self.database = DBShows() #TODO? DBBlocked
         self.progress_dialog = ProgressBar() #TODO: ProgressBar in Blocked???
@@ -26,9 +27,9 @@ class BlockedMenu:
         # TODO?: make blocked episode match on both episode AND show
         # TODO: add blocked types: plugin, path
         # TODO: add blocked keywords, let you choose type
-        # TODO: intialize blocked list with known bad items
+        # TODO: initialize blocked list with known bad items
         STR_BACK = get_string(32011)
-        STR_BLOCKED_ITEMS = get_string(32098)
+        STR_BLOCKED_ITEMS = get_string(32007)
         STR_NO_BLOCKED_ITEMS = get_string(32119)
         blocked_items = self.database.get_all_blocked_itens()
         if not blocked_items:

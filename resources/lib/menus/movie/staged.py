@@ -24,12 +24,9 @@ LOG = logging.getLogger(basename(__file__))
 class StagedMoviesMenu:
     """Provide windows for displaying staged movies, and tools for managing the items."""
 
-    # TODO: don't commit sql changes for "... all" until end
-    # TODO: decorator for "...all" commands
-
     def __init__(self, parent_menu):
         """__init__ StagedMoviesMenu."""
-        # Only realy connect to database when open the content menu.
+        # Only really connect to database when open the content menu.
         self.database = DBCommon()
         self.progress_dialog = ProgressBar()
         self.parent_menu = parent_menu
@@ -50,7 +47,7 @@ class StagedMoviesMenu:
             movie = StagedMovie(**info, database=self.database)
             movie.move_to_managed()
             self.progress_dialog.update_progress_dialog(
-                index / len(self.staged_movies), title
+                    index / len(self.staged_movies), title
             )
         self.progress_dialog.close_progress_dialog()
         notification(self.finished_string)
@@ -65,18 +62,10 @@ class StagedMoviesMenu:
             movie = StagedMovie(**info, database=self.database)
             movie.delete_from_staged()
             self.progress_dialog.update_progress_dialog(
-                index / len(self.staged_movies), title
+                    index / len(self.staged_movies), title
             )
         self.progress_dialog.close_progress_dialog()
         notification(self.finished_string)
-
-    # @staticmethod
-    # def rename_dialog(item):
-    #     """Prompt input for new name, and rename if non-empty string."""
-    #     # TODO: move to utils or parent class so it's not duplicated
-    #     input_ret = xbmcgui.Dialog().input("Title", defaultt=item.title())
-    #     if input_ret:
-    #         item.rename(input_ret)
 
     def movie_options(self, movie_dict_info):
         """Provide options for a single staged movie in a dialog window."""
@@ -87,7 +76,6 @@ class StagedMoviesMenu:
                 ),
                 turn_bold=True,
         )
-        # # TODO: RENAME STRING --> 32050
         select_menu.options(
                 {
                     32048: movie.move_to_managed,

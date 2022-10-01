@@ -10,10 +10,11 @@ from os.path import basename
 
 import xbmc
 import xbmcgui
-from resources import ADDON_NAME
-from resources.lib import build_contentitem, build_json_item
-from resources.lib.misc import get_string, notification, title_with_color
-from resources.lib.progressbar import BGProgressBar
+
+from resources.lib import ADDON_NAME
+from resources.lib.database.database import DBCommon
+from resources.lib.gui.gui_utils import get_string, notification, title_with_color
+from resources.lib.gui.progressbar import ProgressBarBackground, ProgressBar
 from resources.lib.utils import load_directory_items
 
 LOG = logging.getLogger(basename(__file__))
@@ -28,7 +29,7 @@ class SyncedMenu:
 
     # IDEA: new "find all directories" context item that finds and consolidates directories
 
-    def __init__(self, database, progressdialog):
+    def __init__(self):
         """SyncedMenu class."""
         self.database = DBCommon()
         self.progress_dialog = ProgressBar()
@@ -138,13 +139,12 @@ class SyncedMenu:
     def options(self, item):
         """Provide options for a single synced directory in a dialog window."""
         # TODO: Remove all from plugin
-        # TODO: Rename label
         STR_REMOVE = get_string(32017)
         STR_SYNCED_DIR_OPTIONS = get_string(32085)
         STR_BACK = get_string(32011)
         lines = [STR_REMOVE, STR_BACK]
         ret = xbmcgui.Dialog().select(
-            f"{ADDON_NAME} - {STR_SYNCED_DIR_OPTIONS} - {item['label']}", lines
+                f"{ADDON_NAME} - {STR_SYNCED_DIR_OPTIONS} - {item['label']}", lines
         )
         if ret >= 0:
             if lines[ret] == STR_REMOVE:
@@ -159,7 +159,7 @@ class SyncedMenu:
         STR_ALL_SYNCED_DIRS_REMOVED = get_string(32087)
         STR_ARE_YOU_SURE = get_string(32088)
         if xbmcgui.Dialog().yesno(
-            f"{ADDON_NAME} - {STR_REMOVE_ALL_SYNCED_DIRS}", STR_ARE_YOU_SURE
+                f"{ADDON_NAME} - {STR_REMOVE_ALL_SYNCED_DIRS}", STR_ARE_YOU_SURE
         ):
             self.database.delete_all_from_synced()
             notification(STR_ALL_SYNCED_DIRS_REMOVED)
@@ -233,30 +233,30 @@ class SyncedMenu:
                     num_already_managed += 1
                     continue
                 if self.database.check_if_is_blocked(
-                    contentitem["showtitle"], "episode"
+                        contentitem["showtitle"], "episode"
                 ):
                     continue
                 self.progress_dialog.update_progress_dialog(
-                    index / len(files_list),
-                    "\n".join(
-                        [
-                            title_with_color(
-                                contentitem["showtitle"], year=contentitem["year"]
-                            ),
-                            contentitem["episode_title_with_id"],
-                        ]
-                    ),
+                        index / len(files_list),
+                        "\n".join(
+                                [
+                                    title_with_color(
+                                            contentitem["showtitle"], year=contentitem["year"]
+                                    ),
+                                    contentitem["episode_title_with_id"],
+                                ]
+                        ),
                 )
                 self.database.add_content_item(contentitem)
                 items_to_stage += 1
                 xbmc.sleep(300)
-            except Exception: # pylint: disable=broad-except
+            except Exception:  # pylint: disable=broad-except
                 LOG.error("SyncedMenu.add_single_tvshow error")
 
         if num_already_staged > 0 or num_already_managed > 0:
             notification(
-                STR_i_NEW_i_STAGED_i_MANAGED
-                % (items_to_stage, num_already_staged, num_already_managed)
+                    STR_i_NEW_i_STAGED_i_MANAGED
+                    % (items_to_stage, num_already_staged, num_already_managed)
             )
         else:
             notification(STR_i_NEW % items_to_stage)
@@ -300,7 +300,7 @@ class SyncedMenu:
                     pass
 
                 if self.database.check_if_is_blocked(
-                    content_title, contentitem["type"]
+                        content_title, contentitem["type"]
                 ):
                     continue
                 if self.database.path_exists(file=contentitem["file"]):
@@ -308,28 +308,28 @@ class SyncedMenu:
                 # Check for duplicate paths and blocked items
                 try:
                     self.progress_dialog.update_progress_dialog(
-                        index / len(files_list),
-                        "\n".join(
-                            [
-                                STR_GETTING_ITEMS_IN_x % contentitem["showtitle"],
-                                contentitem["episode_title_with_id"],
-                            ]
-                        ),
+                            index / len(files_list),
+                            "\n".join(
+                                    [
+                                        STR_GETTING_ITEMS_IN_x % contentitem["showtitle"],
+                                        contentitem["episode_title_with_id"],
+                                    ]
+                            ),
                     )
                     # try add tvshow
                     self.database.add_content_item(
-                        contentitem,
+                            contentitem,
                     )
                     xbmc.sleep(300)
                 except KeyError:
                     # TODO: new dialog str to movie
                     self.progress_dialog.update_progress_dialog(
-                        index / len(files_list),
-                        STR_MOVIE_STAGED % content_title,
+                            index / len(files_list),
+                            STR_MOVIE_STAGED % content_title,
                     )
                     # try add movie
                     self.database.add_content_item(
-                        contentitem,
+                            contentitem,
                     )
                     xbmc.sleep(500)
                 items_to_stage += 1
@@ -368,11 +368,11 @@ class SyncedMenu:
                 if diretory["type"] == "single-movie":
                     # Directory is just a path to a single movie
                     all_items.append(
-                        {
-                            "file": diretory["file"],
-                            "label": diretory["label"],
-                            "type": "movie",
-                        }
+                            {
+                                "file":  diretory["file"],
+                                "label": diretory["label"],
+                                "type":  "movie",
+                            }
                     )
                 elif diretory["type"] == "single-tvshow":
                     # Directory is a path to a tv show folder
@@ -399,9 +399,9 @@ class SyncedMenu:
             # Prompt user to remove & stage
             if paths_to_remove or items_to_stage:
                 if xbmcgui.Dialog().yesno(
-                    ADDON_NAME,
-                    STR_i_TO_REMOVE_i_TO_STAGE_PROCEED
-                    % (len(paths_to_remove), len(items_to_stage)),
+                        ADDON_NAME,
+                        STR_i_TO_REMOVE_i_TO_STAGE_PROCEED
+                        % (len(paths_to_remove), len(items_to_stage)),
                 ):
                     if paths_to_remove:
                         self.background_progress_bar.update_progress_bar(99, STR_REMOVING_ITEMS)
@@ -430,7 +430,7 @@ class SyncedMenu:
             all_items = []
             movie_dirs = self.database.get_synced_dirs(synced_type="movie")
             single_movie_dirs = self.database.get_synced_dirs(
-                synced_type="single-movie"
+                    synced_type="single-movie"
             )
             total_num_dirs = len(movie_dirs + single_movie_dirs)
             for index, synced_dir in enumerate(movie_dirs):
@@ -443,11 +443,11 @@ class SyncedMenu:
                         (index + len(movie_dirs) / total_num_dirs), synced_dir["label"]
                 )
                 all_items.append(
-                    {
-                        "file": synced_dir["file"],
-                        "label": synced_dir["label"],
-                        "type": "movie",
-                    }
+                        {
+                            "file":  synced_dir["file"],
+                            "label": synced_dir["label"],
+                            "type":  "movie",
+                        }
                 )
             # Find managed paths not in dir_items, and prepare to remove
             self.background_progress_bar.update_progress_bar(99, STR_FINDING_ITEMS_TO_REMOVE)
@@ -459,9 +459,9 @@ class SyncedMenu:
             # Prompt user to remove & stage
             if paths_to_remove or items_to_stage:
                 if xbmcgui.Dialog().yesno(
-                    ADDON_NAME,
-                    STR_i_TO_REMOVE_i_TO_STAGE_PROCEED
-                    % (len(paths_to_remove), len(items_to_stage)),
+                        ADDON_NAME,
+                        STR_i_TO_REMOVE_i_TO_STAGE_PROCEED
+                        % (len(paths_to_remove), len(items_to_stage)),
                 ):
                     if paths_to_remove:
                         self.background_progress_bar.update_progress_bar(99, STR_REMOVING_ITEMS)
@@ -490,7 +490,7 @@ class SyncedMenu:
             all_items = []
             show_dirs = self.database.get_synced_dirs(synced_type="tvshow")
             single_show_dirs = self.database.get_synced_dirs(
-                synced_type="single-tvshow"
+                    synced_type="single-tvshow"
             )
             total_num_dirs = len(show_dirs + single_show_dirs)
             for index, synced_dir in enumerate(show_dirs):
@@ -506,7 +506,7 @@ class SyncedMenu:
                         synced_dir["label"],
                 )
                 all_items += self.get_single_tvshow(
-                    synced_dir["file"], synced_dir["label"]
+                        synced_dir["file"], synced_dir["label"]
                 )
             # Find managed paths not in dir_items, and prepare to remove
             self.background_progress_bar.update_progress_bar(99, STR_FINDING_ITEMS_TO_REMOVE)
@@ -518,9 +518,9 @@ class SyncedMenu:
             # Prompt user to remove & stage
             if paths_to_remove or items_to_stage:
                 if xbmcgui.Dialog().yesno(
-                    ADDON_NAME,
-                    STR_i_TO_REMOVE_i_TO_STAGE_PROCEED
-                    % (len(paths_to_remove), len(items_to_stage)),
+                        ADDON_NAME,
+                        STR_i_TO_REMOVE_i_TO_STAGE_PROCEED
+                        % (len(paths_to_remove), len(items_to_stage)),
                 ):
                     if paths_to_remove:
                         self.background_progress_bar.update_progress_bar(99, STR_REMOVING_ITEMS)
