@@ -11,6 +11,7 @@ from os.path import basename
 from typing import TypeVar
 
 import xbmcvfs
+
 from resources.lib import MANAGED_FOLDER
 from resources.lib.content.content import Content
 from resources.lib.filesystem import join, mk_dir, remove_dir
@@ -58,14 +59,14 @@ class MovieFileManager(Movie):
     def build_movie_nfo_string(self):
         """Method to format the .nfo body with the required attributes."""
         self._current_nfo_string = "\n".join(
-            [
-                self._unicode_heading,
-                "<movie>",
-                f"\t<title>{self.title}</title>",
-                f"\t<year>{self.year}</year>",
-                f"\t<original_filename>{self.file}</original_filename>",
-                "</movie>\n",
-            ]
+                [
+                    self._unicode_heading,
+                    "<movie>",
+                    f"\t<title>{self.title}</title>",
+                    f"\t<year>{self.year}</year>",
+                    f"\t<original_filename>{self.file}</original_filename>",
+                    "</movie>\n",
+                ]
         )
 
     def create_nfo(self) -> type_var:

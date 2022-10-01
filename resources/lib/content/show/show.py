@@ -30,6 +30,7 @@ type_var = TypeVar("type_var", None, bool)
 # def __post_init__(self):
 # self.cleaner = Cleaner()
 
+# noinspection PyBroadException
 
 @dataclass
 class Episode(Content):
@@ -139,14 +140,14 @@ class EpisodeFileManager(Episode):
         self._current_nfo_path: str = self.tvshow_nfo
 
         self._current_nfo_string = "\n".join(
-            [
-                self._unicode_heading,
-                "<tvshow>",
-                f"\t<title>{self.showtitle}</title>\n",
-                f"\t<showtitle>{self.showtitle}</showtitle>\n",
-                f"\t<year>{self.year}</year>\n",
-                "</tvshow>\n",
-            ]
+                [
+                    self._unicode_heading,
+                    "<tvshow>",
+                    f"\t<title>{self.showtitle}</title>\n",
+                    f"\t<showtitle>{self.showtitle}</showtitle>\n",
+                    f"\t<year>{self.year}</year>\n",
+                    "</tvshow>\n",
+                ]
         )
 
     def build_episode_nfo_string(self):
@@ -155,17 +156,17 @@ class EpisodeFileManager(Episode):
         self._current_nfo_path: str = self.episode_nfo
 
         self._current_nfo_string = "\n".join(
-            [
-                self._unicode_heading,
-                "<episodedetails>",
-                f"\t<title>{self.title}</title>\n",
-                f"\t<showtitle>{self.showtitle}</showtitle>\n",
-                f"\t<season>{self.season}</season>\n",
-                f"\t<episode>{self.episode}</episode_number>\n",
-                f"\t<year>{self.year}</year>\n",
-                f"\t<original_filename>{self.file}</original_filename>\n",
-                "</episodedetails>\n",
-            ]
+                [
+                    self._unicode_heading,
+                    "<episodedetails>",
+                    f"\t<title>{self.title}</title>\n",
+                    f"\t<showtitle>{self.showtitle}</showtitle>\n",
+                    f"\t<season>{self.season}</season>\n",
+                    f"\t<episode>{self.episode}</episode_number>\n",
+                    f"\t<year>{self.year}</year>\n",
+                    f"\t<original_filename>{self.file}</original_filename>\n",
+                    "</episodedetails>\n",
+                ]
         )
 
     def create_nfo(self) -> type_var:
