@@ -442,7 +442,7 @@ def crunchyroll_language_menu(results):
 
 
 def load_directory_items(
-    progressdialog,
+    progress_dialog,
     _path,
     recursive=False,
     allow_directories=False,
@@ -478,7 +478,7 @@ def load_directory_items(
     directories = []
     for index, item in enumerate(results):
         if item["type"] == "movie":
-            progressdialog.update_progress_dialog(
+            progress_dialog.update_progress_dialog(
                     index / len(results), f"Processando items:\n{item['title']}"
             )
             if item:
@@ -492,7 +492,7 @@ def load_directory_items(
             if item["filetype"] == "directory":
                 if re_search(item["type"], ["season", "tvshow"]):
                     showtitle = item["showtitle"]
-                    progressdialog.update_progress_dialog(
+                    progress_dialog.update_progress_dialog(
                             index / len(results),
                             f"Coletando itens no diretorio!\n{item['label']}",
                     )
@@ -501,7 +501,7 @@ def load_directory_items(
             if item["type"] == "episode":
                 # change type to 'tvshow' to padronize in build_contentitem
                 item["type"] = "tvshow"
-                progressdialog.update_progress_dialog(
+                progress_dialog.update_progress_dialog(
                         index / len(results), f"Processando items:\n{item['label']}"
                 )
                 item["showtitle"] = showtitle
@@ -527,7 +527,7 @@ def load_directory_items(
                 year = False
             new_items = list(
                 load_directory_items(
-                    progressdialog=progressdialog,
+                    progress_dialog=progress_dialog,
                     _path=_dir["file"],
                     recursive=recursive,
                     allow_directories=allow_directories,

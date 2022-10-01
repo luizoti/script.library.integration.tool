@@ -30,9 +30,9 @@ class SyncedMenu:
 
     def __init__(self, database, progressdialog):
         """SyncedMenu class."""
-        self.database = database()
-        self.progressdialog = progressdialog()
-        self.bgprogressbar = BGProgressBar()
+        self.database = DBCommon()
+        self.progress_dialog = ProgressBar()
+        self.background_progress_bar = ProgressBarBackground()
 
     def filter_blocked_items(self, items, _type):
         """Filter out all blocked items in the list."""
@@ -65,7 +65,7 @@ class SyncedMenu:
         dir_items = self.filter_blocked_items(
             list(
                 load_directory_items(
-                    progressdialog=None,
+                    progress_dialog=None,
                     _path=directory,
                     recursive=True,
                     sync_type="movie",
@@ -79,12 +79,12 @@ class SyncedMenu:
             item["type"] = "movie"
         return dir_items
 
-    def get_single_tvshow(self, directory, showtitle, progressdialog=None):
+    def get_single_tvshow(self, directory, showtitle, progress_dialog=None):
         """Get the single TV show in the directory, and tag the items."""
         show_items = self.filter_blocked_items(
             list(
                 load_directory_items(
-                    progressdialog=progressdialog,
+                    progress_dialog=progress_dialog,
                     _path=directory,
                     recursive=True,
                     sync_type="tvshow",
@@ -97,12 +97,12 @@ class SyncedMenu:
             item["showtitle"] = showtitle
         return show_items
 
-    def get_tvshows_in_directory(self, directory, progressdialog=None):
+    def get_tvshows_in_directory(self, directory, progress_dialog=None):
         """Get all TV shows in the directory, and tag the items."""
         dir_items = self.filter_blocked_items(
             list(
                 load_directory_items(
-                    progressdialog=progressdialog,
+                    progress_dialog=progress_dialog,
                     _path=directory,
                     allow_directories=True,
                     recursive=True,
@@ -120,7 +120,7 @@ class SyncedMenu:
             show_items = self.filter_blocked_items(
                 list(
                     load_directory_items(
-                        progressdialog=None,
+                        progress_dialog=None,
                         _path=show_path,
                         recursive=True,
                         sync_type="tvshow",
@@ -201,14 +201,14 @@ class SyncedMenu:
         STR_i_NEW = get_string(32107)
         STR_i_NEW_i_STAGED_i_MANAGED = get_string(32106)
         STR_GETTING_ITEMS_IN_DIR = get_string(32125)
-        # STR_GETTING_ITEMS_IN_x = getstring(32126)
-        self.progressdialog.create_progressdialog(head=ADDON_NAME)
+        # STR_GETTING_ITEMS_IN_x = get_string(32126)
+        self.progress_dialog.create_progress_dialog(head=ADDON_NAME)
         # Add synced directory to database
         self.database.add_item_to_synced(title, file, "single-tvshow")
         # Get everything inside tvshow path
         files_list = list(
             load_directory_items(
-                progressdialog=self.progressdialog,
+                progress_dialog=self.progress_dialog,
                 _path=file,
                 allow_directories=True,
                 recursive=True,
@@ -221,7 +221,7 @@ class SyncedMenu:
         items_to_stage = 0
         num_already_staged = 0
         num_already_managed = 0
-        self.progressdialog.update_progressdialog(0, STR_GETTING_ITEMS_IN_DIR)
+        self.progress_dialog.update_progress_dialog(0, STR_GETTING_ITEMS_IN_DIR)
         for index, jsonitem in enumerate(files_list):
             try:
                 contentitem = build_contentitem(jsonitem)
@@ -236,7 +236,7 @@ class SyncedMenu:
                     contentitem["showtitle"], "episode"
                 ):
                     continue
-                self.progressdialog.update_progressdialog(
+                self.progress_dialog.update_progress_dialog(
                     index / len(files_list),
                     "\n".join(
                         [
@@ -271,15 +271,15 @@ class SyncedMenu:
         STR_GETTING_ITEMS_IN_x = get_string(32126)
         STR_i_EPISODES_STAGED = get_string(32112)
         STR_GETTING_ITEMS_IN_DIR = get_string(32125)
-        self.progressdialog.create_progressdialog(head=ADDON_NAME)
+        self.progress_dialog.create_progress_dialog(head=ADDON_NAME)
         try:
             # add synced directory to database
             self.database.add_item_to_synced(dir_label, dir_path, "tvshow")
             # query json-rpc to get files in directory
-            self.progressdialog.update_progressdialog(0, STR_GETTING_ITEMS_IN_DIR)
+            self.progress_dialog.update_progress_dialog(0, STR_GETTING_ITEMS_IN_DIR)
             files_list = list(
                 load_directory_items(
-                    progressdialog=self.progressdialog,
+                    progress_dialog=self.progress_dialog,
                     _path=dir_path,
                     allow_directories=True,
                     recursive=True,
@@ -307,7 +307,7 @@ class SyncedMenu:
                     continue
                 # Check for duplicate paths and blocked items
                 try:
-                    self.progressdialog.update_progressdialog(
+                    self.progress_dialog.update_progress_dialog(
                         index / len(files_list),
                         "\n".join(
                             [
@@ -323,7 +323,7 @@ class SyncedMenu:
                     xbmc.sleep(300)
                 except KeyError:
                     # TODO: new dialog str to movie
-                    self.progressdialog.update_progressdialog(
+                    self.progress_dialog.update_progress_dialog(
                         index / len(files_list),
                         STR_MOVIE_STAGED % content_title,
                     )
@@ -335,7 +335,7 @@ class SyncedMenu:
                 items_to_stage += 1
             notification(STR_i_EPISODES_STAGED % items_to_stage)
         finally:
-            self.progressdialog.close_progressdialog()
+            self.progress_dialog.close_progress_dialog()
 
     def update_all(self):
         """
@@ -379,7 +379,7 @@ class SyncedMenu:
                     all_items += self.get_single_tvshow(
                         diretory["file"],
                         diretory["label"],
-                        progressdialog=self.bgprogressbar,
+                        progress_dialog=self.background_progress_bar,
                     )
                 elif diretory["type"] == "movie":
                     # Directory is a path to list of movies
@@ -582,7 +582,7 @@ class SyncedMenu:
                 self.update_tvshows()
                 sys.exit()
             elif lines[ret] == STOP_CURRENT_UPDATE:
-                xbmc.executebuiltin("Dialog.isFinished(extendedprogressdialog)")
+                xbmc.executebuiltin("Dialog.isFinished(extendedprogress_dialog)")
                 sys.exit()
             elif lines[ret] == STR_REMOVE_ALL:
                 self.remove_all()

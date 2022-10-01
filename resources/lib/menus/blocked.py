@@ -12,8 +12,9 @@ class BlockedMenu:
 
     def __init__(self, database, progressdialog):
         """__init__ BlockedMenu."""
-        self.database = database()
-        self.progressdialog = progressdialog()
+        self.database = DBShows() #TODO? DBBlocked
+        self.progress_dialog = ProgressBar() #TODO: ProgressBar in Blocked???
+
 
     def show_all(self):
         """

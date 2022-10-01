@@ -30,7 +30,7 @@ class StagedMoviesMenu:
         """__init__ StagedMoviesMenu."""
         # Only realy connect to database when open the content menu.
         self.database = DBCommon()
-        self.progressdialog = ProgressBar()
+        self.progress_dialog = ProgressBar()
         self.parent_menu = parent_menu
         self.lastchoice = 99999
 
@@ -41,32 +41,32 @@ class StagedMoviesMenu:
 
     def add_all_to_managed(self):
         """Add all items to managed (library)."""
-        self.progressdialog.create_progressdialog(head=get_string(32042))
+        self.progress_dialog.create_progress_dialog(head=get_string(32042))
         title: str
         info: dict
         for index, movie_dict_info in enumerate(self.staged_movies.items()):
             title, info = movie_dict_info
             movie = StagedMovie(**info, database=self.database)
             movie.move_to_managed()
-            self.progressdialog.update_progressdialog(
+            self.progress_dialog.update_progress_dialog(
                 index / len(self.staged_movies), title
             )
-        self.progressdialog.close_progressdialog()
+        self.progress_dialog.close_progress_dialog()
         notification(self.finished_string)
 
     def remove_all_from_staged(self):
         """Remove all items from staged."""
-        self.progressdialog.create_progressdialog(head=get_string(32013))
+        self.progress_dialog.create_progress_dialog(head=get_string(32013))
         title: str
         info: dict
         for index, movie_dict_info in enumerate(self.staged_movies.items()):
             title, info = movie_dict_info
             movie = StagedMovie(**info, database=self.database)
             movie.delete_from_staged()
-            self.progressdialog.update_progressdialog(
+            self.progress_dialog.update_progress_dialog(
                 index / len(self.staged_movies), title
             )
-        self.progressdialog.close_progressdialog()
+        self.progress_dialog.close_progress_dialog()
         notification(self.finished_string)
 
     # @staticmethod

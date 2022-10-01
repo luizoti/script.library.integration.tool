@@ -28,7 +28,7 @@ class ManagedMoviesMenu:
     def __init__(self, parent_menu):
         """__init__ ManagedMoviesMenu."""
         self.database = DBCommon()
-        self.progressdialog = ProgressBar()
+        self.progress_dialog = ProgressBar()
         self.parent_menu = parent_menu
         self.lastchoice = 99999
 
@@ -45,52 +45,52 @@ class ManagedMoviesMenu:
     # 32046
     def delete_all(self):
         """Delete all managed movies from library."""
-        self.progressdialog.create_progressdialog(head=get_string(32013))
+        self.progress_dialog.create_progress_dialog(head=get_string(32013))
         title: str
         info: dict
         for index, movie_dict_info in enumerate(self.managed_movies.items()):
             title, info = movie_dict_info
             movie = ManagedMovie(**info, database=self.database)
             movie.remove_completely()
-            self.progressdialog.update_progressdialog(
+            self.progress_dialog.update_progress_dialog(
                 index / len(self.managed_movies), title
             )
-        self.progressdialog.close_progressdialog()
+        self.progress_dialog.close_progress_dialog()
         notification(self.finished_string)
 
     def move_all_to_staged(self):
         """Move all managed movies to staged."""
-        self.progressdialog.create_progressdialog(head=get_string(32015))
+        self.progress_dialog.create_progress_dialog(head=get_string(32015))
         title: str
         info: dict
         for index, movie_dict_info in enumerate(self.managed_movies.items()):
             title, info = movie_dict_info
             movie = ManagedMovie(**info, database=self.database)
             movie.move_to_staged()
-            self.progressdialog.update_progressdialog(
+            self.progress_dialog.update_progress_dialog(
                 index / len(self.managed_movies), title
             )
-        self.progressdialog.close_progressdialog()
+        self.progress_dialog.close_progress_dialog()
         notification(self.finished_string)
 
     def delete_all_nfo_files(self):
         """Delete all metadata (.nfo only) for all movies."""
-        self.progressdialog.create_progressdialog(head=get_string(32136))
+        self.progress_dialog.create_progress_dialog(head=get_string(32136))
         title: str
         info: dict
         for index, movie_dict_info in enumerate(self.managed_movies.items()):
             title, info = movie_dict_info
             movie = ManagedMovie(**info, database=self.database)
             movie.delete_nfo()
-            self.progressdialog.update_progressdialog(
+            self.progress_dialog.update_progress_dialog(
                 index / len(self.managed_movies), title
             )
-        self.progressdialog.close_progressdialog()
+        self.progress_dialog.close_progress_dialog()
         notification(self.finished_string)
 
     def create_all_nfo_files(self):
         """Create all metadata (.nfo only) for all movies."""
-        self.progressdialog.create_progressdialog(head=get_string(32046))
+        self.progress_dialog.create_progress_dialog(head=get_string(32046))
         title: str
         info: dict
         for index, movie_dict_info in enumerate(self.managed_movies.items()):
@@ -98,10 +98,10 @@ class ManagedMoviesMenu:
             movie = ManagedMovie(**info, database=self.database)
             movie.build_movie_nfo_string()
             movie.create_nfo()
-            self.progressdialog.update_progressdialog(
+            self.progress_dialog.update_progress_dialog(
                 index / len(self.managed_movies), title
             )
-        self.progressdialog.close_progressdialog()
+        self.progress_dialog.close_progress_dialog()
         notification(self.finished_string)
 
     def movie_options(self, movie_dict_info):
