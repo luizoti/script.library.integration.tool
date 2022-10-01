@@ -21,17 +21,17 @@ logger.logging_setup()
 @entrypoint
 def main():
     """Main entrypoint for context menu item."""
-    select_menu = Select(heading=get_string(32164), turnbold=True, back_option=32157)
+    select_menu = Select(heading=get_string(32164), turn_bold=True, back_option=32157)
     select_menu.options(
-        {
-            32160: "all_items",
-            32161: "movie",
-            32162: "tvshow",
-            32167: "filter",
-        },
-        turnbold=False,
+            {
+                32160: "all_items",
+                32161: "movie",
+                32162: "tvshow",
+                32167: "filter",
+            },
+            turn_bold=False,
     )
-    selected_option = select_menu.show(useDetails=False)
+    selected_option = select_menu.show(use_details=False)
     if selected_option:
         _, _, selected_value = selected_option
         if selected_value == "back":
