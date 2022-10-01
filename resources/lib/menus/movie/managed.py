@@ -7,6 +7,7 @@ from os.path import basename
 
 import xbmc
 import xbmcgui
+
 from resources.lib import ADDON_NAME
 from resources.lib.content.movie.managed import ManagedMovie
 from resources.lib.database.database import DBCommon
@@ -108,21 +109,21 @@ class ManagedMoviesMenu:
         """Provide options for a single managed movie in a dialog window."""
         movie = ManagedMovie(**movie_dict_info, database=self.database)
         select_menu = Select(
-            heading=bold(
-                f"{get_string(32053)} - {colorize(movie.title)} {colorize(movie.formed_year, colorname=Colors.LIGHTSALMON)}"
-            ),
-            turnbold=True,
+                heading=bold(
+                        f"{get_string(32053)} - {colorize(movie.title)} {colorize(movie.formed_year, colorname=Colors.LIGHTSALMON)}"
+                ),
+                turn_bold=True,
         )
         select_menu.options(
-            {
-                32017: movie.remove_completely,
-                32018: movie.move_to_staged,
-                32052: movie.create_nfo,
-                32051: movie.delete_nfo,
-            },
-            turnbold=True,
+                {
+                    32017: movie.remove_completely,
+                    32018: movie.move_to_staged,
+                    32052: movie.create_nfo,
+                    32051: movie.delete_nfo,
+                },
+                turn_bold=True,
         )
-        selected_option = select_menu.show(useDetails=True, preselect=999999)
+        selected_option = select_menu.show(use_details=True, pre_select=999999)
         if not selected_option or "back" in selected_option:
             self.show()
             return
@@ -147,14 +148,14 @@ class ManagedMoviesMenu:
             xbmcgui.Dialog().ok(ADDON_NAME, get_string(32037))
             return
         select_menu = Select(
-            heading=bold(
-                f"{colorize(get_string(32002), colorname=Colors.DEEPSKYBLUE)}"
-            ),
-            turnbold=True,
+                heading=bold(
+                        f"{colorize(get_string(32002), colorname=Colors.DEEPSKYBLUE)}"
+                ),
+                turn_bold=True,
         )
         select_menu.options(
-            options=self.managed_movies,
-            turnbold=True,
+                options=self.managed_movies,
+                turn_bold=True,
         )
         select_menu.extra_options(
             {
@@ -164,7 +165,7 @@ class ManagedMoviesMenu:
                 32174: self.delete_all_nfo_files,
             }
         )
-        selected_option = select_menu.show(useDetails=True, preselect=self.lastchoice)
+        selected_option = select_menu.show(use_details=True, pre_select=self.last_choice)
         if not selected_option or "back" in selected_option:
             self.parent_menu.show()
             return

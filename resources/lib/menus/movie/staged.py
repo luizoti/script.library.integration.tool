@@ -7,6 +7,7 @@ from os.path import basename
 
 import xbmc
 import xbmcgui
+
 from resources.lib import ADDON_NAME
 from resources.lib.content.movie.staged import StagedMovie
 from resources.lib.database.database import DBCommon
@@ -36,7 +37,7 @@ class StagedMoviesMenu:
 
         self.finished_string = get_string(32043)
         self.staged_movies = self.database.get_content_items(
-            status="staged", _type="movie"
+                status="staged", content_type="movie"
         )
 
     def add_all_to_managed(self):
@@ -81,21 +82,21 @@ class StagedMoviesMenu:
         """Provide options for a single staged movie in a dialog window."""
         movie = StagedMovie(**movie_dict_info, database=self.database)
         select_menu = Select(
-            heading=bold(
-                f"{get_string(32053)} - {colorize(movie.title)} {colorize(movie.formed_year, colorname=Colors.LIGHTSALMON)}"
-            ),
-            turnbold=True,
+                heading=bold(
+                        f"{get_string(32053)} - {colorize(movie.title)} {colorize(movie.formed_year, colorname=Colors.LIGHTSALMON)}"
+                ),
+                turn_bold=True,
         )
         # # TODO: RENAME STRING --> 32050
         select_menu.options(
-            {
-                32048: movie.move_to_managed,
-                32017: movie.delete_from_staged,
-                32049: movie.delete_from_staged_and_block,
-            },
-            turnbold=True,
+                {
+                    32048: movie.move_to_managed,
+                    32017: movie.delete_from_staged,
+                    32049: movie.delete_from_staged_and_block,
+                },
+                turn_bold=True,
         )
-        selected_option = select_menu.show(useDetails=True, preselect=999999)
+        selected_option = select_menu.show(use_details=True, pre_select=999999)
         if not selected_option or "back" in selected_option:
             self.show()
             return
@@ -118,22 +119,22 @@ class StagedMoviesMenu:
             xbmcgui.Dialog().ok(ADDON_NAME, get_string(32037))
             return
         select_menu = Select(
-            heading=bold(
-                f"{colorize(get_string(32004), colorname=Colors.DEEPSKYBLUE)}"
-            ),
-            turnbold=True,
+                heading=bold(
+                        f"{colorize(get_string(32004), colorname=Colors.DEEPSKYBLUE)}"
+                ),
+                turn_bold=True,
         )
         select_menu.options(
-            options=self.staged_movies,
-            turnbold=True,
+                options=self.staged_movies,
+                turn_bold=True,
         )
         select_menu.extra_options(
-            options={
-                32038: self.add_all_to_managed,
-                32009: self.remove_all_from_staged,
-            }
+                options={
+                    32038: self.add_all_to_managed,
+                    32009: self.remove_all_from_staged,
+                }
         )
-        selected_option = select_menu.show(useDetails=True, preselect=self.lastchoice)
+        selected_option = select_menu.show(use_details=True, pre_select=self.last_choice)
         if not selected_option or "back" in selected_option:
             self.parent_menu.show()
             return

@@ -45,17 +45,17 @@ class MainMenu:
     def library_options(self):
         """Display dedicated menu to Library functions."""
         select_menu = Select(
-            heading=bold(f"{colorize('Library options')}"),
-            turnbold=True,
+                heading=bold(f"{colorize('Library options')}"),
+                turn_bold=True,
         )
         select_menu.options(
-            {
-                653: "scan",
-                14247: "clean",
-            },
-            turnbold=False,
+                {
+                    653:   "scan",
+                    14247: "clean",
+                },
+                turn_bold=False,
         )
-        selected_option = select_menu.show(useDetails=True, preselect=self.lastchoice)
+        selected_option = select_menu.show(use_details=True, pre_select=self.last_choice)
 
         if not selected_option or "back" in selected_option:
             self.show()
@@ -90,7 +90,7 @@ class MainMenu:
                 32179: xbmc.executebuiltin,
             }
         )
-        selected_option: tuple = select_menu.show(useDetails=True)
+        selected_option: tuple = select_menu.show(use_details=True)
 
         if not selected_option or "back" in selected_option:
             return
