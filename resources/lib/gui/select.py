@@ -85,8 +85,8 @@ class Select(xbmcgui.Dialog):
                 heading=self.heading,
                 list=self.options_strings,
                 autoclose=auto_close,
-                pre_select=pre_select,
-                use_details=use_details,
+                preselect=pre_select,
+                useDetails=use_details,
         )
         # If ESC/Backspace or option Back...
         if selected == -1:
