@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 
-"""Module with methos to check version."""
+"""Module with methods to check version."""
+
 import sys
 from os.path import dirname, isfile, join
 
-import xbmcvfs
-from resources import ADDON, ADDON_SPECIAL_DIR, ADDON_VERSION
-from resources.lib.filesystem import mkdir
-from resources.lib.misc import get_string, notification
-
+from resources.lib import ADDON, ADDON_SPECIAL_DIR, ADDON_VERSION
+from resources.lib.filesystem import mk_dir
+from resources.lib.gui.gui_utils import get_string, notification
 
 class Version:
     """Class that implements comparison operators for version numbers."""
@@ -66,6 +65,7 @@ def check_version_file():
         #     version_file.write(ADDON_VERSION)
         # version = Version(ADDON_VERSION)
         version = Version("0.3.2")
+
     if version != ADDON_VERSION:
         STR_UPDATING = get_string(32133)
         STR_UPDATED = get_string(32134)
@@ -75,7 +75,7 @@ def check_version_file():
             if ADDON.getSetting("managed_folder") == "true":
                 ADDON.setSetting("custom_managed_folder", "true")
         # Create addons dir if not exist
-        mkdir(dirname(version_file_path))
+        mk_dir(dirname(version_file_path))
         # Update version file
         with open(version_file_path, "w+", encoding="utf8") as version_file:
             version_file.write(ADDON_VERSION)
