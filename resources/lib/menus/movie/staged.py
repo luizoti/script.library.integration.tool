@@ -33,7 +33,7 @@ class StagedMoviesMenu:
         self.database = DBCommon()
         self.progress_dialog = ProgressBar()
         self.parent_menu = parent_menu
-        self.lastchoice = 99999
+        self.last_choice = 99999
 
         self.finished_string = get_string(32043)
         self.staged_movies = self.database.get_content_items(
@@ -101,7 +101,7 @@ class StagedMoviesMenu:
             self.show()
             return
         selected_index, _, selected_value = selected_option
-        self.lastchoice = selected_index
+        self.last_choice = selected_index
 
         selected_value()
         self.staged_movies.pop(movie_dict_info["title"])
@@ -139,7 +139,7 @@ class StagedMoviesMenu:
             self.parent_menu.show()
             return
         selected_index, selected_key, selected_value = selected_option
-        self.lastchoice = selected_index
+        self.last_choice = selected_index
         if selected_key in [32038, 32009]:
             selected_value()
             self.parent_menu.show()

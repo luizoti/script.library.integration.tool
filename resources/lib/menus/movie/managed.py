@@ -31,7 +31,7 @@ class ManagedMoviesMenu:
         self.database = DBCommon()
         self.progress_dialog = ProgressBar()
         self.parent_menu = parent_menu
-        self.lastchoice = 99999
+        self.last_choice = 99999
 
         self.finished_string = get_string(32043)
         self.managed_movies = self.database.get_content_items(
@@ -128,7 +128,7 @@ class ManagedMoviesMenu:
             self.show()
             return
         selected_index, selected_key, selected_value = selected_option
-        self.lastchoice = selected_index
+        self.last_choice = selected_index
 
         if selected_key in [32017, 32018]:
             selected_value()
@@ -170,7 +170,7 @@ class ManagedMoviesMenu:
             self.parent_menu.show()
             return
         selected_index, selected_key, selected_value = selected_option
-        self.lastchoice = selected_index
+        self.last_choice = selected_index
         if selected_key in [32009, 32010]:
             selected_value()
             self.parent_menu.show()
