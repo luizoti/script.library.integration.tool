@@ -4,3 +4,5 @@
 .xml
 *.strm
 lit.code-workspace
+/resources/lib/__items/
+/.idea/
