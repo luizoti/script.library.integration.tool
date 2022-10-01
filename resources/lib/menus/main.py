@@ -39,7 +39,7 @@ class MainMenu:
         """__init__ MainMenu."""
         # An impossible value seems to force
         # the parent to choose none, in list
-        self.lastchoice = 99999
+        self.last_choice = 99999
         LOG.debug("MainMenu Started")
 
     def library_options(self):
@@ -61,7 +61,7 @@ class MainMenu:
             self.show()
             return
         selected_index, _, selected_value = selected_option
-        self.lastchoice = selected_index
+        self.last_choice = selected_index
         videolibrary(selected_value)
         xbmc.sleep(1500)
         self.library_options()
