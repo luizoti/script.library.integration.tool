@@ -5,7 +5,7 @@ from dataclasses import asdict, dataclass
 
 @dataclass
 class Content:
-    """Class to build information aboult movies."""
+    """Class to build information about movies."""
 
     file: str
     title: str
@@ -14,12 +14,12 @@ class Content:
     year: int
 
     def __str__(self):
-        """Return str title formated with file path."""
+        """Return str title formatted with file path."""
         return f"[B]{self.title}[/B] - [I]{self.file}[/I]"
 
     @property
     def formed_title(self) -> str:
-        """Return title formated with formed_title.
+        """Return title formatted with formed_title.
 
         Returns:
             str: title (year)

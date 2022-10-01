@@ -23,13 +23,12 @@ class DBConnection:
 
     def __init__(self) -> None:
         # super(DBConnection, self).__init__()
-
-        self.conection = sqlite3.connect(DATABASE_PATH)
+        self.connection = sqlite3.connect(DATABASE_PATH)
         LOG.info("DATABASE PATH: %s", DATABASE_PATH)
-        self.conection.row_factory = self.__dict_factory
-        self.conection.text_factory = str
-        self.cursor = self.conection.cursor()
-        self._default_querys = {
+        self.connection.row_factory = self.__dict_factory
+        self.connection.text_factory = str
+        self.cursor = self.connection.cursor()
+        self._default_queries = {
             "update": {
                 "movie": "UPDATE movie",
                 "tvshow": "UPDATE tvshow",
@@ -81,8 +80,8 @@ class DBConnection:
     def __del__(self):
         """Close database connection."""
         try:
-            self.conection.close()
-            LOG.info("DBConnection sucessfuly closed.")
+            self.connection.close()
+            LOG.info("DBConnection successfully closed.")
         except AttributeError:
             pass
         except Exception:

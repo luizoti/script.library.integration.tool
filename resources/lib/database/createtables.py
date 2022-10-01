@@ -48,7 +48,7 @@ class DBCreateTables(DBConnection):
         for table_name, table_fields in table_map.items():
             try:
                 self.cursor.execute(self.__convert_to_query(table_name, table_fields))
-                self.conection.commit()
+                self.connection.commit()
             except:  # noqa: E261
                 LOG.exception("CreateTables Error:")
 

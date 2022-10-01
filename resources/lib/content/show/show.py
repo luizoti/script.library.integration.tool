@@ -29,10 +29,7 @@ LOG = logging.getLogger(basename(__file__))
 @dataclass
 class Episode(Content):
     """
-    docstring for Episode
-
-    The plan is to treat each episode as a Movie the same as it is made in the Movie
-    chass at resources.lib.content.movie.movie.
+    The plan is to treat each episode like a movie, just like resources.lib.content.movie.movie.
     """
 
     showtitle: str
@@ -44,18 +41,18 @@ class Episode(Content):
     def __post_init__(self, database: DBCommon):
         # Originally it would not be necessary to provide a database here,
         # but the _post __init__ ends up forcing its presence without
-        # it it would not be possible to correct the self.episode_title and self.title
+        # it is would not be possible to correct the self.episode_title and self.title
         self.database = database
         if self.type == "tvshow":
             self.episode_title = self.title
             self.title = self.showtitle
 
     @property
-    def formed_spisode_id(self):
-        """Create and return spisode_id.
+    def formed_episode_id(self):
+        """Create and return episode_id.
 
         Returns:
-            str: spisode_id is S0XE0Y (X is self.season and Y is self.episode).
+            str: episode_id is S0XE0Y (X is self.season and Y is self.episode).
         """
         return f"S0{self.season}E0{self.episode}"
 
@@ -64,15 +61,15 @@ class Episode(Content):
         """Create and return formed_episode_title.
 
         Returns:
-            str: formed_episode_title is showtitle - formed_spisode_id - episode_title
+            str: formed_episode_title is showtitle - formed_episode_id - episode_title
 
             showtitle   is self.formed_title
-            spisodeid   is self.formed_spisode_id
+            spisodeid   is self.formed_episode_id
             episodename is self.episode_title
 
             .
         """
-        return f"{self.formed_title} - {self.formed_spisode_id} - {self.episode_title}"
+        return f"{self.formed_title} - {self.formed_episode_id} - {self.episode_title}"
 
     @property
     def formed_season(self):
@@ -168,20 +165,20 @@ class EpisodeFileManager(Episode):
 
     def create_nfo(self) -> bool:
         """Create stream file with self.file at nfo filepath."""
-        mkdir(self._current_nfo_diretory)
-        with xbmcvfs.File(self._current_nfo_path, "w+") as nfofile:
+        mk_dir(self._current_nfo_diretory)
+        with xbmcvfs.File(self._current_nfo_path, "w+") as nfo_file:
             try:
                 if self._current_nfo_string:
-                    nfofile.write(self._current_nfo_string)
+                    nfo_file.write(self._current_nfo_string)
                     LOG.info("Created NFO file %s", self._current_nfo_path)
                     return True
-            except Exception:
+            except:
                 LOG.exception("CreateNfo.create:")
             finally:
-                self._current_nfo_string = None
-                self._current_nfo_diretory = None
-                self._current_nfo_path = None
-                nfofile.close()
+                self._current_nfo_string = ""
+                self._current_nfo_diretory = ""
+                self._current_nfo_path = ""
+                nfo_file.close()
         return None
 
     def create_strm(self):

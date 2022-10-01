@@ -1,1 +1,1 @@
-"""content module."""
+"""Content module."""
